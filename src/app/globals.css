@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url(./react-grid-layout.css);
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -29,5 +31,11 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .page {
+    @apply p-2 h-full w-full overflow-hidden;
+  }
+  .container {
+    @apply h-full w-full overflow-hidden;
   }
 }
