@@ -4,16 +4,17 @@ export default function useList<T>(params?: { intial?: T[]; compare?: (a: T, b: 
   const [list, setList] = useState<T[]>(params?.intial ?? []);
   const add = useCallback(
     (item: T) => {
-      setList([...list, item]);
+      setList(Array.from(new Set([...list, item])));
     },
     [list]
   );
   const remove = useCallback(
     (item: T) => {
-      list.filter((el) => (params?.compare ? !params.compare(item, el) : !(item === el)));
+      const predicate = (el: T) => (params?.compare ? !params.compare(item, el) : item !== el);
+      setList(list.filter(predicate));
     },
     [list, params]
   );
 
-  return [list, add, remove] as [T[], typeof add, typeof remove];
+  return [list, add, remove, setList] as [T[], typeof add, typeof remove, typeof setList];
 }

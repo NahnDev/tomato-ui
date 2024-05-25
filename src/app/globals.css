@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url(./react-grid-layout.css);
-
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
@@ -20,12 +18,18 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: rgb(214, 219, 220);
+}
+
+/* Added scrollbar size */
+::-webkit-scrollbar {
+  width: 0.5em;
+  border-radius: 9999px; /* Added roundness */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #8888;
+  border-radius: 9999px; /* Added roundness */
 }
 
 @layer utilities {
@@ -37,5 +41,21 @@ body {
   }
   .container {
     @apply h-full w-full overflow-hidden;
+  }
+  .fluid {
+    @apply h-full w-full;
+  }
+
+  .scroll-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .overlay {
+    @apply absolute w-full h-full top-0 left-0;
   }
 }

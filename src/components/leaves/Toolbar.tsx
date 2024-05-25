@@ -13,7 +13,7 @@ import { Button, ButtonGroup, Dialog, IconButton } from "@material-tailwind/reac
 import clsx from "clsx";
 import moment from "moment";
 import React, { PropsWithChildren } from "react";
-import LeaveForm from "./LeaveForm";
+import LeaveForm from "./LeaveCreator";
 import { useBoolean } from "usehooks-ts";
 
 export const LEAVE_CALENDAR_TYPES = {

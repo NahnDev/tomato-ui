@@ -10,7 +10,7 @@ import { useBoolean } from "usehooks-ts";
 export default function TemplateSidebar() {
   const { value: shown, setFalse: handleClose, setTrue: handleOpen } = useBoolean();
   return (
-    <div className="p-2 h-full">
+    <div className="p-1 h-full w-60">
       <Card className="h-full">
         <div className="p-4 py-2 flex flex-row justify-between items-center">
           <Typography variant="h6" color="blue-gray" className="text-sm">

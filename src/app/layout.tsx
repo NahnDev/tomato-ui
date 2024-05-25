@@ -8,6 +8,7 @@ import "./globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { HotkeysProvider } from "react-hotkeys-hook";
 import { AppNavbar } from "@/components/AppNavbar";
+import clsx from "clsx";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={clsx([inter.className])}>
         <div className="w-screen h-screen grid grid-rows-[auto_1fr]">
           <AppNavbar />
           <RecoilRootWrapper>{children}</RecoilRootWrapper>

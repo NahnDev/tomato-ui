@@ -9,7 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import FormProvider from "../share/FormProvider";
-import ProcessButton from "../share/ProcessButton";
+import ProgressButton from "../share/button/ProgressButton";
+import { resolve } from "path";
+import wait from "@/utils/wait";
 
 export type TemplateCreatorProps = Readonly<{
   open: boolean;
@@ -21,6 +23,8 @@ export default function TemplateCreator(props: TemplateCreatorProps) {
   const [icon, setIcon] = useState<nil<TIconKey>>(null);
   const [name, setName] = useState("");
   const isValid = useMemo(() => icon && name, [icon, name]);
+
+  const onSubmit = () => wait(5000);
 
   if (!props.open) return <></>;
   return (
@@ -39,14 +43,9 @@ export default function TemplateCreator(props: TemplateCreatorProps) {
         </FormProvider>
       </DialogBody>
       <DialogFooter>
-        <ProcessButton
-          loading={processing}
-          disabled={!isValid}
-          loadingMessage="Creating template, please wait"
-          label="Create a template"
-          onSubmit={start}
-          onCancel={stop}
-        ></ProcessButton>
+        <ProgressButton disabled={!isValid} fallback="Creating template, please wait" handler={onSubmit}>
+          Create a template
+        </ProgressButton>
       </DialogFooter>
     </Dialog>
   );
