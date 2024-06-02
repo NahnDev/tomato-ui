@@ -14,11 +14,29 @@ import {
   faAlignLeft,
   faBorderTopLeft,
   faCalendar,
+  faCheckCircle,
   faChevronCircleRight,
+  faCircleDot,
   faClock,
+  faFile,
+  faFileAudio,
+  faImage,
+  faRadiation,
+  faRadio,
+  faSquareCaretDown,
   faT,
   faTextHeight,
+  faVideo,
 } from "@fortawesome/free-solid-svg-icons";
+import UploaderImage from "@/components/share/builder/controls/UploaderImage";
+import UploaderAudio from "@/components/share/builder/controls/UploaderAudio";
+import UploaderFile from "@/components/share/builder/controls/UploaderFile";
+import UploaderVideo from "@/components/share/builder/controls/UploaderVideo";
+import { TControlSetting } from "@/types/control";
+import Checkbox from "@/components/share/builder/controls/Checkbox";
+import Radio from "@/components/share/builder/controls/Radio";
+import { faDropbox } from "@fortawesome/free-brands-svg-icons";
+import Dropdown from "@/components/share/builder/controls/Dropdown";
 
 export enum ControlType {
   Label = "Label",
@@ -31,6 +49,18 @@ export enum ControlType {
   Time = "Time",
   DateRange = "DATE_RANGE",
   TimeRange = "TIME_RANGE",
+  // Signature = "SIGNATURE",
+  Image = "IMAGE",
+  Video = "VIDEO",
+  Audio = "AUDIO",
+  File = "FILE",
+  Checkbox = "CHECKBOX",
+  Radio = "RADIO",
+  Dropdown = "DROPDOWN",
+  // Rating = "RATING",
+  // Slider = "SLIDER",
+  // Range = "RANGE",
+  // Star = "STAR",
 }
 
 export interface ControlThumbnailInterface {
@@ -48,19 +78,55 @@ export const THUMBNAILS: { [key in ControlType]: ControlThumbnailInterface } = {
   [ControlType.Time]: { icon: faClock, label: "Time" },
   [ControlType.DateRange]: { icon: faCalendar, label: "Date Range" },
   [ControlType.TimeRange]: { icon: faClock, label: "Time Range" },
+  [ControlType.Image]: { icon: faImage, label: "Image" },
+  [ControlType.Video]: { icon: faVideo, label: "Video" },
+  [ControlType.Audio]: { icon: faFileAudio, label: "Audio" },
+  [ControlType.File]: { icon: faFile, label: "File" },
+  [ControlType.Checkbox]: { icon: faCheckCircle, label: "Checkbox" },
+  [ControlType.Radio]: { icon: faCircleDot, label: "Radio" },
+  [ControlType.Dropdown]: { icon: faSquareCaretDown, label: "Dropdown" },
 };
 
-export const DEFAULT_SETTINGS: { [key in ControlType]: any } = {
+export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> } = {
   [ControlType.ShortText]: {},
   [ControlType.LongText]: {},
   [ControlType.ButtonNext]: { label: "Button next", background: "#ff0000" },
   [ControlType.Space]: {},
-  [ControlType.Label]: { label: "string" },
+  [ControlType.Label]: { label: "Label", textStyles: { color: "#000000", fontSize: 24, fontWeight: 700 } },
   [ControlType.Datetime]: { label: "Datetime" },
   [ControlType.Date]: { label: "Date" },
   [ControlType.Time]: { label: "Time" },
   [ControlType.DateRange]: {},
   [ControlType.TimeRange]: {},
+  [ControlType.Image]: { label: "Image uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Video]: { label: "Video uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Audio]: { label: "Audio uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.File]: { label: "File uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Checkbox]: {
+    label: "Checkbox",
+    size: { w: 2, h: 2 },
+    layout: { minH: 2, minW: 2 },
+    options: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+    ],
+  },
+  [ControlType.Radio]: {
+    label: "Radio",
+    size: { w: 2, h: 2 },
+    layout: { minH: 2, minW: 2 },
+    options: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+    ],
+  },
+  [ControlType.Dropdown]: {
+    label: "Dropdown",
+    options: [
+      { label: "Option 1", value: "option1" },
+      { label: "Option 2", value: "option2" },
+    ],
+  },
 };
 
 export interface ControlGroupInterface {
@@ -75,6 +141,8 @@ export const GROUPS: ControlGroupInterface[] = [
     types: [ControlType.Date, ControlType.Time, ControlType.DateRange, ControlType.TimeRange, ControlType.Datetime],
   },
   { label: "Util", types: [ControlType.Space] },
+  { label: "Media", types: [ControlType.Image, ControlType.Video, ControlType.Audio, ControlType.File] },
+  { label: "Option", types: [ControlType.Checkbox, ControlType.Radio, ControlType.Dropdown] },
 ];
 
 export const UI = {
@@ -88,4 +156,11 @@ export const UI = {
   [ControlType.Space]: Space,
   [ControlType.DateRange]: DateRange,
   [ControlType.TimeRange]: TimeRange,
+  [ControlType.Image]: UploaderImage,
+  [ControlType.Video]: UploaderVideo,
+  [ControlType.Audio]: UploaderAudio,
+  [ControlType.File]: UploaderFile,
+  [ControlType.Checkbox]: Checkbox,
+  [ControlType.Radio]: Radio,
+  [ControlType.Dropdown]: Dropdown,
 };

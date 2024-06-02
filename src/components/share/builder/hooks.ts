@@ -1,6 +1,13 @@
 import { ControlInterface } from "@/types/control";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { TBuilderHistory, builderControlSelectedState, builderControlsState, builderState } from "./store";
+import {
+  Mode,
+  TBuilderHistory,
+  builderControlSelectedState,
+  builderControlsState,
+  builderSettingsState,
+  builderState,
+} from "./store";
 
 export function useSetControl(control: ControlInterface) {
   const [controls, setControls] = useRecoilState(builderControlsState);
@@ -35,4 +42,8 @@ export function useHistories() {
 export function useLoadHistory() {
   const setControls = useSetRecoilState(builderControlsState);
   return (history: TBuilderHistory) => setControls(history.value);
+}
+
+export function useAllowEditing() {
+  return useRecoilValue(builderSettingsState).mode === Mode.Edit;
 }

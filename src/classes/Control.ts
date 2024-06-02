@@ -8,18 +8,30 @@ export default class Control {
     console.log(DEFAULT_SETTINGS[type]);
     return {
       id: uuidv4(),
-      label: "Created",
       type: type,
       coord: { x: 0, y: 0 },
-      size: { w: 1, h: 1 },
-      config: DEFAULT_SETTINGS[type],
+      config: {
+        size: { w: 1, h: 1 },
+        ...DEFAULT_SETTINGS[type],
+      },
     };
   }
 
   public static getLayout(item: ControlInterface): ReactGridLayout.Layout {
-    return { i: item.id, x: item.coord.x, y: item.coord.y, w: item.size.w, h: item.size.h };
+    return {
+      i: item.id,
+      x: item.coord.x,
+      y: item.coord.y,
+      w: item.config.size?.w ?? 1,
+      h: item.config.size?.h ?? 1,
+      ...item.config.layout,
+    };
   }
   public static setLayout(control: ControlInterface, layout: ReactGridLayout.Layout): ControlInterface {
-    return { ...control, coord: { x: layout.x, y: layout.y }, size: { w: layout.w, h: layout.h } };
+    return {
+      ...control,
+      coord: { x: layout.x, y: layout.y },
+      config: { ...control.config, size: { w: layout.w, h: layout.h } },
+    };
   }
 }

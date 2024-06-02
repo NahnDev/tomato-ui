@@ -8,14 +8,14 @@ enum Align {
 }
 
 export default function BuilderBoardWrapper(props: Readonly<PropsWithChildren<{}>>) {
-  const [align, setAlign] = useState(Align.left);
+  const [align, setAlign] = useState(Align.center);
 
   const handleBackdropClick = (backdrop: Align) => {
     if (align === Align.center) return setAlign(backdrop);
     setAlign(Align.center);
   };
   return (
-    <div className={clsx(["flex flex-row"])}>
+    <div className={clsx(["flex flex-row h-full overflow-auto"])}>
       <Backdrop onDbClick={() => handleBackdropClick(Align.left)} shown={align !== Align.left} />
       <div className="h-full">{props.children}</div>
       <Backdrop onDbClick={() => handleBackdropClick(Align.right)} shown={align !== Align.right} />

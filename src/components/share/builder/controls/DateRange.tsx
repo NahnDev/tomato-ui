@@ -1,13 +1,17 @@
 import { Input } from "@material-tailwind/react";
-import React from "react";
+import React, { useMemo, useState } from "react";
 import { ControlProps } from "../types";
+import clsx from "clsx";
 
 export default function DateRange(props: ControlProps) {
+  const label = useMemo(() => props.control.config?.label, [props]);
   return (
     <div className="grid grid-cols-2 items-center gap-2 h-full">
       <Input
+        className={clsx([!label && "!border-t-blue-gray-200 !focus:border-t-gray-900"])}
+        labelProps={{ className: clsx([!label && "hidden"]) }}
         type="date"
-        label={props.control.config.label}
+        label={label}
         containerProps={{ className: "h-full !min-h-0 !min-w-0" }}
       />
       <Input

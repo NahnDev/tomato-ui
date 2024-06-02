@@ -1,7 +1,7 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconButton } from "@material-tailwind/react";
+import { IconButton, menu } from "@material-tailwind/react";
 import {
   IconDefinition,
   faCaretRight,
@@ -20,6 +20,8 @@ import BuilderStepper from "./BuilderStepper";
 import ControlSetting from "./ControlSetting";
 import BuilderFileActions from "./BuilderFileActions";
 import BuilderHistories from "./BuilderHistories";
+import { useOnClickOutside } from "usehooks-ts";
+import BuilderInformation from "./BuilderInformation";
 
 enum MenuEnum {
   Stepper = "stepper",
@@ -50,7 +52,7 @@ const MENUS = {
   [MenuEnum.Information]: {
     icon: faInfo,
     label: "Information",
-    component: <div className="h-40">Information</div>,
+    component: <BuilderInformation />,
   },
   [MenuEnum.File]: {
     icon: faFile,
@@ -66,15 +68,40 @@ const MENUS = {
 type TMenuKey = keyof typeof MENUS;
 
 export default function BuilderToolbar() {
-  const [menus, addMenu, removeMenu, setMenus] = useList<TMenuKey>({ intial: [MenuEnum.Ui] });
+  const ref = React.useRef(null);
   const keys = useMemo(() => Object.keys(MENUS) as (keyof typeof MENUS)[], []);
 
+  const [actives, setActives] = useState<TMenuKey[]>([]);
+  const [absolutes, addAbsolute, removeAbsolute] = useList<TMenuKey>();
+  const absoluteActives = useMemo(() => actives.filter((menu) => absolutes.includes(menu)), [actives, absolutes]);
+
+  useOnClickOutside(ref, () => {
+    setActives(absoluteActives);
+  });
+
+  const handleShow = (key: TMenuKey) => {
+    setActives([...absoluteActives, key]);
+  };
+  const handleClose = (key: TMenuKey) => {
+    setActives(actives.filter((menu) => menu !== key));
+  };
+  const handleRelative = (key: TMenuKey) => {
+    removeAbsolute(key);
+    handleShow(key);
+  };
+
   return (
-    <div className="relative -m-2 ml-0 z-50 flex flex-row]">
+    <div ref={ref} className="relative -m-2 ml-0 z-50 flex flex-row]">
       <div className={clsx(["absolute right-full", "h-full overflow-auto scroll-none py-2"])}>
         {keys.map((key) => (
-          <Popup key={key} name={MENUS[key].label} onClose={() => removeMenu(key)}>
-            {menus.includes(key) && <div className="w-[20em]">{MENUS[key].component}</div>}
+          <Popup
+            key={key}
+            name={MENUS[key].label}
+            onClose={() => handleClose(key)}
+            onAbsolute={() => addAbsolute(key)}
+            onRelative={() => handleRelative(key)}
+          >
+            {actives.includes(key) && <div className="w-[20em]">{MENUS[key].component}</div>}
           </Popup>
         ))}
       </div>
@@ -83,14 +110,14 @@ export default function BuilderToolbar() {
           {keys.map((key) => (
             <IconMenu
               key={key}
-              active={menus.includes(key)}
+              active={actives.includes(key)}
               icon={MENUS[key].icon}
               label={MENUS[key].label}
-              onClick={() => (menus.includes(key) ? removeMenu(key) : addMenu(key))}
+              onClick={() => (actives.includes(key) ? handleClose(key) : handleShow(key))}
             />
           ))}
         </div>
-        {menus.length > 0 && <Actions onCompressAll={() => setMenus([])}></Actions>}
+        {actives.length > 0 && <Actions onCompressAll={() => setActives([])}></Actions>}
       </div>
     </div>
   );

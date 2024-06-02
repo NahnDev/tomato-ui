@@ -23,7 +23,7 @@ body {
 
 /* Added scrollbar size */
 ::-webkit-scrollbar {
-  width: 0.5em;
+  width: 0.25em;
   border-radius: 9999px; /* Added roundness */
 }
 

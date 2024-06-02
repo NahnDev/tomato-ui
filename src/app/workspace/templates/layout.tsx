@@ -7,7 +7,7 @@ export default function TemplatesLayout(props: Readonly<PropsWithChildren<{}>>) 
     <div className="w-full h-full overflow-hidden">
       <div className="grid grid-cols-[auto_1fr] h-full  overflow-hidden">
         <TemplateSidebar />
-        <div>{props.children}</div>
+        {props.children}
       </div>
     </div>
   );
