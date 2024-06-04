@@ -42,14 +42,15 @@ export default function BuilderBoard() {
   const handleDrop = (layouts: ReactGridLayout.Layout[], layout: ReactGridLayout.Layout) => {
     if (item) {
       const control = Control.setLayout(item, layout);
-      setLayouts(layouts);
       setControls([...controls, Control.setLayout(item, layout)]);
+      setLayouts(layouts);
       setSelected(control);
     }
   };
+
   return (
     <BuilderBoardWrapper>
-      <div ref={ref} className="relative bg-white bg-red w-[60em]  min-h-full rounded-md">
+      <div ref={ref} className="relative bg-white bg-red w-[60em]  min-h-full rounded-md overflow-hidden">
         <GridLayout
           layout={layouts}
           cols={setting.grid.cols}

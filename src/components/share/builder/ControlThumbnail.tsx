@@ -14,7 +14,7 @@ export default function ControlThumbnail(props: ControlThumbnailProps) {
 
   return (
     <div className="relative">
-      <div ref={dragRef} className={clsx(["p-2 rounded-md bg-gray-100"])} draggable>
+      <div ref={dragRef} className={clsx(["p-2 text-sm rounded-md bg-gray-100"])} draggable>
         <div className="flex flex-row justifiy-start items-center">
           <div className="w-10 flex justify-center">
             <FontAwesomeIcon icon={icon}></FontAwesomeIcon>

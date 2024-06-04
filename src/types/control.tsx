@@ -16,17 +16,28 @@ export type TControlSetting = {
   background?: string;
   size?: Size;
   layout?: Partial<Layout>;
-  textStyles?: {
-    color?: string;
-    fontSize?: number;
-    fontWeight?: number;
-  };
-  options: TOptionSetting[];
+  textStyles?: TTextStyle;
+  date?: TDateSetting;
+  options?: TOption[];
+  level?: number;
 };
 
-export type TOptionSetting = {
+export type TOption = {
   label: string;
   value: any;
   icon?: string;
   color?: string;
+};
+
+export type TTextStyle = {
+  color?: string;
+  fontSize?: number;
+  fontWeight?: number;
+  textAlign?: "left" | "center" | "right";
+};
+
+export type TDateSetting = {
+  format?: string;
+  minDate?: string;
+  maxDate?: string;
 };

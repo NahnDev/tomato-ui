@@ -93,7 +93,7 @@ export default function Popup(props: PopupProps) {
             <FontAwesomeIcon icon={faXmarkCircle} />
           </IconButton>
         </div>
-        <div>{props.children}</div>
+        <div className="max-h-[90vh] overflow-x-hidden overflow-y-auto">{props.children}</div>
       </div>
     </div>
   );

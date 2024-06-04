@@ -8,7 +8,7 @@ export default function BuilderInformation() {
 
   return (
     <div className="w-full h-full">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between p-2">
         <Checkbox
           label="Allow editable"
           checked={setting.mode === Mode.Edit}

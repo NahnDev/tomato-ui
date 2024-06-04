@@ -5,23 +5,27 @@ import { IconButton, Input, List, ListItem } from "@material-tailwind/react";
 import { faChevronCircleRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ColorPicker from "../ColorPicker";
+import { SETTINGS } from "@/constants/control";
 
+export type TControlSettingProps = Readonly<{ id: ControlInterface["id"]; data: ControlInterface["config"] }>;
 export default function ControlSetting() {
   const [selected] = useControlSelected();
+  if (!selected) return <></>;
   return (
     <div className="">
       {selected && (
         <div key={selected.id}>
-          <BaseControlSetting id={selected.id} data={selected.config} />
-          <BackgroundSetting id={selected.id} data={selected.config} />
-          <Actions control={selected}></Actions>
+          {SETTINGS[selected.type] &&
+            SETTINGS[selected.type].map((SettingComponent, index) => (
+              <SettingComponent key={index} id={selected.id} data={selected.config} />
+            ))}
+          <Actions control={selected} />
         </div>
       )}
     </div>
   );
 }
 
-export type TControlSettingProps = Readonly<{ id: ControlInterface["id"]; data: ControlInterface["config"] }>;
 function BaseControlSetting(props: TControlSettingProps) {
   const updateControlSetting = useSetSettingControl(props.id);
   return (

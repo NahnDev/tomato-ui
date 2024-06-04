@@ -21,7 +21,6 @@ export type TBuilderState = {
   histories: TBuilderHistory[];
   setting: TBuilderSettings;
 };
-
 export const intialState: TBuilderState = {
   controls: [],
   histories: [],

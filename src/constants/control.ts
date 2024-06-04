@@ -21,8 +21,10 @@ import {
   faFile,
   faFileAudio,
   faImage,
+  faMicrophone,
   faRadiation,
   faRadio,
+  faSignature,
   faSquareCaretDown,
   faT,
   faTextHeight,
@@ -37,19 +39,26 @@ import Checkbox from "@/components/share/builder/controls/Checkbox";
 import Radio from "@/components/share/builder/controls/Radio";
 import { faDropbox } from "@fortawesome/free-brands-svg-icons";
 import Dropdown from "@/components/share/builder/controls/Dropdown";
+import Signature from "@/components/share/builder/controls/Signature";
+import ButtonSubmit from "@/components/share/builder/controls/ButtonSubmit";
+import Heading from "@/components/share/builder/controls/Heading";
+import TextStyleSetting, { TextStyleDefaultSetting } from "@/components/share/builder/settings/TextStyleSetting";
+import BaseSetting from "@/components/share/builder/settings/BaseSetting";
+import DateSetting from "@/components/share/builder/settings/DateSetting";
 
 export enum ControlType {
   Label = "Label",
+  Heading = "Heading",
   ShortText = "SHORT_TEXT",
   LongText = "LONG_TEXT",
   ButtonNext = "BUTTON_NEXT",
+  ButtonSubmit = "BUTTON_SUBMIT",
   Space = "SPACE",
   Datetime = "DATETIME",
   Date = "Date",
   Time = "Time",
   DateRange = "DATE_RANGE",
   TimeRange = "TIME_RANGE",
-  // Signature = "SIGNATURE",
   Image = "IMAGE",
   Video = "VIDEO",
   Audio = "AUDIO",
@@ -57,10 +66,7 @@ export enum ControlType {
   Checkbox = "CHECKBOX",
   Radio = "RADIO",
   Dropdown = "DROPDOWN",
-  // Rating = "RATING",
-  // Slider = "SLIDER",
-  // Range = "RANGE",
-  // Star = "STAR",
+  Signature = "SIGNATURE",
 }
 
 export interface ControlThumbnailInterface {
@@ -80,11 +86,14 @@ export const THUMBNAILS: { [key in ControlType]: ControlThumbnailInterface } = {
   [ControlType.TimeRange]: { icon: faClock, label: "Time Range" },
   [ControlType.Image]: { icon: faImage, label: "Image" },
   [ControlType.Video]: { icon: faVideo, label: "Video" },
-  [ControlType.Audio]: { icon: faFileAudio, label: "Audio" },
+  [ControlType.Audio]: { icon: faMicrophone, label: "Audio" },
   [ControlType.File]: { icon: faFile, label: "File" },
   [ControlType.Checkbox]: { icon: faCheckCircle, label: "Checkbox" },
   [ControlType.Radio]: { icon: faCircleDot, label: "Radio" },
   [ControlType.Dropdown]: { icon: faSquareCaretDown, label: "Dropdown" },
+  [ControlType.Signature]: { icon: faSignature, label: "Signature" },
+  [ControlType.ButtonSubmit]: { icon: faCheckCircle, label: "Submit" },
+  [ControlType.Heading]: { icon: faTextHeight, label: "Heading" },
 };
 
 export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> } = {
@@ -92,7 +101,7 @@ export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> 
   [ControlType.LongText]: {},
   [ControlType.ButtonNext]: { label: "Button next", background: "#ff0000" },
   [ControlType.Space]: {},
-  [ControlType.Label]: { label: "Label", textStyles: { color: "#000000", fontSize: 24, fontWeight: 700 } },
+  [ControlType.Label]: { label: "Label", textStyles: TextStyleDefaultSetting },
   [ControlType.Datetime]: { label: "Datetime" },
   [ControlType.Date]: { label: "Date" },
   [ControlType.Time]: { label: "Time" },
@@ -127,6 +136,14 @@ export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> 
       { label: "Option 2", value: "option2" },
     ],
   },
+  [ControlType.Signature]: { label: "Signature", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.ButtonSubmit]: { label: "Submit", background: "#00ff00" },
+  [ControlType.Heading]: {
+    label: "Heading",
+    textStyles: { color: "#000000", fontSize: 16, fontWeight: 700 },
+    size: { w: 6, h: 1 },
+    layout: { minW: 6 },
+  },
 };
 
 export interface ControlGroupInterface {
@@ -134,16 +151,39 @@ export interface ControlGroupInterface {
   types: ControlType[];
 }
 export const GROUPS: ControlGroupInterface[] = [
-  { label: "Text", types: [ControlType.Label, ControlType.LongText, ControlType.ShortText] },
-  { label: "Button", types: [ControlType.ButtonNext] },
+  { label: "Texts", types: [ControlType.Label, ControlType.LongText, ControlType.ShortText, ControlType.Heading] },
+  { label: "Buttons", types: [ControlType.ButtonNext, ControlType.ButtonSubmit] },
   {
-    label: "Datetime",
+    label: "Datetimes",
     types: [ControlType.Date, ControlType.Time, ControlType.DateRange, ControlType.TimeRange, ControlType.Datetime],
   },
-  { label: "Util", types: [ControlType.Space] },
-  { label: "Media", types: [ControlType.Image, ControlType.Video, ControlType.Audio, ControlType.File] },
-  { label: "Option", types: [ControlType.Checkbox, ControlType.Radio, ControlType.Dropdown] },
+  { label: "Utils", types: [ControlType.Space, ControlType.Signature] },
+  { label: "Medias", types: [ControlType.Image, ControlType.Video, ControlType.Audio, ControlType.File] },
+  { label: "Options", types: [ControlType.Checkbox, ControlType.Radio, ControlType.Dropdown] },
 ];
+
+export const SETTINGS: { [key in ControlType]: any[] } = {
+  [ControlType.ShortText]: [BaseSetting, TextStyleSetting],
+  [ControlType.LongText]: [BaseSetting, TextStyleSetting],
+  [ControlType.ButtonNext]: [BaseSetting],
+  [ControlType.Space]: [BaseSetting],
+  [ControlType.Label]: [BaseSetting, TextStyleSetting],
+  [ControlType.Datetime]: [BaseSetting],
+  [ControlType.Date]: [BaseSetting, DateSetting],
+  [ControlType.Time]: [BaseSetting],
+  [ControlType.DateRange]: [BaseSetting],
+  [ControlType.TimeRange]: [BaseSetting],
+  [ControlType.Image]: [BaseSetting],
+  [ControlType.Video]: [BaseSetting],
+  [ControlType.Audio]: [BaseSetting],
+  [ControlType.File]: [BaseSetting],
+  [ControlType.Checkbox]: [BaseSetting],
+  [ControlType.Radio]: [BaseSetting],
+  [ControlType.Dropdown]: [BaseSetting],
+  [ControlType.Signature]: [BaseSetting],
+  [ControlType.ButtonSubmit]: [BaseSetting],
+  [ControlType.Heading]: [BaseSetting, TextStyleSetting],
+};
 
 export const UI = {
   [ControlType.ShortText]: ShortText,
@@ -163,4 +203,7 @@ export const UI = {
   [ControlType.Checkbox]: Checkbox,
   [ControlType.Radio]: Radio,
   [ControlType.Dropdown]: Dropdown,
+  [ControlType.Signature]: Signature,
+  [ControlType.ButtonSubmit]: ButtonSubmit,
+  [ControlType.Heading]: Heading,
 };

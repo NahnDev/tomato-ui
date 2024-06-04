@@ -8,7 +8,7 @@ export default function LongText(props: ControlProps) {
       rows={1}
       label={props.control.config.label}
       className="!min-h-0 scroll-none"
-      containerProps={{ className: "h-full" }}
+      containerProps={{ className: "h-full w-full !min-w-0" }}
     ></Textarea>
   );
 }

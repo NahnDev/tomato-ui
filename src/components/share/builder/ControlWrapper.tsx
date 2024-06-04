@@ -20,7 +20,7 @@ export default function ControlWrapper(props: ControlProps) {
       ])}
       onMouseDown={() => isEdit && setSelected(props.control)}
     >
-      <div className={clsx([isEdit && "fluid pointer-events-none select-none"])}>
+      <div className={clsx(["fluid", isEdit && "pointer-events-none select-none"])}>
         <Components {...props} />
       </div>
     </div>
