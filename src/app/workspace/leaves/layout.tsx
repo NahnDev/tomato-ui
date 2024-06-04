@@ -2,7 +2,7 @@
 
 import Members from "@/components/leaves/Members";
 import { Card } from "@material-tailwind/react";
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, Suspense } from "react";
 
 export default function LeavesLayout(props: PropsWithChildren) {
   return (
@@ -12,7 +12,7 @@ export default function LeavesLayout(props: PropsWithChildren) {
           <Members />
         </Card>
       </div>
-      {props.children}
+      <Suspense fallback={<div>Loading...</div>}>{props.children}</Suspense>
     </div>
   );
 }
