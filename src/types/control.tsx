@@ -19,7 +19,7 @@ export type TControlSetting = {
   textStyles?: TTextStyle;
   date?: TDateSetting;
   options?: TOption[];
-  level?: number;
+  heading?: THeadingSetting;
 };
 
 export type TOption = {
@@ -40,4 +40,10 @@ export type TDateSetting = {
   format?: string;
   minDate?: string;
   maxDate?: string;
+};
+
+export type THeadingSetting = {
+  level?: number;
+  format?: string;
+  color?: string;
 };
