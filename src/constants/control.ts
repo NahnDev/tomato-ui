@@ -45,6 +45,7 @@ import Heading from "@/components/share/builder/controls/Heading";
 import TextStyleSetting, { TextStyleDefaultSetting } from "@/components/share/builder/settings/TextStyleSetting";
 import BaseSetting from "@/components/share/builder/settings/BaseSetting";
 import DateSetting from "@/components/share/builder/settings/DateSetting";
+import HeadingSetting from "@/components/share/builder/settings/HeadingSetting";
 
 export enum ControlType {
   Label = "Label",
@@ -143,6 +144,7 @@ export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> 
     textStyles: { color: "#000000", fontSize: 16, fontWeight: 700 },
     size: { w: 6, h: 1 },
     layout: { minW: 6 },
+    heading: { level: 1, format: "$1.", color: "#000" },
   },
 };
 
@@ -182,7 +184,7 @@ export const SETTINGS: { [key in ControlType]: any[] } = {
   [ControlType.Dropdown]: [BaseSetting],
   [ControlType.Signature]: [BaseSetting],
   [ControlType.ButtonSubmit]: [BaseSetting],
-  [ControlType.Heading]: [BaseSetting, TextStyleSetting],
+  [ControlType.Heading]: [BaseSetting, HeadingSetting, TextStyleSetting],
 };
 
 export const UI = {

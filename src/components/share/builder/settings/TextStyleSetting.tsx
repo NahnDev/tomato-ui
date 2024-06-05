@@ -34,7 +34,7 @@ export default function TextStyleSetting(props: TControlSettingProps) {
       </div>
       <div className="p-2 flex flex-row gap-2 items-center justify-between h-10">
         <Input
-          containerProps={{ className: "!min-w-0 max-w-18 hidden-arrow" }}
+          containerProps={{ className: "!min-w-0 max-w-20 hidden-arrow" }}
           className="text-center"
           label="Fontsize"
           type="number"
