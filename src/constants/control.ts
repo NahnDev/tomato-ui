@@ -108,13 +108,13 @@ export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> 
   [ControlType.Time]: { label: "Time" },
   [ControlType.DateRange]: {},
   [ControlType.TimeRange]: {},
-  [ControlType.Image]: { label: "Image uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
-  [ControlType.Video]: { label: "Video uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
-  [ControlType.Audio]: { label: "Audio uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
-  [ControlType.File]: { label: "File uploader", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Image]: { label: "Image uploader", size: { width: 2, height: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Video]: { label: "Video uploader", size: { width: 2, height: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Audio]: { label: "Audio uploader", size: { width: 2, height: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.File]: { label: "File uploader", size: { width: 2, height: 2 }, layout: { minH: 2, minW: 2 } },
   [ControlType.Checkbox]: {
     label: "Checkbox",
-    size: { w: 2, h: 2 },
+    size: { width: 2, height: 2 },
     layout: { minH: 2, minW: 2 },
     options: [
       { label: "Option 1", value: "option1" },
@@ -123,7 +123,7 @@ export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> 
   },
   [ControlType.Radio]: {
     label: "Radio",
-    size: { w: 2, h: 2 },
+    size: { width: 2, height: 2 },
     layout: { minH: 2, minW: 2 },
     options: [
       { label: "Option 1", value: "option1" },
@@ -137,12 +137,12 @@ export const DEFAULT_SETTINGS: { [key in ControlType]: Partial<TControlSetting> 
       { label: "Option 2", value: "option2" },
     ],
   },
-  [ControlType.Signature]: { label: "Signature", size: { w: 2, h: 2 }, layout: { minH: 2, minW: 2 } },
+  [ControlType.Signature]: { label: "Signature", size: { width: 2, height: 2 }, layout: { minH: 2, minW: 2 } },
   [ControlType.ButtonSubmit]: { label: "Submit", background: "#00ff00" },
   [ControlType.Heading]: {
     label: "Heading",
     textStyles: { color: "#000000", fontSize: 16, fontWeight: 700 },
-    size: { w: 6, h: 1 },
+    size: { width: 6, height: 1 },
     layout: { minW: 6 },
     heading: { level: 1, format: "$1.", color: "#000" },
   },

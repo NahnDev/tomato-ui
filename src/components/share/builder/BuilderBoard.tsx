@@ -64,6 +64,7 @@ export default function BuilderBoard() {
           droppingItem={item ? Control.getLayout(item) : undefined}
           onDrop={handleDrop}
           onLayoutChange={handleLayoutChange}
+          compactType={setting.compactType}
         >
           {controls.map((control) => (
             <div key={control.id}>

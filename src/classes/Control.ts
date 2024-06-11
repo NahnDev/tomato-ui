@@ -11,7 +11,7 @@ export default class Control {
       type: type,
       coord: { x: 0, y: 0 },
       config: {
-        size: { w: 1, h: 1 },
+        size: { width: 1, height: 1 },
         ...DEFAULT_SETTINGS[type],
       },
     };
@@ -22,8 +22,8 @@ export default class Control {
       i: item.id,
       x: item.coord.x,
       y: item.coord.y,
-      w: item.config.size?.w ?? 1,
-      h: item.config.size?.h ?? 1,
+      w: item.config.size?.width ?? 1,
+      h: item.config.size?.height ?? 1,
       ...item.config.layout,
     };
   }
@@ -31,7 +31,7 @@ export default class Control {
     return {
       ...control,
       coord: { x: layout.x, y: layout.y },
-      config: { ...control.config, size: { w: layout.w, h: layout.h } },
+      config: { ...control.config, size: { width: layout.w, height: layout.h } },
     };
   }
 }

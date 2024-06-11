@@ -1,4 +1,10 @@
-import { faLayerGroup, faWrench, faTrowelBricks, faPersonWalkingArrowRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faLayerGroup,
+  faWrench,
+  faTrowelBricks,
+  faPersonWalkingArrowRight,
+  faBrush,
+} from "@fortawesome/free-solid-svg-icons";
 
 export const WORKSPACE_MENUS = [
   {
@@ -7,15 +13,11 @@ export const WORKSPACE_MENUS = [
     name: "Templates",
   },
   {
-    href: "/workspace/settings",
-    icon: faWrench,
-    name: "Settings",
+    href: "/workspace/maker",
+    icon: faBrush,
+    name: "Maker",
   },
-  {
-    href: "/workspace/equipments",
-    icon: faTrowelBricks,
-    name: "Equipments",
-  },
+
   {
     href: "/workspace/leaves",
     icon: faPersonWalkingArrowRight,

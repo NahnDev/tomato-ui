@@ -16,7 +16,6 @@ import {
 import BuilderUI from "./BuilderUI";
 import Popup from "../Popup";
 import useList from "@/hooks/useList";
-import BuilderStepper from "./BuilderStepper";
 import ControlSetting from "./ControlSetting";
 import BuilderFileActions from "./BuilderFileActions";
 import BuilderHistories from "./BuilderHistories";
@@ -34,11 +33,6 @@ enum MenuEnum {
 
 // use MenuEnum
 const MENUS = {
-  [MenuEnum.Stepper]: {
-    icon: faLayerGroup,
-    label: "Stepper",
-    component: <BuilderStepper />,
-  },
   [MenuEnum.Ui]: {
     icon: faPlus,
     label: "UI",
@@ -65,6 +59,7 @@ const MENUS = {
     component: <BuilderHistories />,
   },
 };
+
 type TMenuKey = keyof typeof MENUS;
 
 export default function BuilderToolbar() {
