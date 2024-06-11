@@ -6,6 +6,11 @@ export enum Mode {
   Edit = "edit",
   Preview = "preview",
 }
+export enum CompactType {
+  Horizontal = "horizontal",
+  Vertical = "vertical",
+}
+
 export type TBuilderHistory = { value: ControlInterface[]; at: number };
 export type TBuilderSettings = {
   grid: {
@@ -13,6 +18,7 @@ export type TBuilderSettings = {
     rowHeight: number;
   };
   mode: Mode;
+  compactType: CompactType | null;
 };
 
 export type TBuilderState = {
@@ -30,6 +36,7 @@ export const intialState: TBuilderState = {
       rowHeight: 50,
     },
     mode: Mode.Edit,
+    compactType: CompactType.Vertical,
   },
 };
 export const builderState = atom({

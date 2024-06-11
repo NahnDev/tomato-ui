@@ -2,7 +2,7 @@ import { ControlType } from "@/constants/control";
 import { Layout } from "react-grid-layout";
 
 export type Coord = { x: number; y: number };
-export type Size = { w: number; h: number };
+export type Size = { width: number; height: number };
 
 export interface ControlInterface {
   id: string;

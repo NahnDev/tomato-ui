@@ -1,9 +1,7 @@
 import { Size } from "@/types/control";
-import clsx from "clsx";
-import { ClassArray } from "clsx";
 import React, { PropsWithChildren } from "react";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useDebounceCallback, useResizeObserver } from "usehooks-ts";
 
 type TSize = {
@@ -15,7 +13,7 @@ export type TSizeBoxProps = Readonly<PropsWithChildren<{ className?: string; onR
 export default function SizeBox(props: TSizeBoxProps) {
   const sizeBoxRef = useRef<HTMLDivElement>(null);
   const onResize = useDebounceCallback(
-    (size: TSize) => props.onResize({ w: size.width ?? 0, h: size.height ?? 0 }),
+    (size: TSize) => props.onResize({ width: size.width ?? 0, height: size.height ?? 0 }),
     200
   );
 

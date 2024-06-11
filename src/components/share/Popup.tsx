@@ -11,7 +11,19 @@ import { DragLayerMonitor, XYCoord, useDrag, useDragLayer } from "react-dnd";
 import clsx from "clsx";
 import { IconButton } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCompress, faExpand, faXmark, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faArrowLeft,
+  faBorderTopLeft,
+  faChevronLeft,
+  faCompress,
+  faExpand,
+  faLeftLong,
+  faRightLeft,
+  faUpDownLeftRight,
+  faUpRightAndDownLeftFromCenter,
+  faXmark,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { DndTypes } from "@/constants/dnd";
 import { v4 as uuidv4 } from "uuid";
 
@@ -86,6 +98,11 @@ export default function Popup(props: PopupProps) {
               {...(collected as any)}
             />
           </div>
+
+          <IconButton variant="text" className="!size-4 text-black" onClick={() => setCoord({ top: 5, left: 5 })}>
+            <FontAwesomeIcon icon={faBorderTopLeft} />
+          </IconButton>
+
           <IconButton variant="text" className="!size-4 text-black" onClick={() => toggle()}>
             <FontAwesomeIcon icon={absolute ? faCompress : faExpand} />
           </IconButton>
