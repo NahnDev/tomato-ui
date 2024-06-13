@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import ScaleBox from "../Scalebox";
 import { TBoard, TMode, TProject, TShape, TStatus } from "./type";
-import { Layer, Stage } from "react-konva";
+import { Group, Layer, Line, Rect, Stage } from "react-konva";
 import MakerShape from "./MakerShape";
 import CropLayer from "./CropLayer";
 import TransformLayer from "./TransformLayer";
@@ -13,6 +13,7 @@ import { useHotkeys } from "react-hotkeys-hook";
 import { useProject, useProjectShapes } from "./store/project";
 import Konva from "konva";
 import { useMap } from "usehooks-ts";
+import EraserLayer from "./EraserLayer";
 
 export const intialBoard = { base: { width: 0, height: 0 }, scale: 1, size: { width: 0, height: 0 } };
 export type TMakerBoardProps = Readonly<{}>;
@@ -23,8 +24,8 @@ export default function MakerBoard(props: TMakerBoardProps) {
   const [{ size, base, scale }, setBoard] = useBoard();
   const [project, setProject] = useProject();
   const shapes = useProjectShapes();
+  const [lines, setLines] = useState<{ points: number[] }[]>([]);
 
-  // Manager exist items
   const [existNodes, { set: addExistNode }] = useMap<string, Konva.Shape>([]);
   const [selected, { toggle: toggleSelected }] = useBoardSelectedState();
   const nodes = useMemo(() => selected.map((id) => existNodes.get(id)!), [existNodes, selected]);
@@ -56,11 +57,17 @@ export default function MakerBoard(props: TMakerBoardProps) {
               onSelected={(node, shift) => toggleSelected(shape.id, shift)}
             />
           ))}
+          <Group globalCompositeOperation="destination-out">
+            {lines.map((line, i) => (
+              <Line key={i} points={line.points} stroke="#df4b26" strokeWidth={20} tension={1} lineCap="round" />
+            ))}
+          </Group>
         </Layer>
 
         {mode === TMode.View && <BackdropLayer />}
         {mode === TMode.View && <TransformLayer nodes={nodes} />}
         {mode === TMode.Crop && <CropLayer />}
+        {mode === TMode.Eraser && <EraserLayer onSubmit={setLines} />}
       </Stage>
     </ScaleBox>
   );

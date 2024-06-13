@@ -9,13 +9,16 @@ import {
   faFileUpload,
   faUpload,
   faShapes,
+  faEraser,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { IconButton, Menu } from "@material-tailwind/react";
 import ShapeMenu from "./menus/ShapeMenu";
 import ShapeSetting from "./menus/ShapeSetting";
+import EraserLayer from "./EraserLayer";
+import EraserMenu from "./menus/EraserMenu";
 
 enum MenuEnum {
   Stepper = "stepper",
@@ -31,17 +34,17 @@ const MENUS = {
   [MenuEnum.Ui]: {
     icon: faShapes,
     label: "Shape",
-    component: <ShapeMenu />,
+    component: ShapeMenu,
   },
   [MenuEnum.Setting]: {
     icon: faGear,
     label: "Setting",
-    component: <ShapeSetting />,
+    component: ShapeSetting,
   },
   [MenuEnum.Information]: {
-    icon: faInfo,
-    label: "Information",
-    component: <div />,
+    icon: faEraser,
+    label: "Eraser",
+    component: EraserMenu,
   },
 };
 
@@ -52,9 +55,14 @@ export default function MakerSidebar() {
   const keys = useMemo(() => Object.keys(MENUS) as (keyof typeof MENUS)[], []);
   const [menu, setMenu] = useState<TMenuKey>();
 
+  const MenuComponent = menu && MENUS[menu]?.component;
   return (
     <div className="relative">
-      {menu && <div className="absolute right-full w-80 h-full bg-white">{MENUS[menu]?.component}</div>}
+      {MenuComponent && (
+        <div className="absolute right-full h-full bg-white">
+          <MenuComponent onClose={() => setMenu(undefined)} />
+        </div>
+      )}
       <div className="h-full flex flex-col items-center justify-between p-2 border-l-2 border-l-gray-200 bg-white">
         <div className="flex flex-col items-center justify-end gap-2 ">
           {keys.map((key) => (

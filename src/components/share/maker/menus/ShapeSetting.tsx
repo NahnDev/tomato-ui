@@ -14,7 +14,7 @@ export default function ShapeSetting() {
   const handleBackward = useBackwardShapes();
 
   return (
-    <div>
+    <div className="w-80">
       <div className="grid grid-cols-2 p-2 gap-2">
         <OptionButton icon={faArrowsUpToLine} label="Forward" onClick={() => handleForward(selected)}></OptionButton>
         <OptionButton

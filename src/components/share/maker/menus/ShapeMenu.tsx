@@ -40,7 +40,7 @@ export default function ShapeMenu() {
     });
   };
   return (
-    <div>
+    <div className="w-80">
       <div className="grid grid-cols-2 p-2 gap-2">
         {keys.map((key) => (
           <ShapeThumbnail key={key} onClick={() => addShape(key)} svg={SHAPES[key].svg}></ShapeThumbnail>
