@@ -26,3 +26,38 @@ export function useProjectSize() {
   const project = useRecoilValue(projectSelector);
   return { width: project?.width ?? 0, height: project?.height ?? 0 };
 }
+
+export function useForwardShapes() {
+  const [project, setProject] = useProject();
+  return (ids: TShape["id"][]) => {
+    const shapes = project.shapes;
+    let delta = 0;
+    const nextShapes = [...shapes]
+      .map((shape, index) => {
+        delta += ids.includes(shape.id) ? 1 : 0;
+        return { shape, index: ids.includes(shape.id) ? index + 1 : index - delta };
+      })
+      .sort((a, b) => a.index - b.index)
+      .map(({ shape }) => shape);
+    setProject({ ...project, shapes: nextShapes });
+  };
+}
+
+export function useBackwardShapes() {
+  const [project, setProject] = useProject();
+  return (ids: TShape["id"][]) => {
+    const shapes = project.shapes;
+
+    let delta = 0;
+    const nextShapes = [...shapes]
+      .reverse()
+      .map((shape, index) => {
+        delta += ids.includes(shape.id) ? 1 : 0;
+        return { shape, index: ids.includes(shape.id) ? index + 1 : index - delta };
+      })
+      .sort((a, b) => a.index - b.index)
+      .map(({ shape }) => shape)
+      .reverse();
+    setProject({ ...project, shapes: nextShapes });
+  };
+}

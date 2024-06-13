@@ -1,6 +1,6 @@
 import { KonvaEventObject } from "konva/lib/Node";
 import { ShapeConfig, Shape } from "konva/lib/Shape";
-import React, { useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { KonvaNodeComponent, Rect, Circle, Image } from "react-konva";
 import { TShape, TShapeType } from "./type";
 import { TCoord, TSize } from "@/types";
@@ -18,6 +18,7 @@ const SHAPES = {
 export type TNodeProps = Readonly<{
   item: TShape;
   isSelected: boolean;
+  onRender: (node: Shape) => void;
   onChange: (item: TShape) => void;
   onSelected: (node: Shape, shift: boolean) => void;
 }>;
@@ -37,22 +38,14 @@ export default function MakerShape(props: TNodeProps) {
   const onClick = (evt: KonvaEventObject<MouseEvent>) => {
     props.onSelected(ref.current!, evt.evt.shiftKey);
   };
-  const onTransformEnd = () => handleChange(ref.current!.getAttrs() as TShape);
-  const onDragEnd = (e: KonvaEventObject<DragEvent>) => handleChange(e.target.getAttrs() as TShape);
-  const onWheel = (e: KonvaEventObject<WheelEvent>) => {
-    if (!props.isSelected) return;
-    if (e.evt.altKey) {
-      e.evt.stopPropagation();
-      e.evt.preventDefault();
-      const scale = 1 - e.evt.deltaY / 5000;
-      handleChange({
-        x: x - (props.item.width * scale - props.item.width) / 4,
-        y: y - (props.item.height * scale - props.item.height) / 4,
-        width: props.item.width * scale,
-        height: props.item.height * scale,
-      });
-    }
+  const onTransformEnd = () => {
+    handleChange(ref.current!.getAttrs() as TShape);
   };
+  const onDragEnd = (e: KonvaEventObject<DragEvent>) => handleChange(e.target.getAttrs() as TShape);
+
+  useEffect(() => {
+    props.onRender(ref.current!);
+  }, []);
 
   return (
     <Component
@@ -60,11 +53,11 @@ export default function MakerShape(props: TNodeProps) {
       x={x}
       y={y}
       ref={ref}
-      draggable={props.isSelected}
       onClick={onClick}
+      onDragStart={(evt) => (!props.isSelected ? onClick(evt) : null)}
+      draggable
       onTransform={onTransformEnd}
       onDragEnd={onDragEnd}
-      onWheel={onWheel}
     />
   );
 }

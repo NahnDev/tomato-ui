@@ -13,7 +13,6 @@ import useIsActiveRoute from "@/hooks/useIsActiveRoute";
 
 export function AppNavbar() {
   const router = useRouter();
-  console.log(router);
   return (
     <Navbar fullWidth className="bg-opacity-100 border-b-2 border-slate-200 py-1 z-40">
       <div className="w-full mx-auto flex items-center justify-between text-blue-gray-900">

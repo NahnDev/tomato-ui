@@ -1,11 +1,9 @@
 import Konva from "konva";
-
 import React, { useRef } from "react";
 import { Layer, Transformer as RKTransformer } from "react-konva";
-import { Shape } from "konva/lib/Shape";
 
 export type TTransformLayerProps = Readonly<{
-  nodes: Shape[];
+  nodes: Konva.Shape[];
 }>;
 
 export default function TransformLayer(props: TTransformLayerProps) {

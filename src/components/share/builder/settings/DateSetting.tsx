@@ -19,8 +19,6 @@ export default function DateSetting(props: TControlSettingProps) {
     updateControlSetting({ date: { ...dateSettings, ...value } });
   };
 
-  console.log("dateSettings", dateSettings);
-
   return (
     <div className="p-2 flex flex-col gap-2">
       <Input

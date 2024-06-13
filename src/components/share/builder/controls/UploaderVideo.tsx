@@ -7,9 +7,7 @@ import IconButton from "../../button/IconButton";
 import { faFileImage, faImage, faTrash, faUpload, faVideo } from "@fortawesome/free-solid-svg-icons";
 
 export default function UploaderVideo(props: ControlProps) {
-  const onDrop: DropzoneOptions["onDrop"] = useCallback((acceptedFiles: any[]) => {
-    console.log(acceptedFiles);
-  }, []);
+  const onDrop: DropzoneOptions["onDrop"] = useCallback((acceptedFiles: any[]) => {}, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <div className="w-full h-full grid grid-rows-[1fr_auto]">

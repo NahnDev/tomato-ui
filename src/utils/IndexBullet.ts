@@ -25,7 +25,6 @@ export default class IndexBullet {
   }
 
   static getIndex(level: number, index: number) {
-    console.log(level, index);
     switch (level) {
       case 1:
         return `${IndexBullet.romanize(index)}`;

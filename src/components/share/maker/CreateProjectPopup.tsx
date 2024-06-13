@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { TShape, TShapeType } from "./type";
 import { useProject } from "./store/project";
-import { useBoardSize } from "./store/board";
+import { Dialog, DialogBody } from "@material-tailwind/react";
 
 type TEmptyScreenProps = Readonly<{}>;
 
@@ -33,14 +33,20 @@ export default function EmptyScreen(props: TEmptyScreenProps) {
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div className="text-center text-slate-400 w-40 h-40 flex">
-      <div className="border-2 border-slate-200 rounded-md flex flex-1">
-        <div {...getRootProps()} className="flex flex-col justify-center items-center w-full h-full gap-2">
-          <input {...getInputProps()} />
-          <FontAwesomeIcon className="text-[3em] opacity-25" icon={faUpload} />
-          <p className="text-xl">Project from image</p>
-        </div>
-      </div>
+    <div>
+      <Dialog open={true} handler={() => {}}>
+        <DialogBody>
+          <div className="text-center text-slate-400 w-40 h-40 flex">
+            <div className="border-2 border-slate-200 rounded-md flex flex-1">
+              <div {...getRootProps()} className="flex flex-col justify-center items-center w-full h-full gap-2">
+                <input {...getInputProps()} />
+                <FontAwesomeIcon className="text-[3em] opacity-25" icon={faUpload} />
+                <p className="text-xl">Project from image</p>
+              </div>
+            </div>
+          </div>
+        </DialogBody>
+      </Dialog>
     </div>
   );
 }
