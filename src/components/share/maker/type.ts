@@ -5,6 +5,7 @@ export enum TShapeType {
   Rect = "Rect",
   Circle = "Circle",
   Image = "Image",
+  Line = "Line",
 }
 
 export enum TAction {
@@ -14,9 +15,10 @@ export enum TAction {
 export enum TMode {
   View = "View",
   Crop = "Crop",
+  Eraser = "Eraser",
 }
 
-export type TShape = ShapeConfig & { type: TShapeType } & TSize & TCoord;
-export type TBoard = { base: TSize; scale: number; size: TSize };
+export type TShape = ShapeConfig & TSize & TCoord & { type: TShapeType; id: string };
+export type TBoard = { base: TSize; scale: number; size: TSize; selected?: TShape["id"][] };
 export type TProject = { width: number; height: number; shapes: TShape[] };
 export type TStatus = { scale: number };

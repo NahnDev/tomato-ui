@@ -5,7 +5,6 @@ import { v4 as uuidv4 } from "uuid";
 
 export default class Control {
   public static create(type: ControlType): ControlInterface {
-    console.log(DEFAULT_SETTINGS[type]);
     return {
       id: uuidv4(),
       type: type,

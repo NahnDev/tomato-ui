@@ -85,7 +85,6 @@ export const builderControlSelectedState = selector({
   },
   set({ get, set }, newValue) {
     if (newValue instanceof DefaultValue) return;
-    console.log("sdfasd");
     set(builderState, { ...get(builderState), selected: newValue });
   },
 });

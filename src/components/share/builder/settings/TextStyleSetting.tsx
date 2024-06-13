@@ -22,7 +22,6 @@ export default function TextStyleSetting(props: TControlSettingProps) {
   const updateStyles = (params: Partial<TControlSetting["textStyles"]>) => {
     updateControlSetting({ textStyles: { ...textStyles, ...params } });
   };
-  console.log(textStyles);
   return (
     <div className="p-2">
       <div className="p-2 pb-6">

@@ -3,7 +3,6 @@ import React, { useRef } from "react";
 export default function ColorPicker(
   props: Readonly<{ value?: string; onChange: (value: string) => any; label?: string }>
 ) {
-  console.log(props.value);
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <div className="relative flex flex-row items-center">

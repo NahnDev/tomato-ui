@@ -34,7 +34,6 @@ export default function Toolbar() {
 
   const handlePrevious = () => {
     const unit = type === LEAVE_CALENDAR_TYPES.MONTH ? "months" : "weeks";
-    console.log(unit);
     setDate(moment(date).subtract(1, unit).toISOString());
   };
   const handleNext = () => {

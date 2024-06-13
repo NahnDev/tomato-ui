@@ -1,6 +1,7 @@
 import { TCoord, TSize } from "@/types";
 import { Layer } from "konva/lib/Layer";
-import { TBoard } from "./type";
+import { TBoard, TShape, TShapeType } from "./type";
+import Konva from "konva";
 
 export function getCenterCoord(box: TSize, ele: TSize) {
   return {
@@ -9,8 +10,10 @@ export function getCenterCoord(box: TSize, ele: TSize) {
   };
 }
 
+type TShapeCoord = TCoord & { radius?: number };
+
 export default class MakerBoardUtil {
-  static getAbsoluteCoord<T extends TCoord>(size: TSize, coord: T): T {
+  static getAbsoluteCoord<T extends TShapeCoord>(size: TSize, coord: T): T {
     return {
       ...coord,
       x: size.width / 2 + (coord.x ?? 0),
@@ -18,7 +21,7 @@ export default class MakerBoardUtil {
     };
   }
 
-  static getRelativeCoord<T extends TCoord>(size: TSize, coord: T): T {
+  static getRelativeCoord<T extends TShapeCoord>(size: TSize, coord: T): T {
     return {
       ...coord,
       x: (coord.x ?? 0) - size.width / 2,
@@ -30,6 +33,12 @@ export default class MakerBoardUtil {
     return {
       x: item.x || 0,
       y: item.y || 0,
+    };
+  }
+  static getCenterCoord(item: TShape) {
+    return {
+      x: item.x + item.width / 2,
+      y: item.y + item.height / 2,
     };
   }
 }
