@@ -1,7 +1,7 @@
 import { KonvaEventObject } from "konva/lib/Node";
 import { ShapeConfig, Shape } from "konva/lib/Shape";
 import React, { useEffect, useMemo, useRef } from "react";
-import { KonvaNodeComponent, Rect, Circle, Image } from "react-konva";
+import { KonvaNodeComponent, Rect, Circle, Image, Line } from "react-konva";
 import { TShape, TShapeType } from "./type";
 import { TCoord, TSize } from "@/types";
 import MakerBoardUtil from "./utils";
@@ -13,6 +13,7 @@ const SHAPES = {
   [TShapeType.Image]: Image,
   [TShapeType.Rect]: Rect,
   [TShapeType.Circle]: Circle,
+  [TShapeType.Line]: Line,
 };
 
 export type TNodeProps = Readonly<{
