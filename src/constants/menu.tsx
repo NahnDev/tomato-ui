@@ -4,6 +4,7 @@ import {
   faTrowelBricks,
   faPersonWalkingArrowRight,
   faBrush,
+  faClipboardList,
 } from "@fortawesome/free-solid-svg-icons";
 
 export const WORKSPACE_MENUS = [
@@ -22,5 +23,10 @@ export const WORKSPACE_MENUS = [
     href: "/workspace/leaves",
     icon: faPersonWalkingArrowRight,
     name: "Leaves",
+  },
+  {
+    href: "/workspace/planing",
+    icon: faClipboardList,
+    name: "Planing",
   },
 ];

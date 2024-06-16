@@ -1,14 +1,18 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { UI } from "@/constants/control";
 import { ControlProps } from "./types";
 import clsx from "clsx";
-import { useAllowEditing, useControlSelected } from "./hooks";
+import { useAllowEditing, useControlSelected, useDeleteControl } from "./hooks";
+import { useHotkeys } from "react-hotkeys-hook";
 
 export default function ControlWrapper(props: ControlProps) {
   const Components = UI[props.control.type];
   const isEdit = useAllowEditing();
   const [selected, setSelected] = useControlSelected();
   const isSelected = useMemo(() => props.control.id === selected?.id, [props, selected]);
+  const handleDelete = useDeleteControl();
+
+  useHotkeys("delete", () => (isSelected ? handleDelete(props.control.id) : undefined));
 
   return (
     <div

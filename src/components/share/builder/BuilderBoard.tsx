@@ -10,7 +10,8 @@ import { DndTypes } from "@/constants/dnd";
 import { useRecoilState } from "recoil";
 import { builderControlsState, builderLayoutsState, builderSettingsState } from "./store";
 import BuilderBoardWrapper from "./BuilderBoardWrapper";
-import { useControlSelected } from "./hooks";
+import { useControlSelected, useDeleteControl } from "./hooks";
+import { useHotkeys } from "react-hotkeys-hook";
 
 const GridLayout = WidthProvider(ReactGridLayout);
 
