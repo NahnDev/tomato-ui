@@ -5,15 +5,17 @@ import PlaningCard from "./PlaningCard";
 import PlaningHeader from "./PlaningHeader";
 import PlaningStories from "./PlaningStories";
 import PlaningStory from "./PlaningStory";
+import PlaningAdaptor from "./PlaningAdaptor";
+import Container from "../share/Container";
 
 export default function PlaningBoard() {
   return (
-    <div className="grid grid-rows-[auto_1fr]">
-      <PlaningHeader />
-      <div className="w-[80vw] mx-auto grid grid-cols-[1fr_auto] justify-center">
+    <PlaningAdaptor>
+      <Container className="grid grid-rows-[auto_1fr]">
+        <PlaningHeader />
         <PlaningStory />
-      </div>
-      <PlaningStories />
-    </div>
+        <PlaningStories />
+      </Container>
+    </PlaningAdaptor>
   );
 }

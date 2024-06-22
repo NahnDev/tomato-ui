@@ -21,27 +21,29 @@ export type TPlaningVoteProps = TVoteControlProps & {};
 
 export default function PlaningVote(props: TPlaningVoteProps) {
   return (
-    <div className="w-80 bg-white rounded-lg overflow-hidden">
-      <VoteStatus />
-      <VoteControl
-        status={props.status}
-        onFinish={props.onFinish}
-        onReset={props.onReset}
-        onSkip={props.onSkip}
-        onStart={props.onStart}
-      />
-      <Timer />
-      <div>
-        <div className="p-2 flex flex-col gap-2">
+    <div className="h-full px-4 pt-8 overflow-y-hidden w-[22em]">
+      <div className="w-full bg-white rounded-lg overflow-hidden h-min max-h-full flex flex-col gap-2">
+        <VoteStatus />
+        <VoteControl
+          status={props.status}
+          onFinish={props.onFinish}
+          onReset={props.onReset}
+          onSkip={props.onSkip}
+          onStart={props.onStart}
+        />
+        <Timer />
+        <div className="flex-1 flex flex-col gap-2 overflow-y-hidden">
           <div className="flex flex-row gap-2 items-center  text-slate-700 px-2">
             <FontAwesomeIcon icon={faUsers} />
             <span className="font-semibold">Members:</span>
           </div>
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
-          <UserCard />
+          <div className="h-full flex-1 overflow-y-auto">
+            <UserCard />
+            <UserCard />
+            <UserCard />
+            <UserCard />
+            <UserCard />
+          </div>
         </div>
       </div>
     </div>

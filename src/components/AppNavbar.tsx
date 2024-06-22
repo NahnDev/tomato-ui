@@ -1,15 +1,23 @@
 "use client";
 
-import React, { PropsWithChildren } from "react";
+import React, { PropsWithChildren, useEffect } from "react";
 import { Navbar, Typography, Button } from "@material-tailwind/react";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGripVertical, faLayerGroup, faPaste, faUserAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClipboardList,
+  faGripVertical,
+  faLayerGroup,
+  faList,
+  faPaste,
+  faUserAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import SearchInput from "./share/SearchInput";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import useIsActiveRoute from "@/hooks/useIsActiveRoute";
+import { useAuth } from "@/state/auth/hook";
 
 export function AppNavbar() {
   const router = useRouter();
@@ -36,20 +44,47 @@ export function AppNavbar() {
             <LinkMenu href="/docs" icon={faPaste}>
               Docs
             </LinkMenu>
+            <LinkMenu href="/planing" icon={faClipboardList}>
+              Planing
+            </LinkMenu>
           </ul>
         </div>
         <div className="flex-1"></div>
         <div className="flex items-center gap-x-1">
           <SearchInput></SearchInput>
-          <Button variant="text" size="sm" className="hidden lg:inline-block">
-            <span>Log In</span>
-          </Button>
-          <Button variant="gradient" size="sm" className="hidden lg:inline-block">
-            <span>Sign in</span>
-          </Button>
+          <UserInformation />
         </div>
       </div>
     </Navbar>
+  );
+}
+
+function UserInformation() {
+  const { user, isAuthenticated, autoLogin } = useAuth();
+  useEffect(() => {
+    autoLogin();
+  }, []);
+
+  if (!isAuthenticated)
+    return (
+      <>
+        <Link href="/login" passHref>
+          <Button variant="text" size="sm" className="hidden lg:inline-block">
+            <span>Log In</span>
+          </Button>
+        </Link>
+        <Link href="/register" passHref>
+          <Button variant="gradient" size="sm" className="hidden lg:inline-block">
+            <span>Sign in</span>
+          </Button>
+        </Link>
+      </>
+    );
+  return (
+    <div className="flex flex-row gap-2 items-center p-2">
+      <FontAwesomeIcon icon={faUserAlt} />
+      <span className="text-sm text-slate-900">{user?.name ?? "Guest"}</span>
+    </div>
   );
 }
 

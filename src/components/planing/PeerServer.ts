@@ -2,8 +2,10 @@ import { v4 as uuidV4 } from "uuid";
 import { roomAtom } from "./store/room";
 import { Peer } from "peerjs";
 
-export default class PlaingAdapter {
+export default class PeerServer {
+  static server: Peer;
   static createServer(id: string) {
-    const server = new Peer(id);
+    this.server = new Peer();
+    this.server.on("open", (id) => {});
   }
 }

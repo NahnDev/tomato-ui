@@ -25,10 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={clsx([inter.className])}>
-        <div className="w-screen h-screen grid grid-rows-[auto_1fr]">
-          <AppNavbar />
-          <RecoilRootWrapper>{children}</RecoilRootWrapper>
-        </div>
+        <RecoilRootWrapper>
+          <div className="w-screen h-screen overflow-hidden grid grid-rows-[auto_1fr]">
+            <AppNavbar />
+            {children}
+          </div>
+        </RecoilRootWrapper>
       </body>
     </html>
   );
