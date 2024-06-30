@@ -1,13 +1,10 @@
 import { useRecoilState, useRecoilValue } from "recoil";
 import { authState } from "./atom";
-import { TRegisterDto, TUser, TUserCredentials } from "@/types/TUser";
+import { TRegisterDto, TUserCredentials } from "@/types/TUser";
 import { AuthApi } from "@/api/AuthApi";
 import Cookies from "js-cookie";
-import { set } from "lodash";
-import { use, useEffect, useState } from "react";
-import { AxiosError } from "axios";
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import useQueryParam from "@/hooks/useQueryParam";
 import useRedirectSearchParams from "@/hooks/useRedirectQuery";
 
 export function useAuth() {
