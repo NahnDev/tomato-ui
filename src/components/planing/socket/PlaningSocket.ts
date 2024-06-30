@@ -16,6 +16,7 @@ export default function PlaningSocket(props: PropsWithChildren<{ planing: TPlani
 
   useEffect(() => {
     socket.current = io(`${WS_URL}/planing`, {
+      secure: true,
       auth: { token: Cookies.get("token") },
       query: { planing: props.planing._id },
     });
