@@ -6,7 +6,6 @@ type AuthState = {
   accessToken?: string;
   user?: TUser;
   error?: Error;
-  redirect?: string;
 };
 
 export const authState = atom<AuthState>({

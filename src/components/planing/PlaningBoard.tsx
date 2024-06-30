@@ -1,21 +1,23 @@
-"use client";
-
-import * as React from "react";
-import PlaningCard from "./PlaningCard";
-import PlaningHeader from "./PlaningHeader";
-import PlaningStories from "./PlaningStories";
+import PlaningHeader from "@/components/planing/PlaningHeader";
 import PlaningStory from "./PlaningStory";
-import PlaningAdaptor from "./PlaningAdaptor";
-import Container from "../share/Container";
+import { useCurrentPlaning } from "./store/planing";
+import { useMemo } from "react";
+import { useAuth } from "@/state/auth/hook";
+import PlaningStories from "./edition/PlaningStories";
+import PlaningSocket from "./socket/PlaningSocket";
 
 export default function PlaningBoard() {
+  const { user } = useAuth();
+  const planing = useCurrentPlaning();
+  const isMaster = useMemo(() => planing.masters.map(({ _id }) => _id).includes(user?._id!), [user, planing]);
+
   return (
-    <PlaningAdaptor>
-      <Container className="grid grid-rows-[auto_1fr]">
-        <PlaningHeader />
-        <PlaningStory />
-        <PlaningStories />
-      </Container>
-    </PlaningAdaptor>
+    <PlaningSocket planing={planing}>
+      <div className="fluid grid grid-rows-[auto_1fr]">
+        <PlaningHeader planing={planing} isMaster={isMaster} />
+        <PlaningStory planing={planing} />
+        {isMaster && <PlaningStories planing={planing} />}
+      </div>
+    </PlaningSocket>
   );
 }

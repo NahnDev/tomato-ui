@@ -6,7 +6,6 @@ import PageLoading from "./PageLoading";
 
 export default function AuthRequired(props: PropsWithChildren<{}>) {
   const { isAuthenticated, redirect } = useAuth();
-  console.log(isAuthenticated);
   useEffect(() => {
     if (isAuthenticated === false) redirect();
   }, [isAuthenticated]);

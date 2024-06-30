@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx([inter.className])}>
+      <body className={clsx([inter.className, "text-slate-700"])}>
         <RecoilRootWrapper>
           <div className="w-screen h-screen overflow-hidden grid grid-rows-[auto_1fr]">
             <AppNavbar />

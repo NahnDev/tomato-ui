@@ -7,21 +7,18 @@ import { set } from "lodash";
 import { use, useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import { usePathname, useRouter } from "next/navigation";
+import useQueryParam from "@/hooks/useQueryParam";
+import useRedirectSearchParams from "@/hooks/useRedirectQuery";
 
 export function useAuth() {
   const router = useRouter();
   const pathname = usePathname();
   const [state, setState] = useRecoilState(authState);
+  const redirectSearchParams = useRedirectSearchParams();
 
   useEffect(() => {
     setState({ ...state, error: undefined });
   }, [pathname]);
-
-  const redirect = () => {
-    console.log("redirect", pathname);
-    setState({ ...state, redirect: pathname });
-    router.push("/login");
-  };
 
   const register = async (payload: TRegisterDto) => {
     try {
@@ -32,8 +29,7 @@ export function useAuth() {
         isAuthenticated: true,
         user,
       });
-      console.log(state);
-      router.push(state.redirect || "/");
+      router.push(redirectSearchParams.get("redirect") as string);
     } catch (error: any) {
       setState({ ...state, error: new Error(error.response.data) });
     }
@@ -47,8 +43,7 @@ export function useAuth() {
         isAuthenticated: true,
         user,
       });
-      console.log(state.redirect || "/");
-      router.push(state.redirect || "/");
+      router.push(redirectSearchParams.get("redirect") as string);
     } catch (error: any) {
       setState({ ...state, error: new Error(error.response.data) });
     }
@@ -57,6 +52,7 @@ export function useAuth() {
   function logout() {
     Cookies.remove("token");
     setState({ isAuthenticated: false });
+    router.push("/login");
   }
 
   const autoLogin = async () => {
@@ -70,6 +66,10 @@ export function useAuth() {
     } catch (error) {
       setState({ isAuthenticated: false });
     }
+  };
+
+  const redirect = () => {
+    router.push(`/login?${redirectSearchParams.toString()}`);
   };
 
   return {
