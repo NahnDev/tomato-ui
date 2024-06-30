@@ -9,6 +9,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { HotkeysProvider } from "react-hotkeys-hook";
 import { AppNavbar } from "@/components/AppNavbar";
 import clsx from "clsx";
+import { Suspense } from "react";
+import PageLoading from "@/components/share/PageLoading";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +26,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx([inter.className])}>
-        <div className="w-screen h-screen grid grid-rows-[auto_1fr]">
-          <AppNavbar />
-          <RecoilRootWrapper>{children}</RecoilRootWrapper>
-        </div>
+      <body className={clsx([inter.className, "text-slate-700"])}>
+        <RecoilRootWrapper>
+          <Suspense fallback={<PageLoading />}>
+            <div className="w-screen h-screen overflow-hidden grid grid-rows-[auto_1fr]">
+              <AppNavbar />
+              {children}
+            </div>
+          </Suspense>
+        </RecoilRootWrapper>
       </body>
     </html>
   );

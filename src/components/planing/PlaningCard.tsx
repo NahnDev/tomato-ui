@@ -1,26 +1,29 @@
 "use client";
 
 import clsx from "clsx";
-import { useState } from "react";
-import { TStatus } from "./store/type";
+import { useMemo, useState } from "react";
+import { useAuth } from "@/state/auth/hook";
+import { StoryStatus, TStory } from "@/types/plan";
 
 export type TPlaningCardProps = {
-  status: TStatus;
+  story: TStory;
+  onVote: (value: number) => void;
 };
 
 export const POINTS = [1, 2, 3, 5, 8, 13, 20, 40, 100];
 
 export default function PlaningCard(props: TPlaningCardProps) {
-  const [selected, setSelected] = useState<number>();
+  const { user } = useAuth();
+  const isVoteing = useMemo(() => props.story.status === StoryStatus.VOTING, [props.story.status]);
+  const votes = useMemo(() => props.story.votes ?? [], [props.story.votes]);
+  const vote = useMemo(() => votes.find((vote) => vote.user === user?._id), [votes, user]);
+
   return (
     <div
-      className={clsx([
-        "flex flex-row flex-wrap justify-center gap-4",
-        props.status === TStatus.Waiting && "pointer-events-none opacity-50",
-      ])}
+      className={clsx(["flex flex-row flex-wrap justify-center gap-4", !isVoteing && "pointer-events-none opacity-50"])}
     >
-      {POINTS.map((point) => (
-        <Card key={point} selected={selected === point} pointer={point} onClick={() => setSelected(point)} />
+      {POINTS.map((value) => (
+        <Card key={value} selected={vote?.value === value} pointer={value} onClick={() => props.onVote(value)} />
       ))}
     </div>
   );
