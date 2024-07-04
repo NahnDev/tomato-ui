@@ -1,17 +1,9 @@
-import { PropsWithChildren, useState } from "react";
+import React, { PropsWithChildren, ReactNode } from "react";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  SortableContext,
-  arrayMove,
-  sortableKeyboardCoordinates,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { SortableContext, arrayMove, useSortable, verticalListSortingStrategy } from "@dnd-kit/sortable";
 import {
   DndContext,
   closestCenter,
-  KeyboardSensor,
-  PointerSensor,
   useSensor,
   useSensors,
   DragEndEvent,
@@ -20,26 +12,34 @@ import {
   TouchSensor,
 } from "@dnd-kit/core";
 
-export function SortableItem(props: PropsWithChildren<{ id: UniqueIdentifier }>) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
+// export type SortableItemProps = PropsWithChildren<{
+//   id: UniqueIdentifier;
+//   draggable: boolean;
+//   handler: (
+//     activatorRef: ReturnType<typeof useSortable>["setActivatorNodeRef"],
+//     listeners: ReturnType<typeof useSortable>["listeners"]
+//   ) => ReactNode;
+// }>;
+// export function SortableItem(props: SortableItemProps) {
+//   const { attributes, listeners, setNodeRef, transform, transition, setActivatorNodeRef } = useSortable({
+//     id: props.id,
+//   });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+//   const style = {
+//     transform: CSS.Transform.toString(transform),
+//     transition,
+//   };
 
-  return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {props.children}
-    </div>
-  );
-}
+//   return <div ref={setNodeRef} style={style} {...attributes} {...listeners} draggable={props.draggable}>
 
-export default function Sortable(props: {
-  render: (id: UniqueIdentifier) => React.ReactNode;
+//   </div>;
+// }
+
+export type ListSortableProps = PropsWithChildren<{
   items: UniqueIdentifier[];
   setItems: (ids: UniqueIdentifier[]) => void;
-}) {
+}>;
+export default function ListSortable(props: ListSortableProps) {
   const sensors = useSensors(
     useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
     useSensor(TouchSensor)
@@ -48,22 +48,19 @@ export default function Sortable(props: {
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext items={props.items} strategy={verticalListSortingStrategy}>
-        {props.items.map((id) => (
-          <SortableItem key={id} id={id}>
-            {props.render(id)}
-          </SortableItem>
-        ))}
+        {props.children}
       </SortableContext>
     </DndContext>
   );
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-
     if (over?.id && active.id !== over.id) {
       const oldIndex = props.items.indexOf(active.id);
       const newIndex = props.items.indexOf(over.id);
-      props.setItems(arrayMove(props.items, oldIndex, newIndex));
+      const x = arrayMove(props.items, oldIndex, newIndex);
+      console.log("dsfasdfsa", x);
+      props.setItems(x);
     }
   }
 }

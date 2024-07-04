@@ -9,7 +9,7 @@ export type StateButtonProps = Readonly<
   {
     icon: IconProp;
     label: string;
-    loading: boolean;
+    loading?: boolean;
     iconProps?: FontAwesomeIconProps;
     labelProps?: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
   } & Omit<ButtonProps, "children">
@@ -28,7 +28,7 @@ export default function StateButton(props: StateButtonProps) {
         icon={loading ? faSpinner : props.icon}
         className={clsx([props.iconProps?.className, loading && "animate-spin"])}
       />
-      <span {...labelProps} className={clsx([labelProps?.className])}>
+      <span {...labelProps} className={clsx(["capitalize", labelProps?.className])}>
         {props.label}
       </span>
     </Button>

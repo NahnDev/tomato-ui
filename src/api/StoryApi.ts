@@ -1,4 +1,4 @@
-import { StoryStatus } from "@/types/plan";
+import { StoryStatus, TStory } from "@/types/plan";
 import { axiosInstance } from "./axios";
 
 export type CreateStoryDto = { title: string; planing: string };
@@ -11,7 +11,7 @@ export default class StoryApi {
   }
 
   static async sortStories(planing: string, ids: string[]) {
-    const response = await axiosInstance.put(`/stories`, { params: { sort: ids } });
+    const response = await axiosInstance.put(`/stories`, { sort: ids }, { params: { planing } });
     return response.data;
   }
 

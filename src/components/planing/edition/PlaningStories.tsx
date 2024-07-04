@@ -1,10 +1,10 @@
 import { Tab, Tabs, TabsBody, TabsHeader } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Suspense, useEffect, useState } from "react";
-import { TPlaning } from "@/types/plan";
+import { TPlaning, TStory } from "@/types/plan";
 import useQueryParam from "@/hooks/useQueryParam";
 import Drawer from "@/components/share/Drawer";
-import PlaningList from "./PlaningList";
+import PlaningList from "./ListStories";
 import { useRefreshPlaningStories } from "./stories";
 import PageLoader from "next/dist/client/page-loader";
 import PageLoading from "@/components/share/PageLoading";

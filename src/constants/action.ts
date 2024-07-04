@@ -1,8 +1,9 @@
 enum Action {
   ADD = "ADD",
   REMOVE = "REMOVE",
-  EDIT = "EDIT",
-  TOGGLE = "TOGGLE",
   PLAY = "PLAY",
+  EDIT = "EDIT",
+  FOCUS = "FOCUS",
+  BLUR = "BLUR",
 }
 export default Action;
