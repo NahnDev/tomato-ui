@@ -3,7 +3,7 @@ import StoryApi from "@/api/StoryApi";
 import useQueryParam from "@/hooks/useQueryParam";
 import { StoryStatus, TPlaning, TStory } from "@/types/plan";
 import { atomFamily, selector, selectorFamily, useRecoilCallback, useRecoilValue } from "recoil";
-import { version } from "../edition/stories";
+import { useRefreshPlaningStories } from "../edition/stories";
 
 export const currentStory = atomFamily({
   key: "currentStory",
@@ -53,10 +53,11 @@ export function useCurrentStoryHandler(planing: string) {
     return story;
   });
 
+  const refresh = useRefreshPlaningStories(planing);
   const focus = useRecoilCallback(({ set }) => async (storyId: string) => {
     const story = await PlaningApi.focus(planing, storyId);
     set(currentStory(planing), story);
-    set(version(planing), (v) => v + 1);
+    refresh();
     return story;
   });
 

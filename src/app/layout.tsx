@@ -28,12 +28,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={clsx([inter.className, "text-slate-700"])}>
         <RecoilRootWrapper>
-          <Suspense fallback={<PageLoading />}>
-            <div className="w-screen h-screen overflow-hidden grid grid-rows-[auto_1fr]">
-              <AppNavbar />
-              {children}
-            </div>
-          </Suspense>
+          <div className="w-screen h-screen overflow-hidden grid grid-rows-[auto_1fr]">
+            <AppNavbar />
+            {children}
+          </div>
         </RecoilRootWrapper>
       </body>
     </html>

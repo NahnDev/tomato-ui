@@ -9,10 +9,8 @@ export const metadata: Metadata = {
 };
 export default function PlaningLayout(props: PropsWithChildren<{}>) {
   return (
-    <Suspense fallback={<PageLoading />}>
-      <div className="fuild p-2 relative">
-        <AuthRequired>{props.children}</AuthRequired>
-      </div>
-    </Suspense>
+    <div className="fuild p-2 relative">
+      <AuthRequired>{props.children}</AuthRequired>
+    </div>
   );
 }

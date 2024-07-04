@@ -13,12 +13,14 @@ import { Button } from "@material-tailwind/react";
 import clsx from "clsx";
 import { TUser } from "@/types/TUser";
 import { StoryStatus, TPlaning, TStory } from "@/types/plan";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useCurrentStoryHandler } from "./store/story";
-import useTimeCouter from "@/hooks/useTimeCouter";
+import useTimeCountdown from "@/hooks/useTimeCountdown";
 import PlaningConstant from "@/constants/planing";
 import numeral from "numeral";
 import { useAuth } from "@/state/auth/hook";
+import useAudio from "react-use/lib/useAudio";
+import AsyncButton from "../share/button/AsyncButton";
 
 export type TPlaningVoteProps = {
   planing: TPlaning;
@@ -49,7 +51,7 @@ export default function PlaningVote(props: TPlaningVoteProps) {
       <div className="w-full bg-white rounded-lg overflow-hidden h-min max-h-full flex flex-col gap-2">
         <VoteStatus story={props.story} />
         {isMaster && <VoteControl story={props.story} />}
-        <Timer start={props.story.startAt} />
+        <Timer story={props.story} start={props.story.startAt} />
         <div className="flex-1 flex flex-col gap-2 overflow-y-hidden">
           <div className="flex flex-row gap-2 items-center  text-slate-700 px-2">
             <FontAwesomeIcon icon={faUsers} />
@@ -95,65 +97,48 @@ function VoteControl(props: TVoteControlProps) {
     <div className="p-2 flex flex-col gap-2">
       {isWaiting && (
         <div className="grid grid-cols-2 gap-2">
-          <Button className="flex flex-row gap-2 items-center justify-center bg-slate-500" size="sm" onClick={skip}>
-            <FontAwesomeIcon icon={faForward} />
-            <span className="capitalize">Skip</span>
-          </Button>
-          <Button className="flex flex-row gap-2 items-center justify-center bg-blue-500" size="sm" onClick={start}>
-            <FontAwesomeIcon icon={faPlay} />
-            <span className="capitalize">Start vote</span>
-          </Button>
+          <AsyncButton className="bg-slate-500" size="sm" onClick={skip} icon={faForward} label="Skip" />
+          <AsyncButton className="bg-blue-500" size="sm" onClick={start} icon={faPlay} label="Start vote" />
         </div>
       )}
       {isVoting && (
         <div className="grid grid-cols-2 gap-2">
-          <Button className="flex flex-row gap-2 items-center justify-center bg-slate-500" size="sm" onClick={reset}>
-            <FontAwesomeIcon icon={faUndo} />
-            <span className="capitalize">Retry</span>
-          </Button>
-          <Button className="flex flex-row gap-2 items-center justify-center bg-red-500" size="sm" onClick={finish}>
-            <FontAwesomeIcon icon={faRightFromBracket} />
-            <span className="capitalize">Finish</span>
-          </Button>
+          <AsyncButton className="bg-slate-500" size="sm" onClick={reset} icon={faUndo} label="Retry" />
+          <AsyncButton className="bg-red-500" size="sm" onClick={finish} icon={faRightFromBracket} label="Finish" />
         </div>
       )}
       {isFinished && (
         <div className="grid grid-cols-2 gap-2">
-          <Button className="flex flex-row gap-2 items-center justify-center bg-slate-500" size="sm" onClick={reset}>
-            <FontAwesomeIcon icon={faUndo} />
-            <span className="capitalize">Retry</span>
-          </Button>
-          <Button className="flex flex-row gap-2 items-center justify-center bg-red-500" size="sm" onClick={next}>
-            <FontAwesomeIcon icon={faChevronCircleRight} />
-            <span className="capitalize">Next</span>
-          </Button>
+          <AsyncButton className="bg-slate-500" size="sm" onClick={reset} icon={faUndo} label="Retry" />
+          <AsyncButton className="bg-red-500" size="sm" onClick={next} icon={faChevronCircleRight} label="Next" />
         </div>
       )}
       {isSkipped && (
         <div className="grid grid-cols-2 gap-2">
-          <Button className="flex flex-row gap-2 items-center justify-center bg-slate-500" size="sm" onClick={reset}>
-            <FontAwesomeIcon icon={faUndo} />
-            <span className="capitalize">Retry</span>
-          </Button>
-          <Button className="flex flex-row gap-2 items-center justify-center bg-red-500" size="sm" onClick={next}>
-            <FontAwesomeIcon icon={faChevronCircleRight} />
-            <span className="capitalize">Next</span>
-          </Button>
+          <AsyncButton className="bg-slate-500" size="sm" onClick={reset} icon={faUndo} label="Retry" />
+          <AsyncButton className="bg-red-500" size="sm" onClick={next} icon={faChevronCircleRight} label="Next" />
         </div>
       )}
     </div>
   );
 }
 
-function Timer(props: { start?: number }) {
-  const format = useTimeCouter(PlaningConstant.Remaining, props.start);
+function Timer(props: { start?: number; story: TStory }) {
+  const [audio, state, controls, ref] = useAudio({ src: "/audio/clock.mp3" });
+  const isVoting = useMemo(() => props.story.status === StoryStatus.VOTING, [props.story.status]);
+  const [format, isPlaying] = useTimeCountdown(isVoting, props.start ?? 0, PlaningConstant.Remaining);
+
+  useEffect(() => {
+    isPlaying ? controls.play() : controls.pause();
+  }, [isPlaying, controls]);
 
   return (
     <div className="flex flex-row justify-between px-2">
+      <div className="hidden">{audio}</div>
       <div></div>
       <div className={clsx(["text-slate-900 p-2 text-lg", "flex flex-row items-center gap-2"])}>
         <FontAwesomeIcon className="text-base" icon={faClock} />
-        <span>{format}</span>
+        <span>{isVoting ? format : "--:--:--"}</span>
       </div>
     </div>
   );

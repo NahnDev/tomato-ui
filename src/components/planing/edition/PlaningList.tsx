@@ -1,14 +1,12 @@
 import { StoryStatus, TPlaning, TStory } from "@/types/plan";
-import { use, useMemo, useRef, useState } from "react";
-import { Button, Dialog, IconButton, Input, Textarea } from "@material-tailwind/react";
+import { useMemo, useRef, useState } from "react";
+import { IconButton, Input } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
-  faCircle,
   faForward,
   faGripVertical,
   faHand,
-  faHourglass,
   faPlay,
   faPlus,
   faRotateBackward,
@@ -18,7 +16,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Sortable from "@/components/share/Sortable";
 import {
-  storiesState,
   useStories,
   useStoryCreateHandler,
   useStoryDeleteHandler,
@@ -28,8 +25,6 @@ import {
 import Action from "@/constants/action";
 import { useForm } from "react-hook-form";
 import clsx from "clsx";
-import { set } from "js-cookie";
-import { useResetRecoilState } from "recoil";
 import { useCurrentStoryHandler } from "../store/story";
 
 export default function PlaningList(props: { planing: TPlaning }) {
@@ -37,31 +32,26 @@ export default function PlaningList(props: { planing: TPlaning }) {
   const [selected, setSelected] = useState<TStory>();
 
   const { focus } = useCurrentStoryHandler(props.planing._id);
-  const reset = useResetRecoilState(storiesState(props.planing._id));
   const stories = useStories(props.planing);
-  const create = useStoryCreateHandler(props.planing, () => {
+  const create = useStoryCreateHandler(props.planing._id, () => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
   });
-  const modify = useStoryUpdateHandler(props.planing, () => {
+  const modify = useStoryUpdateHandler(props.planing._id, () => {
     setSelected(undefined);
   });
-  const remove = useStoryDeleteHandler(props.planing, () => {});
-  const sort = useStoryStortHandler(props.planing, () => {});
+  const remove = useStoryDeleteHandler(props.planing._id, () => {});
+  const sort = useStoryStortHandler(props.planing._id, () => {});
 
   const handleAction = (action: Action, story: TStory) => {
     switch (action) {
       case Action.REMOVE:
-        remove(story._id);
-        break;
+        return remove(story._id);
       case Action.TOGGLE:
-        setSelected(story);
-        break;
+        return setSelected(story);
       case Action.PLAY:
-        focus(story._id);
-        reset();
-        break;
+        return focus(story._id);
     }
   };
 
@@ -115,7 +105,7 @@ function PlaningThumbnail(props: TPlaningThumbnailProps) {
 
   const action = (action: Action) => () => {
     if (isFinished) return;
-    props.onAction(action);
+    return props.onAction(action);
   };
 
   return (
@@ -140,8 +130,14 @@ function PlaningThumbnail(props: TPlaningThumbnailProps) {
           </IconButton>
         )}
         <div className="relative p-2 w-10">
+          {isWaiting && !isCurrent && (
+            <FontAwesomeIcon
+              icon={faPlay}
+              onClick={action(Action.PLAY)}
+              className="hover:animate-pulse active:opacity-50 rounded-full"
+            />
+          )}
           {isWaiting && isCurrent && <FontAwesomeIcon className="animate-spin text-blue-500" icon={faSpinner} />}
-          {isWaiting && !isCurrent && <FontAwesomeIcon icon={faPlay} onClick={action(Action.PLAY)} />}
           {isSkipped && isCurrent && <FontAwesomeIcon className="animate-spin text-blue-500" icon={faSpinner} />}
           {isSkipped && !isCurrent && <FontAwesomeIcon icon={faRotateBackward} onClick={action(Action.PLAY)} />}
           {isVoting && <FontAwesomeIcon className="text-green-500 animate-pulse" icon={faHand} />}

@@ -14,26 +14,26 @@ export default function PlaningSocket(props: PropsWithChildren<{ planing: TPlani
   const setCurrentStory = useSetRecoilState(currentStory(props.planing._id));
   const setPlaning = useSetRecoilState(currentPlaningState(props.planing._id));
 
-  useEffect(() => {
-    socket.current = io(`${WS_URL}/planing`, {
-      secure: true,
-      auth: { token: Cookies.get("token") },
-      query: { planing: props.planing._id },
-    });
-    socket.current.on("connect", () => {
-      console.log("connected");
-      socket.current?.on(PlaningEvents.VOTING_CHANGED, (story) => {
-        console.log("current story changed", story);
-        setCurrentStory(story);
-      });
-      socket.current?.on(PlaningEvents.PLANING_CHANGED, (planing) => {
-        setPlaning(planing);
-      });
-    });
-    return () => {
-      socket.current?.disconnect();
-    };
-  }, []);
+  // useEffect(() => {
+  //   socket.current = io(`${WS_URL}/planing`, {
+  //     secure: true,
+  //     auth: { token: Cookies.get("token") },
+  //     query: { planing: props.planing._id },
+  //   });
+  //   socket.current.on("connect", () => {
+  //     console.log("connected");
+  //     socket.current?.on(PlaningEvents.VOTING_CHANGED, (story) => {
+  //       console.log("current story changed", story);
+  //       setCurrentStory(story);
+  //     });
+  //     socket.current?.on(PlaningEvents.PLANING_CHANGED, (planing) => {
+  //       setPlaning(planing);
+  //     });
+  //   });
+  //   return () => {
+  //     socket.current?.disconnect();
+  //   };
+  // }, []);
 
   return props.children;
 }

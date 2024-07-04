@@ -1,14 +1,14 @@
-import { Tab, TabPanel, Tabs, TabsBody, TabsHeader } from "@material-tailwind/react";
+import { Tab, Tabs, TabsBody, TabsHeader } from "@material-tailwind/react";
 import clsx from "clsx";
-import { Suspense, useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { TPlaning } from "@/types/plan";
 import useQueryParam from "@/hooks/useQueryParam";
 import Drawer from "@/components/share/Drawer";
 import PlaningList from "./PlaningList";
-import { useSetRecoilState } from "recoil";
-import { useRefreshPlaningStories, version } from "./stories";
+import { useRefreshPlaningStories } from "./stories";
 import PageLoader from "next/dist/client/page-loader";
 import PageLoading from "@/components/share/PageLoading";
+import EditionTask from "./EditionTask";
 
 enum TTabs {
   Stories = "stories",
@@ -18,7 +18,7 @@ enum TTabs {
 export default function PlaningStories(props: { planing: TPlaning }) {
   const [menu, setMenu] = useQueryParam<"open" | "close">("menu");
   const [activeTab, setActiveTab] = useState<TTabs>(TTabs.Stories);
-  const refresh = useRefreshPlaningStories(props.planing);
+  const refresh = useRefreshPlaningStories(props.planing._id);
 
   useEffect(() => {
     if (menu === "open") refresh();
@@ -26,7 +26,7 @@ export default function PlaningStories(props: { planing: TPlaning }) {
 
   return (
     <Drawer open={menu === "open"} onClose={() => setMenu("close")} className="h-full w-[60em] max-w-full shadow-lg">
-      <div className={clsx(["w-full h-full"])}>
+      <div className={clsx(["w-full h-full relative]"])}>
         <Tabs value={activeTab} className="fluid grid grid-rows-[auto_1fr]">
           <TabsHeader
             className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"
@@ -54,14 +54,13 @@ export default function PlaningStories(props: { planing: TPlaning }) {
             </Tab>
           </TabsHeader>
           <TabsBody className="fluid">
-            {TTabs.Stories === activeTab && (
-              <Suspense fallback={<PageLoading />}>
-                <PlaningList planing={props.planing} />
-              </Suspense>
-            )}
-            {TTabs.Finished === activeTab && <div></div>}
+            <Suspense fallback={<PageLoading />}>
+              {TTabs.Stories === activeTab && <PlaningList planing={props.planing} />}
+              {TTabs.Finished === activeTab && <div></div>}{" "}
+            </Suspense>
           </TabsBody>
         </Tabs>
+        <EditionTask />
       </div>
     </Drawer>
   );

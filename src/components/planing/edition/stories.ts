@@ -1,7 +1,7 @@
 import { TPlaning, TStory } from "@/types/plan";
 import { atomFamily, selectorFamily, useRecoilCallback, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import StoryApi from "@/api/StoryApi";
-import ApiStatus from "@/enums/ApiStatus";
+import { useTaskWrapper, useTasks } from "@/state/task/taskAtom";
 
 export type TStoryState = { data: TStory[] };
 
@@ -24,23 +24,26 @@ export function useStories(planing: TPlaning) {
   return useRecoilValue(storiesState(planing._id)).data;
 }
 
-export function useStoryCreateHandler(planing: TPlaning, callback: () => void) {
+export function useStoryCreateHandler(planing: TPlaning["_id"], callback: () => void) {
   const refresh = useRefreshPlaningStories(planing);
-  return useRecoilCallback(({ set, snapshot }) => async (payload: Pick<TStory, "title">) => {
-    if (!planing) return;
-    const story = await StoryApi.create({ ...payload, planing: planing._id });
-    set(storiesState(planing._id), (s) => ({ ...s, data: [...s.data, story] }));
-    refresh();
-    callback();
-  });
+  const { wrapper } = useTaskWrapper("stories", "Creating story");
+  return useRecoilCallback(({ set, snapshot }) =>
+    wrapper(async (payload: Pick<TStory, "title">) => {
+      if (!planing) return;
+      const story = await StoryApi.create({ ...payload, planing: planing });
+      set(storiesState(planing), (s) => ({ ...s, data: [...s.data, story] }));
+      refresh();
+      callback();
+    })
+  );
 }
 
-export function useStoryUpdateHandler(planing: TPlaning, callback: () => void) {
+export function useStoryUpdateHandler(planing: TPlaning["_id"], callback: () => void) {
   const refresh = useRefreshPlaningStories(planing);
   return useRecoilCallback(({ set, snapshot }) => async (storyId: string, payload: Partial<Pick<TStory, "title">>) => {
     await StoryApi.updateOne(storyId, payload);
-    const stories = await snapshot.getPromise(storiesState(planing._id));
-    set(storiesState(planing._id), {
+    const stories = await snapshot.getPromise(storiesState(planing));
+    set(storiesState(planing), {
       ...stories,
       data: stories.data.map((s) => (s._id === storyId ? { ...s, ...payload } : s)),
     });
@@ -49,31 +52,32 @@ export function useStoryUpdateHandler(planing: TPlaning, callback: () => void) {
   });
 }
 
-export function useStoryDeleteHandler(planing: TPlaning, callback: () => void) {
+export function useStoryDeleteHandler(planing: TPlaning["_id"], callback: () => void) {
   const refresh = useRefreshPlaningStories(planing);
   return useRecoilCallback(({ set, snapshot }) => async (storyId: string) => {
     await StoryApi.deleteOne(storyId);
-    const stories = await snapshot.getPromise(storiesState(planing._id));
-    set(storiesState(planing._id), { ...stories, data: stories.data.filter((s) => s._id !== storyId) });
+    const stories = await snapshot.getPromise(storiesState(planing));
+    set(storiesState(planing), { ...stories, data: stories.data.filter((s) => s._id !== storyId) });
     refresh();
     callback();
   });
 }
 
-export function useStoryStortHandler(planing: TPlaning, callback: () => void) {
+export function useStoryStortHandler(planing: TPlaning["_id"], callback: () => void) {
   const refresh = useRefreshPlaningStories(planing);
   return useRecoilCallback(({ set, snapshot }) => async (ids: string[]) => {
-    await StoryApi.sortStories(planing._id, ids);
-    const stories = await snapshot.getPromise(storiesState(planing._id));
+    await StoryApi.sortStories(planing, ids);
+    const stories = await snapshot.getPromise(storiesState(planing));
     const data = ids.map((id) => stories.data.find((s) => s._id === id)!);
-    set(storiesState(planing._id), { ...stories, data });
+    set(storiesState(planing), { ...stories, data });
     refresh();
     callback();
   });
 }
 
-export function useRefreshPlaningStories(planing: TPlaning) {
+export function useRefreshPlaningStories(planing: TPlaning["_id"]) {
   return useRecoilCallback(({ set }) => async () => {
-    set(version(planing._id), (v) => v + 1);
+    const data = await StoryApi.getByPlan(planing);
+    set(storiesState(planing), (prev) => ({ ...prev, data }));
   });
 }
