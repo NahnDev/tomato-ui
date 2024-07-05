@@ -8,19 +8,34 @@ export type TDrawerProps = PropsWithChildren<{ open: boolean; onClose: () => voi
 export default function Drawer(props: TDrawerProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useHotkeys("esc", () => props.open && props.onClose());
-  useOnClickOutside(ref, props.onClose);
+  // useHotkeys("esc", () => props.open && props.onClose());
+  // useOnClickOutside(ref, props.onClose);
+
+  // return (
+  //   <div
+  //     className={clsx([
+  //       "fixed top-0 left-0 w-screen h-screen z-50",
+  //       "pointer-events-auto cursor-pointer",
+  //       props.open ? "hidden" : "grid",
+  //       "bg-red-500",
+  //     ])}
+  //     onClick={props.onClose}
+  //   ></div>
+  // );
 
   return (
     <div
       ref={ref}
       className={clsx(
-        "fixed top-0 right-0 z-50 bg-white shadow-xl transition-transform transform duration-1000",
-        props.open ? "translate-x-0" : "translate-x-full",
-        props.className
+        "grid grid-cols-[1fr_auto] fixed",
+        "top-0 left-0  w-screen h-screen duration-1000 z-40",
+        props.open ? "translate-x-0" : "translate-x-full"
       )}
     >
-      {props.open && props.children}
+      <div onClick={props.onClose}></div>
+      <div className={clsx(["shadow-xl transition-transform transform", "bg-white", props.className])}>
+        {props.open && props.children}
+      </div>
     </div>
   );
 }

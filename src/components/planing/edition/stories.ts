@@ -79,8 +79,9 @@ export function useStorySortHandler(planing: TPlaning["_id"], callback: () => vo
 }
 
 export function useRefreshPlaningStories(planing: TPlaning["_id"]) {
-  return useRecoilCallback(({ set }) => async () => {
+  return useRecoilCallback(({ set, snapshot }) => async () => {
     const data = await StoryApi.getByPlan(planing);
+    snapshot.getPromise(version(planing));
     set(storiesState(planing), (prev) => ({ ...prev, data }));
   });
 }

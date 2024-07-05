@@ -6,11 +6,8 @@ config.autoAddCss = false;
 
 import "./globals.css";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { HotkeysProvider } from "react-hotkeys-hook";
 import { AppNavbar } from "@/components/AppNavbar";
 import clsx from "clsx";
-import { Suspense } from "react";
-import PageLoading from "@/components/share/PageLoading";
 
 const inter = Inter({ subsets: ["latin"] });
 

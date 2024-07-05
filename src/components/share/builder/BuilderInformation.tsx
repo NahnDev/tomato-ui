@@ -26,7 +26,6 @@ export default function BuilderInformation() {
             className="-rotate-90"
             icon={faArrowUpWideShort}
             active={setting.compactType === CompactType.Horizontal}
-            desc="Allow left"
             onClick={() => setSetting({ ...setting, compactType: CompactType.Horizontal })}
           />
 

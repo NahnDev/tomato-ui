@@ -18,6 +18,8 @@ import AsyncButton from "@/components/share/button/AsyncButton";
 import StateButton from "@/components/share/button/StateButton";
 import { faJira } from "@fortawesome/free-brands-svg-icons";
 import PlaningThumbnail from "./StoryThumbnail";
+import AddFromExcel from "./AddFromExcel";
+import { useBoolean } from "usehooks-ts";
 
 export default function PlaningList(props: { planing: TPlaning }) {
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -47,12 +49,19 @@ export default function PlaningList(props: { planing: TPlaning }) {
         return focus(story._id);
     }
   };
+  const { value: excelImporterShown, toggle: toggleExcelImpoterShown } = useBoolean(false);
 
   return (
     <div className="fluid grid grid-rows-[auto_1fr] gap-2 p-2">
       <div className="p-2 gap-2 flex flex-row">
         <AsyncButton label="Add story" icon={faAdd} size="sm" color="blue-gray" onClick={create} />
-        <StateButton label="Import from Excel" icon={faFileExcel} size="sm" className="bg-[#188844]" />
+        <StateButton
+          label="Import from Excel"
+          icon={faFileExcel}
+          size="sm"
+          className="bg-[#188844]"
+          onClick={toggleExcelImpoterShown}
+        />
         <StateButton label="Import from Jira" icon={faJira} size="sm" color="blue" />
       </div>
       <div className="w-full h-full overflow-y-auto overflow-x-hidden relative">
@@ -71,6 +80,7 @@ export default function PlaningList(props: { planing: TPlaning }) {
         </ListSortable>
         <div ref={bottomRef}></div>
       </div>
+      {excelImporterShown && <AddFromExcel />}
     </div>
   );
 }
