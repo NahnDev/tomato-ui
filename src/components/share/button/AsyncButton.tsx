@@ -8,8 +8,8 @@ import useAsyncFn from "react-use/lib/useAsyncFn";
 
 export type AsyncButtonProps = Readonly<
   {
-    icon: IconProp;
-    label: string;
+    icon?: IconProp;
+    label?: string;
     onClick: () => Promise<any>;
     iconProps?: FontAwesomeIconProps;
     labelProps?: DetailedHTMLProps<HTMLAttributes<HTMLSpanElement>, HTMLSpanElement>;
@@ -27,13 +27,17 @@ export default function AsyncButton(props: AsyncButtonProps) {
       onClick={handler}
       disabled={props.disabled || state.loading}
     >
-      <FontAwesomeIcon
-        icon={state.loading ? faSpinner : props.icon}
-        className={clsx([props.iconProps?.className, state.loading && "animate-spin"])}
-      />
-      <span {...labelProps} className={clsx(["capitalize", labelProps?.className])}>
-        {props.label}
-      </span>
+      {props.icon && (
+        <FontAwesomeIcon
+          icon={state.loading ? faSpinner : props.icon}
+          className={clsx([props.iconProps?.className, state.loading && "animate-spin"])}
+        />
+      )}
+      {props.label && (
+        <span {...labelProps} className={clsx(["capitalize", labelProps?.className])}>
+          {props.label}
+        </span>
+      )}
     </Button>
   );
 }

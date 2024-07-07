@@ -54,12 +54,12 @@ export default function ListSortable(props: ListSortableProps) {
   );
 
   function handleDragEnd(event: DragEndEvent) {
+    console.log(event);
     const { active, over } = event;
     if (over?.id && active.id !== over.id) {
       const oldIndex = props.items.indexOf(active.id);
       const newIndex = props.items.indexOf(over.id);
       const x = arrayMove(props.items, oldIndex, newIndex);
-      console.log("dsfasdfsa", x);
       props.setItems(x);
     }
   }
