@@ -1,5 +1,5 @@
 import { useDrop, useDrag, ConnectDropTarget } from "react-dnd";
-import { TResourceItem } from "./seed";
+import { TResourceItem } from "./type";
 import { useEffect } from "react";
 import { useDebounceCallback } from "usehooks-ts";
 

@@ -1,13 +1,14 @@
 import clsx from "clsx";
 import ResourceIcon from "./ResourceIcon";
 import { useIsEditing, useIsSelected, useResouceMoveHandler, useResources, useResourceUpdateHandler } from "./state";
-import { ROOT_DIRECTORY, TResourceItem } from "./seed";
+import { ROOT_DIRECTORY, TResourceItem } from "./type";
 import { KeyboardEventHandler, MouseEventHandler, useEffect, useMemo, useState } from "react";
 import { useBoolean, useDebounceCallback } from "usehooks-ts";
 import IconButton from "../share/button/IconButton";
 import { faCaretLeft, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useOverCallback, useResourceDrag, useResourceDrop } from "./hooks";
+import { useResourcesFiflter } from "./ResourceProvider";
 
 export type TResourceItemProps = {
   item: TResourceItem;
@@ -86,13 +87,14 @@ export default function ResourceItem(props: TResourceItemProps) {
 
 export function ResourceChildren(props: { directory: TResourceItem["directory"] }) {
   const [children, isLoading] = useResources(props.directory ?? ROOT_DIRECTORY);
+  const resources = useResourcesFiflter(children);
   return (
     <div className="pl-5">
       <div className="flex flex-col border-l-[1px] border-slate-200 gap-[1px]">
         {isLoading ? (
           <FontAwesomeIcon icon={faSpinner} className="text-xs animate-spin p-2" />
         ) : (
-          children.map((item) => <ResourceItem key={item._id} item={item} />)
+          resources.map((item) => <ResourceItem key={item._id} item={item} />)
         )}
       </div>
     </div>

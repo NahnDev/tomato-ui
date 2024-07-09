@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/api/axios";
-import { TResourceItem, items } from "./seed";
+import { TResourceItem } from "./type";
 import { AxiosProgressEvent } from "axios";
 
 export type TCreateResourcePayload = Pick<TResourceItem, "title" | "directory">;
@@ -33,10 +33,18 @@ export default class ResourceApi {
   ) {
     const formData = new FormData();
     formData.append("file", file);
-    const response = await axiosInstance.post(`/upload/`, formData, {
+    const response = await axiosInstance.post(`/resource-files/`, formData, {
       params: { directory },
       onUploadProgress,
       timeout: 180 * 1000,
+    });
+    return response.data;
+  }
+
+  static async downloadFile(id: string, onDownloadProgress?: (progressEvent: AxiosProgressEvent) => void) {
+    const response = await axiosInstance.get(`/resource-files/${id}`, {
+      responseType: "blob",
+      onDownloadProgress: onDownloadProgress,
     });
     return response.data;
   }

@@ -1,16 +1,17 @@
 import { faCheckCircle, faPaperclip, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dialog, Input } from "@material-tailwind/react";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import ResourceExplorer from "./ResourceExplorer";
 import IconButton from "../share/button/IconButton";
 import { useResourceSelected } from "./state";
-import { TResourceItem } from "./seed";
+import { TResourceItem } from "./type";
 
 export type TResourcePickerProps = {
   onClose?: () => any;
   onSubmit?: (item: TResourceItem) => any;
+  filter?: RegExp;
 };
 export default function ResourcePicker(props: TResourcePickerProps) {
   return (
@@ -21,7 +22,7 @@ export default function ResourcePicker(props: TResourcePickerProps) {
       size="sm"
     >
       <div className="grid grid-rows-[1fr_auto] fluid">
-        <ResourceExplorer onClose={props.onClose} />
+        <ResourceExplorer onClose={props.onClose} filter={props.filter} />
         <Picked onSubmit={props.onSubmit}></Picked>
       </div>
     </Dialog>
@@ -49,6 +50,7 @@ export function UploaderFile(props: { onDrop: (files: File[]) => void }) {
 
 export function Picked(props: { onSubmit?: (item: TResourceItem) => any }) {
   const [resource] = useResourceSelected();
+  const file = useMemo(() => (resource?.isDirectory ? undefined : resource), [resource]);
   return (
     <div className="w-full p-4 flex flex-row gap-2 items-center">
       <Input
@@ -56,12 +58,12 @@ export function Picked(props: { onSubmit?: (item: TResourceItem) => any }) {
         icon={<FontAwesomeIcon icon={faPaperclip} />}
         readOnly
         label="File selected"
-        value={resource?.title ?? ""}
+        value={file?.title ?? ""}
       ></Input>
       <IconButton
         icon={faCheckCircle}
         className="text-green-500 text-lg"
-        onClick={() => props.onSubmit?.(resource!)}
+        onClick={() => props.onSubmit?.(file!)}
         disabled={!resource}
       />
     </div>

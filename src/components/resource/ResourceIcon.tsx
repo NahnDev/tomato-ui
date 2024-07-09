@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import { useMemo } from "react";
-import { TResourceItem } from "./seed";
+import { TResourceItem } from "./type";
 import clsx from "clsx";
 
 export enum FileTypes {

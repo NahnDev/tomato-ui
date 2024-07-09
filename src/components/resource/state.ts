@@ -6,11 +6,10 @@ import {
   selectorFamily,
   useRecoilCallback,
   useRecoilState,
-  useRecoilValue,
   useRecoilValueLoadable,
 } from "recoil";
 import ResourceApi, { TUpdateResourcePayload } from "./api";
-import { ROOT_DIRECTORY, TResourceItem } from "./seed";
+import { ROOT_DIRECTORY, TResourceItem } from "./type";
 import { useTaskWrapper } from "@/state/task/taskAtom";
 import { useMemo } from "react";
 import { AxiosProgressEvent } from "axios";
@@ -33,7 +32,7 @@ export function useResources(id: string) {
 }
 
 export const resourceSelectedState = atom({
-  key: "resourceSelected",
+  key: "resource/selected",
   default: {} as {
     item?: TResourceItem;
     editing: boolean;
@@ -41,7 +40,7 @@ export const resourceSelectedState = atom({
 });
 
 export const selectedSelector = selector({
-  key: "selectedResource",
+  key: "selected/resource",
   get: ({ get }) => get(resourceSelectedState).item,
   set: ({ set }, newValue) => {
     if (newValue instanceof DefaultValue) return;
@@ -123,6 +122,7 @@ export function useResourceRemoveHandler(callback: () => void) {
     })
   );
 }
+
 export function useResourceUploadHandler(onProgress: (progressEvent: AxiosProgressEvent) => any) {
   const { wrapper } = useTaskWrapper("resource", "Uploading");
   return useRecoilCallback(({ set, snapshot }) =>
@@ -139,6 +139,26 @@ export function useResourceUploadHandler(onProgress: (progressEvent: AxiosProgre
         });
       }
       set(resourceSelectedState, (prevState) => ({ ...prevState, item: resource, editing: false }));
+    })
+  );
+}
+
+export function useResourceDownloadHandler(onProgress: (progressEvent: AxiosProgressEvent) => any) {
+  const { wrapper } = useTaskWrapper("resource", "Uploading");
+  return useRecoilCallback(({ set, snapshot }) =>
+    wrapper(async () => {
+      const selected = await snapshot.getPromise(selectedSelector);
+      if (!selected || selected?.isDirectory) return;
+
+      const resource = await ResourceApi.downloadFile(selected._id, onProgress);
+      console.log(resource);
+      const url = window.URL.createObjectURL(new Blob([resource]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", selected.title);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
     })
   );
 }
