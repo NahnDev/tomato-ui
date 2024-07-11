@@ -3,12 +3,17 @@ import { TResourceItem } from "./type";
 
 type TExplorerContext = {
   filter?: RegExp;
+  search?: string;
 };
 
 export const ExplorerContext = React.createContext<TExplorerContext>({});
 
 export default function ResourceProvider(props: PropsWithChildren<TExplorerContext>) {
-  return <ExplorerContext.Provider value={{ filter: props.filter }}>{props.children}</ExplorerContext.Provider>;
+  return (
+    <ExplorerContext.Provider value={{ filter: props.filter, search: props.search }}>
+      {props.children}
+    </ExplorerContext.Provider>
+  );
 }
 
 export function useResourcesFiflter(resources: TResourceItem[]) {

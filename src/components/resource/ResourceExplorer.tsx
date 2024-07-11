@@ -1,3 +1,5 @@
+"use client";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ROOT_DIRECTORY } from "./type";
 import {
@@ -24,11 +26,13 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useResetRecoilState } from "recoil";
 import ResourceProvider from "./ResourceProvider";
+import { useDebounceCallback } from "usehooks-ts";
 export type TResourceExplorerProps = {
   onClose?: () => void;
   filter?: RegExp;
 };
 export default function ResourceExplorer(props: TResourceExplorerProps) {
+  const [search, setSearch] = useState<string>();
   const reset = useResetRecoilState(resourceSelectedState);
 
   useEffect(() => {
@@ -36,9 +40,9 @@ export default function ResourceExplorer(props: TResourceExplorerProps) {
   }, []);
 
   return (
-    <ResourceProvider filter={props.filter}>
+    <ResourceProvider filter={props.filter} search={search}>
       <div className="fluid rounded-lg p-2 grid grid-rows-[auto_1fr]">
-        <Actions onClose={props.onClose} />
+        <Actions onClose={props.onClose} onSearch={setSearch} />
         <div className="flex flex-col gap-2 p-2 text-sm h-full overflow-auto">
           <div className="flex flex-row gap-2 p-2 items-center text-blue-500">
             <FontAwesomeIcon icon={faLayerGroup} />
@@ -55,6 +59,7 @@ export default function ResourceExplorer(props: TResourceExplorerProps) {
 
 export type TActionProps = {
   onClose?: () => void;
+  onSearch: (search: string) => void;
 };
 
 export function Actions(props: TActionProps) {
@@ -64,11 +69,13 @@ export function Actions(props: TActionProps) {
   const remove = useResourceRemoveHandler(() => {});
   const download = useResourceDownloadHandler(() => {});
 
+  const search = useDebounceCallback(props.onSearch, 500);
+
   return (
     <div className="p-2 flex flex-row gap-1 items-center">
       <div className="flex-1 h-10 px-2">
         {searching ? (
-          <InlineInput placeholder="Search" />
+          <InlineInput placeholder="Search" onChange={(e) => search(e.target.value)} />
         ) : (
           <div className="flex flex-row gap-1">
             <UploadButton />
@@ -79,7 +86,7 @@ export function Actions(props: TActionProps) {
         )}
       </div>
       <IconButton icon={faSearch} onClick={() => setSearching(!searching)} />
-      <IconButton icon={faXmarkCircle} onClick={props.onClose} />
+      {props.onClose && <IconButton icon={faXmarkCircle} onClick={props.onClose} />}
     </div>
   );
 }

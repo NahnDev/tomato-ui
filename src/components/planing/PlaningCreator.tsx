@@ -8,6 +8,10 @@ import { useRouter } from "next/navigation";
 import { usePlaningCreateHandler } from "./store/planing";
 import useAsyncFn from "react-use/lib/useAsyncFn";
 import StateButton from "../share/button/StateButton";
+import WaterWave from "../share/WaterWave";
+import Image from "next/image";
+import bg from "@/assets/meeting.jpg";
+import { url } from "inspector";
 
 export default function PlaningCreator() {
   const router = useRouter();
@@ -16,11 +20,13 @@ export default function PlaningCreator() {
   const [{ loading }, handle] = useAsyncFn(handleCreate);
 
   return (
-    <div className="fluid flex items-center justify-center">
-      <div className="w-[40em] p-8 rounded-lg bg-white ">
-        <form onSubmit={handleSubmit(handle as any)}>
-          <h6 className="text-xl text-slate-900 pb-8">Create your planing</h6>
-          <div className="flex flex-row gap-2">
+    <div className="fluid max-w-[70%] p-2">
+      <div className="fluid  flex flex-col items-center justify-center rounded-lg bg-white p-2 relative z-0">
+        <form onSubmit={handleSubmit(handle as any)} className="flex flex-col items-center gap-10">
+          <div className=" px-10 hover:scale-105 duration-1000">
+            <h6 className="text-[6em] text-red-500 font-bold ">Create your planing</h6>
+          </div>
+          <div className="flex flex-row gap-2 w-[30em] hover:scale-105 duration-1000 text-xl">
             <div className="flex-[2]">
               <Input
                 label="Name of planing/room *"

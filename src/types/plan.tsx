@@ -5,6 +5,7 @@ export type TPlaning = {
   title: string;
   users: TUser[];
   masters: TUser[];
+  color: string;
 };
 
 export enum StoryStatus {

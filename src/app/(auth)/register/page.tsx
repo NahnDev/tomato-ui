@@ -18,6 +18,7 @@ import { useForm } from "react-hook-form";
 import { TRegisterDto } from "@/types/TUser";
 import { PASSWORD_REGEX } from "@/constants/regexp";
 import { useRouter } from "next/navigation";
+import Page from "@/components/Page";
 
 const RegisterPage = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-gray-50">
+    <Page className="flex items-center justify-center h-full bg-gray-50">
       <div className="w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit as any)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="py-8">
@@ -123,7 +124,7 @@ const RegisterPage = () => {
           </div>
         </form>
       </div>
-    </div>
+    </Page>
   );
 };
 

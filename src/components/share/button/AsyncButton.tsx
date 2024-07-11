@@ -1,9 +1,9 @@
+import clsx from "clsx";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon, FontAwesomeIconProps } from "@fortawesome/react-fontawesome";
 import { Button, ButtonProps } from "@material-tailwind/react";
-import clsx from "clsx";
-import { DetailedHTMLProps, HTMLAttributes, PropsWithChildren, ReactNode, use, useRef } from "react";
+import { DetailedHTMLProps, HTMLAttributes } from "react";
 import useAsyncFn from "react-use/lib/useAsyncFn";
 
 export type AsyncButtonProps = Readonly<
@@ -18,7 +18,7 @@ export type AsyncButtonProps = Readonly<
 
 export default function AsyncButton(props: AsyncButtonProps) {
   const { icon, label, onClick, iconProps, labelProps, ref, ...buttonProps } = props;
-  const [state, handler] = useAsyncFn(onClick);
+  const [state, handler] = useAsyncFn(onClick, [onClick]);
 
   return (
     <Button

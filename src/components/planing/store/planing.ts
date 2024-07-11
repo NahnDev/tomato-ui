@@ -1,10 +1,25 @@
-import { atomFamily, selectorFamily, useRecoilCallback, useRecoilValue } from "recoil";
+import { atom, atomFamily, selector, selectorFamily, useRecoilCallback, useRecoilValue } from "recoil";
 import PlaningApi, { TCreatePlanDto } from "@/api/PlaningApi";
 import { useParams } from "next/navigation";
 import StoryApi from "@/api/StoryApi";
 import { useCallback } from "react";
 import { TPlaning } from "@/types/plan";
 import { useAuth } from "@/state/auth/hook";
+
+export const planingState = atom({
+  key: "planings",
+  default: selector({
+    key: "planings/default",
+    get: async () => {
+      const data = (await PlaningApi.getAll()) as TPlaning[];
+      return data;
+    },
+  }),
+});
+
+export function usePlanings() {
+  return useRecoilValue(planingState);
+}
 
 export const currentPlaningState = atomFamily({
   key: "plan",
@@ -35,13 +50,11 @@ export function usePlanUsers() {
 }
 
 export function usePlaningCreateHandler(callback: (planing: TPlaning) => void) {
-  return useCallback(
-    async (payload: TCreatePlanDto) => {
-      const planing = await PlaningApi.create(payload);
-      callback(planing);
-    },
-    [callback]
-  );
+  return useRecoilCallback(({ set }) => async (data: TCreatePlanDto) => {
+    const planing = await PlaningApi.create(data);
+    set(planingState, (prev) => [...prev, planing]);
+    callback(planing);
+  });
 }
 
 export function useSetPlaningUser(planing: TPlaning) {

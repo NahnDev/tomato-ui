@@ -12,7 +12,7 @@ export default function SearchInput() {
   });
   return (
     <div className="relative py-1">
-      <InlineInput readOnly placeholder="Ctrl+k" onFocus={() => setOpen(true)} />
+      <InlineInput readOnly placeholder="Press Ctrl+K" onFocus={() => setOpen(true)} />
       <Dialog open={open} handler={() => setOpen(!open)} className="focus:border-0">
         <DialogHeader>
           <div className="relative flex w-full">

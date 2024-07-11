@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 export default function PlaningLayout(props: PropsWithChildren<{}>) {
   return (
-    <div className="fuild p-2 relative">
+    <div className="fluid p-2 relative">
       <AuthRequired>{props.children}</AuthRequired>
     </div>
   );

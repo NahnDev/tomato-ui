@@ -17,6 +17,7 @@ import { useAuth, useIsAuthenticated } from "@/state/auth/hook";
 import { TUserCredentials } from "@/types/TUser";
 import { useRouter } from "next/navigation";
 import { PASSWORD_REGEX } from "@/constants/regexp";
+import Page from "@/components/Page";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,7 +34,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex items-center justify-center h-full bg-gray-50">
+    <Page className="flex items-center justify-center h-full bg-gray-50">
       <div className="w-full max-w-md">
         <form onSubmit={handleSubmit(onSubmit as any)} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
           <div className="py-8">
@@ -82,6 +83,6 @@ export default function LoginPage() {
           </div>
         </form>
       </div>
-    </div>
+    </Page>
   );
 }

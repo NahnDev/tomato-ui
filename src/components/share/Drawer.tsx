@@ -33,7 +33,14 @@ export default function Drawer(props: TDrawerProps) {
       )}
     >
       <div onClick={props.onClose}></div>
-      <div className={clsx(["shadow-xl transition-transform transform", "bg-white", props.className])}>
+      <div
+        className={clsx([
+          "shadow-xl transition-transform transform",
+          "bg-white",
+          "max-w-screen max-h-screen",
+          props.className,
+        ])}
+      >
         {props.open && props.children}
       </div>
     </div>

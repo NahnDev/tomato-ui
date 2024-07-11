@@ -2,6 +2,7 @@ import { TPlaning, TStory } from "@/types/plan";
 import { atomFamily, selectorFamily, useRecoilCallback, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import StoryApi from "@/api/StoryApi";
 import { useTaskWrapper, useTasks } from "@/state/task/taskAtom";
+import PlaningApi from "@/api/PlaningApi";
 
 export type TStoryState = { data: TStory[] };
 
@@ -73,6 +74,21 @@ export function useStorySortHandler(planing: TPlaning["_id"], callback: () => vo
       const data = ids.map((id, order) => ({ ...stories.data.find((s) => s._id === id)!, order }));
       set(storiesState(planing), { ...stories, data });
       await StoryApi.sortStories(planing, ids);
+      callback();
+    })
+  );
+}
+
+export function useStoryImportHandler(planing: TPlaning["_id"], callback: () => void) {
+  const { wrapper } = useTaskWrapper("stories", "Importing");
+  return useRecoilCallback(({ set, snapshot }) =>
+    wrapper(async (resource: string, column: string) => {
+      const state = await snapshot.getPromise(storiesState(planing));
+      const newStories = await PlaningApi.importFromCsv(planing, { resource, column });
+      set(storiesState(planing), {
+        ...state,
+        data: [...state.data, ...newStories],
+      });
       callback();
     })
   );

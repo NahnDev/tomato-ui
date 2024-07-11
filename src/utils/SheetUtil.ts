@@ -1,4 +1,5 @@
 import * as XLSX from "xlsx";
+import * as CSV from "xlsx/";
 
 export default class SheetUtil {
   toJson(file: File): Promise<any> {

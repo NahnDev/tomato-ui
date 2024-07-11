@@ -18,7 +18,7 @@ import AsyncButton from "@/components/share/button/AsyncButton";
 import StateButton from "@/components/share/button/StateButton";
 import { faJira } from "@fortawesome/free-brands-svg-icons";
 import PlaningThumbnail from "./StoryThumbnail";
-import AddFromCSV from "./AddFromExcel";
+import AddFromCSV from "./AddFromCsv";
 import { useBoolean } from "usehooks-ts";
 
 export default function PlaningList(props: { planing: TPlaning }) {
@@ -62,7 +62,7 @@ export default function PlaningList(props: { planing: TPlaning }) {
           className="bg-[#188844]"
           onClick={toggleCsvImpoterShown}
         />
-        <StateButton label="Import from Jira" icon={faJira} size="sm" color="blue" />
+        {/* <StateButton label="Import from Jira" icon={faJira} size="sm" color="blue" /> */}
       </div>
       <div className="w-full h-full overflow-y-auto overflow-x-hidden relative">
         <ListSortable items={stories.map(({ _id }) => _id)} setItems={(ids) => sort(ids as string[])}>
@@ -80,7 +80,7 @@ export default function PlaningList(props: { planing: TPlaning }) {
         </ListSortable>
         <div ref={bottomRef}></div>
       </div>
-      {csvImporterShown && <AddFromCSV onCancel={toggleCsvImpoterShown} />}
+      {csvImporterShown && <AddFromCSV onClose={toggleCsvImpoterShown} planing={props.planing} />}
     </div>
   );
 }

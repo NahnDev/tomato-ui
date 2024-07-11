@@ -18,15 +18,15 @@ enum TTabs {
 export default function PlaningStories(props: { planing: TPlaning }) {
   const [menu, setMenu] = useQueryParam<"open" | "close">("menu");
   const [activeTab, setActiveTab] = useState<TTabs>(TTabs.Stories);
-  // const refresh = useRefreshPlaningStories(props.planing._id);
+  const refresh = useRefreshPlaningStories(props.planing._id);
 
-  // useEffect(() => {
-  //   if (menu === "open") refresh();
-  // }, [menu]);
+  useEffect(() => {
+    if (menu === "open") refresh();
+  }, [menu]);
 
   return (
-    <Drawer open={menu === "open"} onClose={() => setMenu("close")} className="h-full w-[60em] max-w-full shadow-lg">
-      <div className={clsx(["w-full h-full relative]"])}>
+    <Drawer open={menu === "open"} onClose={() => setMenu("close")} className="h-full w-[60em] shadow-lg">
+      <div className={clsx(["fluid relative]"])}>
         <Tabs value={activeTab} className="fluid grid grid-rows-[auto_1fr]">
           <TabsHeader
             className="rounded-none border-b border-blue-gray-50 bg-transparent p-0"

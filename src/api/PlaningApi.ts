@@ -55,4 +55,9 @@ export default class PlaningApi {
     const response = await axiosInstance.post(`/planings/${planing}/voting/actions/skip`);
     return response.data as TStory;
   }
+
+  static async importFromCsv(id: string, payload: { resource: string; column: string }) {
+    const response = await axiosInstance.post(`/planings/${id}/import`, payload);
+    return response.data as TStory[];
+  }
 }

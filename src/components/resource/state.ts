@@ -151,7 +151,6 @@ export function useResourceDownloadHandler(onProgress: (progressEvent: AxiosProg
       if (!selected || selected?.isDirectory) return;
 
       const resource = await ResourceApi.downloadFile(selected._id, onProgress);
-      console.log(resource);
       const url = window.URL.createObjectURL(new Blob([resource]));
       const link = document.createElement("a");
       link.href = url;
