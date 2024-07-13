@@ -7,7 +7,7 @@ import { Dialog, Option, Select } from "@material-tailwind/react";
 import clsx from "clsx";
 import { PropsWithChildren, useCallback, useMemo, useRef, useState } from "react";
 import { useStoryImportHandler } from "./stories";
-import { TPlaning } from "@/types/plan";
+import { TPlanning } from "@/types/plan";
 import AsyncButton from "@/components/share/button/AsyncButton";
 
 enum StepStatus {
@@ -22,12 +22,12 @@ export function getStatus(condition: number): StepStatus {
   return StepStatus.Prepare;
 }
 
-export default function AddFromCSV(props: { onClose: () => any; planing: TPlaning }) {
+export default function AddFromCSV(props: { onClose: () => any; planning: TPlanning }) {
   const [resource, setResource] = useState<TResourceItem>();
   const [columns, setColumns] = useState<string[]>([]);
   const [column, setColumn] = useState<string>();
   const [success, setSuccess] = useState(false);
-  const importStories = useStoryImportHandler(props.planing._id, () => {
+  const importStories = useStoryImportHandler(props.planning._id, () => {
     setSuccess(true);
     props.onClose();
   });

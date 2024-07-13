@@ -12,31 +12,31 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@material-tailwind/react";
 import clsx from "clsx";
 import { TUser } from "@/types/TUser";
-import { StoryStatus, TPlaning, TStory } from "@/types/plan";
+import { StoryStatus, TPlanning, TStory } from "@/types/plan";
 import { useEffect, useMemo } from "react";
 import { useCurrentStoryHandler } from "./store/story";
 import useTimeCountdown from "@/hooks/useTimeCountdown";
-import PlaningConstant from "@/constants/planing";
+import PlanningConstant from "@/constants/planning";
 import numeral from "numeral";
 import { useAuth } from "@/state/auth/hook";
 import useAudio from "react-use/lib/useAudio";
 import AsyncButton from "../share/button/AsyncButton";
 
-export type TPlaningVoteProps = {
-  planing: TPlaning;
+export type TPlanningVoteProps = {
+  planning: TPlanning;
   story: TStory;
 };
 
-export function useIsMaster(planing: TPlaning) {
+export function useIsMaster(planning: TPlanning) {
   const { user } = useAuth();
-  return planing.masters.map((master) => master._id).includes(user?._id ?? "");
+  return planning.masters.map((master) => master._id).includes(user?._id ?? "");
 }
 
-export default function PlaningVote(props: TPlaningVoteProps) {
-  const isMaster = useIsMaster(props.planing);
+export default function PlanningVote(props: TPlanningVoteProps) {
+  const isMaster = useIsMaster(props.planning);
   const votes = useMemo(() => {
     const votes = props.story.votes ?? [];
-    return props.planing.users.map((user) => {
+    return props.planning.users.map((user) => {
       const voted = votes.find((story) => user._id === story.user);
       return {
         user,
@@ -44,7 +44,7 @@ export default function PlaningVote(props: TPlaningVoteProps) {
         at: voted?.at,
       };
     });
-  }, [props.story.votes, props.planing.users]);
+  }, [props.story.votes, props.planning.users]);
 
   return (
     <div className="h-full px-4 pt-8 overflow-y-hidden w-[22em]">
@@ -91,7 +91,7 @@ function VoteControl(props: TVoteControlProps) {
   const isFinished = useMemo(() => props.story.status === StoryStatus.FINISHED, [props.story.status]);
   const isSkipped = useMemo(() => props.story.status === StoryStatus.SKIPPED, [props.story.status]);
 
-  const { skip, finish, reset, start, next } = useCurrentStoryHandler(props.story.planing);
+  const { skip, finish, reset, start, next } = useCurrentStoryHandler(props.story.planning);
 
   return (
     <div className="p-2 flex flex-col gap-2">
@@ -126,7 +126,7 @@ function VoteControl(props: TVoteControlProps) {
 function Timer(props: { start?: number; story: TStory }) {
   const [audio, state, controls, ref] = useAudio({ src: "/audio/clock.mp3" });
   const isVoting = useMemo(() => props.story.status === StoryStatus.VOTING, [props.story.status]);
-  const [format, isPlaying] = useTimeCountdown(isVoting, props.start ?? 0, PlaningConstant.Remaining);
+  const [format, isPlaying] = useTimeCountdown(isVoting, props.start ?? 0, PlanningConstant.Remaining);
 
   useEffect(() => {
     isPlaying ? controls.play() : controls.pause();
@@ -145,7 +145,7 @@ function Timer(props: { start?: number; story: TStory }) {
 }
 
 function VoteCard(props: { user: TUser; value?: number; at?: number }) {
-  const votedAtStr = useMemo(() => numeral(PlaningConstant.Remaining - (props.at ?? 0)).format("00:00"), [props.at]);
+  const votedAtStr = useMemo(() => numeral(PlanningConstant.Remaining - (props.at ?? 0)).format("00:00"), [props.at]);
   return (
     <div className=" text-slate-900 rounded-md p-4 shadow-sm">
       <div className="flex items-center justify-between">

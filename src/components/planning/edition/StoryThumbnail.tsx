@@ -19,7 +19,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { IconButton, Input } from "@material-tailwind/react";
 import { useForm } from "react-hook-form";
 
-type TPlaningThumbnailProps = Readonly<{
+type TPlanningThumbnailProps = Readonly<{
   story: TStory;
   isEditing: boolean;
   onAction: (action: Action) => void;
@@ -28,7 +28,7 @@ type TPlaningThumbnailProps = Readonly<{
   onFocus: () => void;
 }>;
 
-export default function PlaningThumbnail(props: TPlaningThumbnailProps) {
+export default function PlanningThumbnail(props: TPlanningThumbnailProps) {
   const { listeners, setNodeRef, setActivatorNodeRef, transform, attributes, transition } = useSortable({
     id: props.story._id,
   });
@@ -58,7 +58,7 @@ export default function PlaningThumbnail(props: TPlaningThumbnailProps) {
       </div>
       <div className={clsx(["flex-1 flex flex-row gap-2 items-center justify-center"])}>
         {props.isEditing ? (
-          <PlaningUpdateForm item={props.story} onCancel={props.onBlur} onSubmit={props.onSubmit} />
+          <PlanningUpdateForm item={props.story} onCancel={props.onBlur} onSubmit={props.onSubmit} />
         ) : (
           <div className="flex-1 grid grid-cols-[1fr_auto] items-center justify-center ">
             <h6
@@ -97,7 +97,7 @@ export default function PlaningThumbnail(props: TPlaningThumbnailProps) {
   );
 }
 
-function PlaningUpdateForm(props: {
+function PlanningUpdateForm(props: {
   item: TStory;
   onSubmit: (payload: Pick<TStory, "title">) => void;
   onCancel: () => void;

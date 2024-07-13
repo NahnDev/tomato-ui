@@ -6,9 +6,9 @@ import { useMemo } from "react";
 
 type TVoteResult = { value: number; count: number };
 
-export type TPlaningVoteSumarizeProps = { story: TStory };
+export type TPlanningVoteSumarizeProps = { story: TStory };
 
-export default function PlaningVoteSumarize(props: TPlaningVoteSumarizeProps) {
+export default function PlanningVoteSumarize(props: TPlanningVoteSumarizeProps) {
   const votes = useMemo(() => {
     const records = (props.story.votes ?? []).reduce((acc, vote) => {
       return { ...acc, [vote.value]: acc[vote.value] ? acc[vote.value] + 1 : 1 };

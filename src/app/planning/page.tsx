@@ -1,19 +1,19 @@
 "use-client";
-import ListPlaning from "@/components/planing/ListPlaning";
-import PlaningCreator from "@/components/planing/PlaningCreator";
+import ListPlanning from "@/components/planning/ListPlanning";
+import PlanningCreator from "@/components/planning/PlanningCreator";
 import PageLoading from "@/components/share/PageLoading";
 import React, { Suspense } from "react";
 
-export default function PlaningPage() {
-  // return <PlaningCreator />;
+export default function PlanningPage() {
+  // return <PlanningCreator />;
 
   return (
     <div className="fluid">
       <div className="h-full flex flex-row">
-        <PlaningCreator />
+        <PlanningCreator />
         <div className="flex-1 overflow-auto scroll-none">
           <Suspense fallback={<PageLoading />}>
-            <ListPlaning />
+            <ListPlanning />
           </Suspense>
         </div>
       </div>

@@ -1,18 +1,18 @@
 import { useMemo, useState } from "react";
-import PlaningCard from "./PlaningCard";
-import PlaningVote from "./PlaningVote";
-import PlaningVoteSumarize from "./PlaningVoteSumarize";
-import { StoryStatus, TPlaning } from "@/types/plan";
+import PlanningCard from "./PlanningCard";
+import PlanningVote from "./PlanningVote";
+import PlanningVoteSumarize from "./PlanningVoteSumarize";
+import { StoryStatus, TPlanning } from "@/types/plan";
 import { useCurrentStory, useCurrentStoryHandler } from "./store/story";
 import { useStoryUpdateHandler } from "./edition/stories";
 
-export type TPlaningStoryProps = {
-  planing: TPlaning;
+export type TPlanningStoryProps = {
+  planning: TPlanning;
 };
 
-export default function PlaningStory(props: TPlaningStoryProps) {
-  const story = useCurrentStory(props.planing);
-  const { vote } = useCurrentStoryHandler(props.planing._id);
+export default function PlanningStory(props: TPlanningStoryProps) {
+  const story = useCurrentStory(props.planning);
+  const { vote } = useCurrentStoryHandler(props.planning._id);
   const handleVote = (value: number) => vote(value);
 
   if (!story) return <div className="fluid flex items-center justify-center text-slate-900">No story selected</div>;
@@ -24,13 +24,13 @@ export default function PlaningStory(props: TPlaningStoryProps) {
         </div>
         <div>
           {story.status === StoryStatus.FINISHED ? (
-            <PlaningVoteSumarize story={story} />
+            <PlanningVoteSumarize story={story} />
           ) : (
-            <PlaningCard story={story} onVote={handleVote} />
+            <PlanningCard story={story} onVote={handleVote} />
           )}
         </div>
       </div>
-      <PlaningVote story={story} planing={props.planing} />
+      <PlanningVote story={story} planning={props.planning} />
     </div>
   );
 }

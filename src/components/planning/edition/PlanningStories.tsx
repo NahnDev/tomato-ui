@@ -1,11 +1,11 @@
 import { Tab, Tabs, TabsBody, TabsHeader } from "@material-tailwind/react";
 import clsx from "clsx";
 import { Suspense, useEffect, useState } from "react";
-import { TPlaning, TStory } from "@/types/plan";
+import { TPlanning, TStory } from "@/types/plan";
 import useQueryParam from "@/hooks/useQueryParam";
 import Drawer from "@/components/share/Drawer";
-import PlaningList from "./ListStories";
-import { useRefreshPlaningStories } from "./stories";
+import PlanningList from "./ListStories";
+import { useRefreshPlanningStories } from "./stories";
 import PageLoader from "next/dist/client/page-loader";
 import PageLoading from "@/components/share/PageLoading";
 import EditionTask from "./EditionTask";
@@ -15,10 +15,10 @@ enum TTabs {
   Finished = "finished",
 }
 
-export default function PlaningStories(props: { planing: TPlaning }) {
+export default function PlanningStories(props: { planning: TPlanning }) {
   const [menu, setMenu] = useQueryParam<"open" | "close">("menu");
   const [activeTab, setActiveTab] = useState<TTabs>(TTabs.Stories);
-  const refresh = useRefreshPlaningStories(props.planing._id);
+  const refresh = useRefreshPlanningStories(props.planning._id);
 
   useEffect(() => {
     if (menu === "open") refresh();
@@ -55,7 +55,7 @@ export default function PlaningStories(props: { planing: TPlaning }) {
           </TabsHeader>
           <TabsBody className="fluid">
             <Suspense fallback={<PageLoading />}>
-              {TTabs.Stories === activeTab && <PlaningList planing={props.planing} />}
+              {TTabs.Stories === activeTab && <PlanningList planning={props.planning} />}
               {TTabs.Finished === activeTab && <div></div>}{" "}
             </Suspense>
           </TabsBody>

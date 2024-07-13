@@ -1,17 +1,17 @@
 import { StoryStatus, TStory } from "@/types/plan";
 import { axiosInstance } from "./axios";
 
-export type CreateStoryDto = { title: string; planing: string };
+export type CreateStoryDto = { title: string; planning: string };
 export type UpdateStoryDto = { title?: string; status?: StoryStatus };
 
 export default class StoryApi {
-  static async getByPlan(planing: string) {
-    const response = await axiosInstance.get(`/stories`, { params: { planing } });
+  static async getByPlan(planning: string) {
+    const response = await axiosInstance.get(`/stories`, { params: { planning } });
     return response.data;
   }
 
-  static async sortStories(planing: string, ids: string[]) {
-    const response = await axiosInstance.put(`/stories`, { sort: ids }, { params: { planing } });
+  static async sortStories(planning: string, ids: string[]) {
+    const response = await axiosInstance.put(`/stories`, { sort: ids }, { params: { planning } });
     return response.data;
   }
 

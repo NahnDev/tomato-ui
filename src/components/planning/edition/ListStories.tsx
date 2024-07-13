@@ -1,4 +1,4 @@
-import { TPlaning, TStory } from "@/types/plan";
+import { TPlanning, TStory } from "@/types/plan";
 import { useRef, useState } from "react";
 import { IconButton, Input } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,27 +17,27 @@ import { useCurrentStoryHandler } from "../store/story";
 import AsyncButton from "@/components/share/button/AsyncButton";
 import StateButton from "@/components/share/button/StateButton";
 import { faJira } from "@fortawesome/free-brands-svg-icons";
-import PlaningThumbnail from "./StoryThumbnail";
+import PlanningThumbnail from "./StoryThumbnail";
 import AddFromCSV from "./AddFromCsv";
 import { useBoolean } from "usehooks-ts";
 
-export default function PlaningList(props: { planing: TPlaning }) {
+export default function PlanningList(props: { planning: TPlanning }) {
   const bottomRef = useRef<HTMLDivElement>(null);
   const [editing, setEditing] = useState<TStory>();
 
-  const { focus } = useCurrentStoryHandler(props.planing._id);
-  const stories = useStories(props.planing);
-  const create = useStoryCreateHandler(props.planing._id, (story) => {
+  const { focus } = useCurrentStoryHandler(props.planning._id);
+  const stories = useStories(props.planning);
+  const create = useStoryCreateHandler(props.planning._id, (story) => {
     setEditing(story);
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: "smooth" });
     }
   });
-  const modify = useStoryUpdateHandler(props.planing._id, () => {
+  const modify = useStoryUpdateHandler(props.planning._id, () => {
     setEditing(undefined);
   });
-  const remove = useStoryDeleteHandler(props.planing._id, () => {});
-  const sort = useStorySortHandler(props.planing._id, () => {});
+  const remove = useStoryDeleteHandler(props.planning._id, () => {});
+  const sort = useStorySortHandler(props.planning._id, () => {});
 
   const handleAction = (action: Action, story: TStory) => {
     switch (action) {
@@ -67,7 +67,7 @@ export default function PlaningList(props: { planing: TPlaning }) {
       <div className="w-full h-full overflow-y-auto overflow-x-hidden relative">
         <ListSortable items={stories.map(({ _id }) => _id)} setItems={(ids) => sort(ids as string[])}>
           {stories.map((story) => (
-            <PlaningThumbnail
+            <PlanningThumbnail
               key={story._id}
               story={story}
               isEditing={editing?._id === story._id}
@@ -80,7 +80,7 @@ export default function PlaningList(props: { planing: TPlaning }) {
         </ListSortable>
         <div ref={bottomRef}></div>
       </div>
-      {csvImporterShown && <AddFromCSV onClose={toggleCsvImpoterShown} planing={props.planing} />}
+      {csvImporterShown && <AddFromCSV onClose={toggleCsvImpoterShown} planning={props.planning} />}
     </div>
   );
 }

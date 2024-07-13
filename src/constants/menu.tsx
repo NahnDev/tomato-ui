@@ -25,8 +25,8 @@ export const WORKSPACE_MENUS = [
     name: "Leaves",
   },
   {
-    href: "/workspace/planing",
+    href: "/workspace/planning",
     icon: faClipboardList,
-    name: "Planing",
+    name: "Planning",
   },
 ];

@@ -1,33 +1,33 @@
-import PlaningEvents from "@/events/PlaningEvent";
-import { TPlaning } from "@/types/plan";
+import PlanningEvents from "@/events/PlanningEvent";
+import { TPlanning } from "@/types/plan";
 import Cookies, { set } from "js-cookie";
 import { PropsWithChildren, useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { Socket, io } from "socket.io-client";
 import { currentStory } from "../store/story";
-import { currentPlaningState } from "../store/planing";
+import { currentPlanningState } from "../store/planning";
 
 const WS_URL = process.env.NEXT_PUBLIC_WS_URL;
 
-export default function PlaningSocket(props: PropsWithChildren<{ planing: TPlaning }>) {
+export default function PlanningSocket(props: PropsWithChildren<{ planning: TPlanning }>) {
   const socket = useRef<Socket>();
-  const setCurrentStory = useSetRecoilState(currentStory(props.planing._id));
-  const setPlaning = useSetRecoilState(currentPlaningState(props.planing._id));
+  const setCurrentStory = useSetRecoilState(currentStory(props.planning._id));
+  const setPlanning = useSetRecoilState(currentPlanningState(props.planning._id));
 
   useEffect(() => {
-    socket.current = io(`${WS_URL}/planing`, {
+    socket.current = io(`${WS_URL}/planning`, {
       secure: true,
       auth: { token: Cookies.get("token") },
-      query: { planing: props.planing._id },
+      query: { planning: props.planning._id },
     });
     socket.current.on("connect", () => {
       console.log("connected");
-      socket.current?.on(PlaningEvents.VOTING_CHANGED, (story) => {
+      socket.current?.on(PlanningEvents.VOTING_CHANGED, (story) => {
         console.log("current story changed", story);
         setCurrentStory(story);
       });
-      socket.current?.on(PlaningEvents.PLANING_CHANGED, (planing) => {
-        setPlaning(planing);
+      socket.current?.on(PlanningEvents.PLANNING_CHANGED, (planning) => {
+        setPlanning(planning);
       });
     });
     return () => {

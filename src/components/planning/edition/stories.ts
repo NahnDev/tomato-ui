@@ -1,8 +1,8 @@
-import { TPlaning, TStory } from "@/types/plan";
+import { TPlanning, TStory } from "@/types/plan";
 import { atomFamily, selectorFamily, useRecoilCallback, useRecoilValue, useRecoilValueLoadable } from "recoil";
 import StoryApi from "@/api/StoryApi";
 import { useTaskWrapper, useTasks } from "@/state/task/taskAtom";
-import PlaningApi from "@/api/PlaningApi";
+import PlanningApi from "@/api/PlanningApi";
 
 export type TStoryState = { data: TStory[] };
 
@@ -21,32 +21,32 @@ export const storiesState = atomFamily({
   }),
 });
 
-export function useStories(planing: TPlaning) {
-  return useRecoilValue(storiesState(planing._id)).data;
+export function useStories(planning: TPlanning) {
+  return useRecoilValue(storiesState(planning._id)).data;
 }
 
-export function useStoryCreateHandler(planing: TPlaning["_id"], callback: (story: TStory) => void) {
-  const refresh = useRefreshPlaningStories(planing);
+export function useStoryCreateHandler(planning: TPlanning["_id"], callback: (story: TStory) => void) {
+  const refresh = useRefreshPlanningStories(planning);
   const { wrapper } = useTaskWrapper("stories", "Creating story");
   return useRecoilCallback(({ set, snapshot }) =>
     wrapper(async () => {
-      if (!planing) return;
-      const payload = { title: "New story", planing };
+      if (!planning) return;
+      const payload = { title: "New story", planning };
       const story = await StoryApi.create(payload);
-      set(storiesState(planing), (s) => ({ ...s, data: [...s.data, story] }));
+      set(storiesState(planning), (s) => ({ ...s, data: [...s.data, story] }));
       refresh();
       callback(story);
     })
   );
 }
 
-export function useStoryUpdateHandler(planing: TPlaning["_id"], callback: () => void) {
+export function useStoryUpdateHandler(planning: TPlanning["_id"], callback: () => void) {
   const { wrapper } = useTaskWrapper("stories", "Saving");
-  const refresh = useRefreshPlaningStories(planing);
+  const refresh = useRefreshPlanningStories(planning);
   return useRecoilCallback(({ set, snapshot }) =>
     wrapper(async (storyId: string, payload: Partial<Pick<TStory, "title">>) => {
-      const stories = await snapshot.getPromise(storiesState(planing));
-      set(storiesState(planing), {
+      const stories = await snapshot.getPromise(storiesState(planning));
+      set(storiesState(planning), {
         ...stories,
         data: stories.data.map((s) => (s._id === storyId ? { ...s, ...payload } : s)),
       });
@@ -57,35 +57,35 @@ export function useStoryUpdateHandler(planing: TPlaning["_id"], callback: () => 
   );
 }
 
-export function useStoryDeleteHandler(planing: TPlaning["_id"], callback: () => void) {
+export function useStoryDeleteHandler(planning: TPlanning["_id"], callback: () => void) {
   return useRecoilCallback(({ set, snapshot }) => async (storyId: string) => {
     await StoryApi.deleteOne(storyId);
-    const stories = await snapshot.getPromise(storiesState(planing));
-    set(storiesState(planing), { ...stories, data: stories.data.filter((s) => s._id !== storyId) });
+    const stories = await snapshot.getPromise(storiesState(planning));
+    set(storiesState(planning), { ...stories, data: stories.data.filter((s) => s._id !== storyId) });
     callback();
   });
 }
 
-export function useStorySortHandler(planing: TPlaning["_id"], callback: () => void) {
+export function useStorySortHandler(planning: TPlanning["_id"], callback: () => void) {
   const { wrapper } = useTaskWrapper("stories", "Sorting");
   return useRecoilCallback(({ set, snapshot }) =>
     wrapper(async (ids: string[]) => {
-      const stories = await snapshot.getPromise(storiesState(planing));
+      const stories = await snapshot.getPromise(storiesState(planning));
       const data = ids.map((id, order) => ({ ...stories.data.find((s) => s._id === id)!, order }));
-      set(storiesState(planing), { ...stories, data });
-      await StoryApi.sortStories(planing, ids);
+      set(storiesState(planning), { ...stories, data });
+      await StoryApi.sortStories(planning, ids);
       callback();
     })
   );
 }
 
-export function useStoryImportHandler(planing: TPlaning["_id"], callback: () => void) {
+export function useStoryImportHandler(planning: TPlanning["_id"], callback: () => void) {
   const { wrapper } = useTaskWrapper("stories", "Importing");
   return useRecoilCallback(({ set, snapshot }) =>
     wrapper(async (resource: string, column: string) => {
-      const state = await snapshot.getPromise(storiesState(planing));
-      const newStories = await PlaningApi.importFromCsv(planing, { resource, column });
-      set(storiesState(planing), {
+      const state = await snapshot.getPromise(storiesState(planning));
+      const newStories = await PlanningApi.importFromCsv(planning, { resource, column });
+      set(storiesState(planning), {
         ...state,
         data: [...state.data, ...newStories],
       });
@@ -94,10 +94,10 @@ export function useStoryImportHandler(planing: TPlaning["_id"], callback: () => 
   );
 }
 
-export function useRefreshPlaningStories(planing: TPlaning["_id"]) {
+export function useRefreshPlanningStories(planning: TPlanning["_id"]) {
   return useRecoilCallback(({ set, snapshot }) => async () => {
-    const data = await StoryApi.getByPlan(planing);
-    snapshot.getPromise(version(planing));
-    set(storiesState(planing), (prev) => ({ ...prev, data }));
+    const data = await StoryApi.getByPlan(planning);
+    snapshot.getPromise(version(planning));
+    set(storiesState(planning), (prev) => ({ ...prev, data }));
   });
 }

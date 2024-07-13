@@ -48,8 +48,8 @@ export function AppNavbar() {
             <LinkMenu href="/docs" icon={faPaste}>
               Docs
             </LinkMenu>
-            <LinkMenu href="/planing" icon={faClipboardList}>
-              Planing
+            <LinkMenu href="/planning" icon={faClipboardList}>
+              Planning
             </LinkMenu>
           </ul>
         </div>

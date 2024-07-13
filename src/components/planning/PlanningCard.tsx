@@ -5,14 +5,14 @@ import { useMemo, useState } from "react";
 import { useAuth } from "@/state/auth/hook";
 import { StoryStatus, TStory } from "@/types/plan";
 
-export type TPlaningCardProps = {
+export type TPlanningCardProps = {
   story: TStory;
   onVote: (value: number) => void;
 };
 
 export const POINTS = [1, 2, 3, 5, 8, 13, 20, 40, 100];
 
-export default function PlaningCard(props: TPlaningCardProps) {
+export default function PlanningCard(props: TPlanningCardProps) {
   const { user } = useAuth();
   const isVoteing = useMemo(() => props.story.status === StoryStatus.VOTING, [props.story.status]);
   const votes = useMemo(() => props.story.votes ?? [], [props.story.votes]);

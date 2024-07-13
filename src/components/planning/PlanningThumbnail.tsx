@@ -1,11 +1,11 @@
-import { TPlaning } from "@/types/plan";
+import { TPlanning } from "@/types/plan";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import clsx from "clsx";
 import { useMemo } from "react";
 
-export default function PlaningThumbnail(props: { item: TPlaning; index: number }) {
+export default function PlanningThumbnail(props: { item: TPlanning; index: number }) {
   const admins = useMemo(() => {
     return props.item.masters.map((admin) => admin.name).join(", ");
   }, [props.item.masters]);
@@ -29,7 +29,7 @@ export default function PlaningThumbnail(props: { item: TPlaning; index: number 
           </div>
         </div>
         <Link
-          href={`/planing/${props.item._id}`}
+          href={`/planning/${props.item._id}`}
           className={clsx([
             " flex flex-row gap-2 items-center rounded-lg ",
             "px-4 py-2",

@@ -1,6 +1,6 @@
 import { TUser } from "./TUser";
 
-export type TPlaning = {
+export type TPlanning = {
   _id: string;
   title: string;
   users: TUser[];
@@ -32,7 +32,7 @@ export type TVote = {
 export type TStory = {
   _id: string;
   title: string;
-  planing: string;
+  planning: string;
   status?: StoryStatus;
   votes?: TVote[];
   startAt?: number;
