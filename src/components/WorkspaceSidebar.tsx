@@ -12,7 +12,7 @@ export default function WorkflowSidebar() {
   const [expand, setExpand] = useState(false);
   return (
     <div className="h-full z-10 group">
-      <Card className={clsx(["h-full rounded-none relative duration-500 w-full", expand && "w-60"])}>
+      <Card className={clsx(["h-full rounded-none relative duration-500 w-full", expand ? "w-60" : "w-16"])}>
         <div
           className={clsx([
             "absolute right-0 bottom-2 translate-x-1/2 duration-500 group-hover:visible invisible",
@@ -26,7 +26,7 @@ export default function WorkflowSidebar() {
             ></FontAwesomeIcon>
           </IconButton>
         </div>
-        <List className={clsx(["min-w-0 pt-4"])}>
+        <List className={clsx(["min-w-0 pt-4 w-full overflow-hidden"])}>
           {WORKSPACE_MENUS.map((menu, index) => (
             <Thumbnail key={menu.href} href={menu.href} icon={menu.icon} name={menu.name} expand={expand} />
           ))}

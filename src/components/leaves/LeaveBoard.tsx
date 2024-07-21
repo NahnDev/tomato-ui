@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Badge, Button, Card, CardBody, CardHeader, List, ListItem, Typography } from "@material-tailwind/react";
 import moment from "moment";
 import React, { useMemo } from "react";
-import MemberThumbnail, { MemberSmallThumbnail } from "../member/MemberThumbnail";
+import MemberThumbnail, { MemberSmallThumbnail } from "./MemberThumbnail";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import numeral from "numeral";

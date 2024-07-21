@@ -21,10 +21,10 @@ export default function PlanningCreator() {
 
   return (
     <div className="fluid max-w-[70%] p-2">
-      <div className="fluid  flex flex-col items-center justify-center rounded-lg bg-white p-2 relative z-0">
+      <div className="container  flex flex-col items-center justify-center rounded-lg bg-white p-2 relative z-0">
         <form onSubmit={handleSubmit(handle as any)} className="flex flex-col items-center gap-10">
           <div className=" px-10 hover:scale-105 duration-1000">
-            <h6 className="text-[6em] text-red-500 font-bold ">Create your planning</h6>
+            <h6 className="text-6xl text-red-500 font-bold ">Create your planning</h6>
           </div>
           <div className="flex flex-row gap-2 w-[30em] hover:scale-105 duration-1000 text-xl">
             <div className="flex-[2]">

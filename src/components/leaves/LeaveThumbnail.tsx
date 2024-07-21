@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ListItem } from "@material-tailwind/react";
 import clsx from "clsx";
 import { useMemo } from "react";
-import MemberThumbnail from "../member/MemberThumbnail";
+import MemberThumbnail from "./MemberThumbnail";
 import moment from "moment";
 import numeral from "numeral";
 import LeaveType from "./LeaveType";

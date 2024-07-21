@@ -10,6 +10,7 @@ import {
   faLayerGroup,
   faList,
   faPaste,
+  faPlayCircle,
   faUserAlt,
   faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -45,8 +46,8 @@ export function AppNavbar() {
             <LinkMenu href="/blocks" icon={faGripVertical}>
               Blocks
             </LinkMenu>
-            <LinkMenu href="/docs" icon={faPaste}>
-              Docs
+            <LinkMenu href="/meetings" icon={faPlayCircle}>
+              Meeting
             </LinkMenu>
             <LinkMenu href="/planning" icon={faClipboardList}>
               Planning

@@ -2,6 +2,7 @@ export type TUser = {
   _id: string;
   name: string;
   mail: string;
+  avatar?: string;
 };
 
 export type TUserCredentials = {

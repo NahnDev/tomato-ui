@@ -1,4 +1,4 @@
-import { faFont, faCalendar, faPaste, faPlusCircle, fa1 } from "@fortawesome/free-solid-svg-icons";
+import { faFont, faCalendar, faPaste, faPlusCircle, fa1, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Card,
@@ -28,26 +28,20 @@ import TemplateStepper from "./TemplateStepper";
 
 export default function TemplateSidebar() {
   const { value: shown, setFalse: handleClose, setTrue: handleOpen } = useBoolean();
-  const params = useParams();
-
-  const isTemplate = useMemo(() => !!params.id, [params]);
 
   return (
     <div className="p-1 h-full w-80">
       <Card className="h-full">
         <div className="p-4 py-2 flex flex-row justify-between items-center">
-          <Breadcrumbs>
-            <a href="/workspace/templates" className="opacity-60 font-bold">
-              Templates
-            </a>
-            <a className={clsx(["font-bold text-red-500", !isTemplate && "hidden"])}>Events</a>
-          </Breadcrumbs>
+          <div className="flex-1 flex flex-row text-red-500 gap-2">
+            <FontAwesomeIcon icon={faLayerGroup} />
+            <h4 className="font-bold text-sm">Templates</h4>
+          </div>
           <IconButton variant="text" className="text-base rounded-full" onClick={handleOpen}>
             <FontAwesomeIcon icon={faPlusCircle}></FontAwesomeIcon>
           </IconButton>
         </div>
-
-        {isTemplate ? <TemplateStepper /> : <TemplateList />}
+        <TemplateList />
       </Card>
       <TemplateCreator open={shown} onClose={handleClose} />
     </div>

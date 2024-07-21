@@ -8,7 +8,9 @@ import Link from "next/link";
 import { PropsWithChildren } from "react";
 import { active } from "sortablejs";
 
-type TLinkMenuProps = Readonly<PropsWithChildren<{ href: string; icon: IconProp; className?: string }>>;
+type TLinkMenuProps = Readonly<
+  PropsWithChildren<{ href: string; icon?: IconProp; className?: string; iconClassName?: string }>
+>;
 export default function LinkMenu(props: TLinkMenuProps) {
   const isActive = useIsActiveRoute(props.href);
   return (
@@ -20,7 +22,7 @@ export default function LinkMenu(props: TLinkMenuProps) {
         props.className,
       ])}
     >
-      <FontAwesomeIcon icon={props.icon}></FontAwesomeIcon>
+      {props.icon && <FontAwesomeIcon icon={props.icon} className={props.iconClassName}></FontAwesomeIcon>}
       <span className="pt-1">{props.children}</span>
     </Link>
   );

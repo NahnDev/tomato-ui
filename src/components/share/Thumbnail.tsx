@@ -10,14 +10,14 @@ export default function Thumbnail(props: TThumbnailProps) {
   const isActive = useIsActiveRoute(props.href);
   return (
     <Link href={props.href}>
-      <ListItem>
+      <ListItem className="!h-12 p-0">
         <Typography
           as="li"
           variant="small"
           color={isActive ? "red" : "blue-gray"}
-          className="flex items-center justify-center gap-x-4 p-1 font-bold"
+          className="flex items-center justify-center font-bold"
         >
-          <FontAwesomeIcon icon={props.icon} className="text-lg"></FontAwesomeIcon>
+          <FontAwesomeIcon icon={props.icon} className="text-lg w-12"></FontAwesomeIcon>
           {props.expand && <span>{props.name}</span>}
         </Typography>
       </ListItem>

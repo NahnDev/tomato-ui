@@ -9,7 +9,7 @@ export default function PlanningPage() {
 
   return (
     <div className="fluid">
-      <div className="h-full flex flex-row">
+      <div className="container mx-auto flex flex-row">
         <PlanningCreator />
         <div className="flex-1 overflow-auto scroll-none">
           <Suspense fallback={<PageLoading />}>

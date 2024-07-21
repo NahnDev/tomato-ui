@@ -43,6 +43,7 @@
     "react-resizable": "^3.0.5",
     "react-signature-canvas": "^1.0.6",
     "react-sortablejs": "^6.1.4",
+    "react-speech-recognition": "^3.10.0",
     "react-use": "^17.5.0",
     "recoil": "^0.7.7",
     "recoil-persist": "^5.1.0",
