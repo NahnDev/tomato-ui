@@ -5,6 +5,7 @@ import { Input, IconButton as MTIconButton } from "@material-tailwind/react";
 import clsx from "clsx";
 import { THeadingSetting } from "@/types/control";
 import ColorPicker from "../../ColorPicker";
+import Heading from "./Heading";
 
 export default function HeadingSetting(props: TControlSettingProps) {
   const updateControlSetting = useSetSettingControl(props.id);
@@ -16,6 +17,7 @@ export default function HeadingSetting(props: TControlSettingProps) {
 
   return (
     <div className="p-2">
+      <Heading label="Heading" />
       <div className="px-2 flex flex-row gap-1 items-center">
         <Input
           containerProps={{ className: "!min-w-0 max-w-32 hidden-arrow" }}

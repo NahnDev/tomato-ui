@@ -4,5 +4,7 @@ import React from "react";
 import { ControlProps } from "../types";
 
 export default function Time(props: ControlProps) {
-  return <Input type="time" label={props.control.config.label} containerProps={{ className: "h-full" }}></Input>;
+  return (
+    <Input type="time" label={props.control.config.label} containerProps={{ className: "h-full !min-w-0" }}></Input>
+  );
 }

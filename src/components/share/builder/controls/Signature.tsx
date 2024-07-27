@@ -10,7 +10,7 @@ export default function Signature(props: ControlProps) {
   return (
     <InputWrapper label={props.control.config.label}>
       <SizeBox className="w-full h-full " onResize={setSize}>
-        <ReactSignatureCanvas penColor="red" canvasProps={{ width: size.width, height: size.height }} />
+        <ReactSignatureCanvas penColor="black" canvasProps={{ width: size.width, height: size.height }} />
       </SizeBox>
     </InputWrapper>
   );

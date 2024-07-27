@@ -4,18 +4,6 @@ import ReactGridLayout from "react-grid-layout";
 import { v4 as uuidv4 } from "uuid";
 
 export default class Control {
-  public static create(type: ControlType): ControlInterface {
-    return {
-      id: uuidv4(),
-      type: type,
-      coord: { x: 0, y: 0 },
-      config: {
-        size: { width: 1, height: 1 },
-        ...DEFAULT_SETTINGS[type],
-      },
-    };
-  }
-
   public static getLayout(item: ControlInterface): ReactGridLayout.Layout {
     return {
       i: item.id,

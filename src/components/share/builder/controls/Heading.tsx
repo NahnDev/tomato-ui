@@ -2,16 +2,16 @@ import React, { useMemo } from "react";
 import { ControlProps } from "../types";
 import clsx from "clsx";
 import { useRecoilValue } from "recoil";
-import { builderControlsState } from "../store";
+import { documentControls } from "../state/store";
 import { ControlType } from "@/constants/control";
 import IndexBullet from "@/utils/IndexBullet";
 
 export default function Heading(props: ControlProps) {
-  const controls = useRecoilValue(builderControlsState);
+  const controls = useRecoilValue(documentControls);
   const level = useMemo(() => props.control.config.heading?.level ?? 1, [props]);
   const format = useMemo(() => props.control.config.heading?.format ?? "", [props]);
   const backgroundColor = useMemo(() => props.control.config.heading?.color ?? "#000", [props]);
-  const paddingLeft = useMemo(() => `${level + 1}em`, [level]);
+  const paddingLeft = useMemo(() => `${level * 2 + 4}em`, [level]);
 
   const bullets = useMemo(() => {
     const headingControls = controls.filter((control) => control.type === ControlType.Heading);

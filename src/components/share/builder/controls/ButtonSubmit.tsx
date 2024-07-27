@@ -25,10 +25,13 @@ export default function ButtonSubmit(props: ControlProps) {
       onMouseDown={() => setActive(true)}
       onMouseUp={() => setActive(false)}
       onMouseLeave={() => setActive(false)}
+      onTouchStart={() => setActive(true)}
+      onTouchEnd={() => setActive(false)}
+      onTouchCancel={() => setActive(false)}
     >
       <div
         className="absolute w-full h-full top-0 -z-10 duration-300"
-        style={{ left: `-${100 - percent}%`, background: props.control.config.background ?? "#00ff00" }}
+        style={{ left: `-${100 - percent}%`, background: props.control.config.bg ?? "#00ff00" }}
       ></div>
       <div className="px-5 flex flex-row justify-between z-10">
         {props.control.config.label} <FontAwesomeIcon icon={isComplete ? faCheckCircle : faXmarkCircle} />

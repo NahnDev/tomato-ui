@@ -8,29 +8,36 @@ import { useDragLayer } from "react-dnd";
 import ControlWrapper from "./ControlWrapper";
 import { DndTypes } from "@/constants/dnd";
 import { useRecoilState } from "recoil";
-import { builderControlsState, builderLayoutsState, builderSettingsState } from "./store";
+import { documentControls, documentLayouts, documentSettings } from "./state/store";
 import BuilderBoardWrapper from "./BuilderBoardWrapper";
-import { useControlSelected, useDeleteControl } from "./hooks";
 import { useHotkeys } from "react-hotkeys-hook";
+import { ControlBuilder, useControlSelected } from "./state/control";
+import { useStepSelected } from "./state/step";
+import clsx from "clsx";
 
 const GridLayout = WidthProvider(ReactGridLayout);
 
 function useControlDragLayer() {
+  const step = useStepSelected();
   const { type, isDragging } = useDragLayer((monitor) => ({
     type: monitor.getItemType() === DndTypes.Control ? monitor.getItem()?.type : undefined,
     isDragging: monitor.getItemType() === DndTypes.Control && monitor.isDragging(),
   }));
-  const item = useMemo(() => (type ? Control.create(type) : undefined), [type]);
+  const item = useMemo(() => {
+    if (!step || !type) return undefined;
+    return new ControlBuilder().setStep(step["id"]).setType(type).build();
+  }, [type, step]);
   return { item, isDragging };
 }
 
 export default function BuilderBoard() {
   const ref = useRef<HTMLDivElement>(null);
+  const step = useStepSelected();
 
   const { item, isDragging } = useControlDragLayer();
-  const [controls, setControls] = useRecoilState(builderControlsState);
-  const [layouts, setLayouts] = useRecoilState(builderLayoutsState);
-  const [setting] = useRecoilState(builderSettingsState);
+  const [controls, setControls] = useRecoilState(documentControls);
+  const [layouts, setLayouts] = useRecoilState(documentLayouts);
+  const [setting] = useRecoilState(documentSettings);
   const [, setSelected] = useControlSelected();
 
   const isEditing = useMemo(() => setting.mode === "edit", [setting]);
@@ -49,9 +56,13 @@ export default function BuilderBoard() {
     }
   };
 
+  if (!step) return <div className="flex items-center justify-center">Let selected a step</div>;
   return (
     <BuilderBoardWrapper>
-      <div ref={ref} className="relative bg-white bg-red w-[60em]  min-h-full rounded-md overflow-hidden">
+      <div
+        ref={ref}
+        className={clsx(["relative mx-auto bg-white bg-red max-w-[60em] w-full min-h-full rounded-md overflow-hidden"])}
+      >
         <GridLayout
           layout={layouts}
           cols={setting.grid.cols}

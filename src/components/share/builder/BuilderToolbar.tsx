@@ -70,9 +70,9 @@ export default function BuilderToolbar() {
   const [absolutes, addAbsolute, removeAbsolute] = useList<TMenuKey>();
   const absoluteActives = useMemo(() => actives.filter((menu) => absolutes.includes(menu)), [actives, absolutes]);
 
-  useOnClickOutside(ref, () => {
-    setActives(absoluteActives);
-  });
+  // useOnClickOutside(ref, () => {
+  //   setActives(absoluteActives);
+  // });
 
   const handleShow = (key: TMenuKey) => {
     setActives([...absoluteActives, key]);
@@ -86,17 +86,18 @@ export default function BuilderToolbar() {
   };
 
   return (
-    <div ref={ref} className="relative -m-2 ml-0 z-50 flex flex-row]">
-      <div className={clsx(["absolute right-full", "h-full overflow-auto scroll-none py-2"])}>
+    <div ref={ref} className="fluid grid grid-cols-auto-1fr z-50">
+      <div className={clsx(["h-full overflow-hidden scroll-none"])}>
         {keys.map((key) => (
           <Popup
             key={key}
             name={MENUS[key].label}
+            shown={actives.includes(key)}
             onClose={() => handleClose(key)}
             onAbsolute={() => addAbsolute(key)}
             onRelative={() => handleRelative(key)}
           >
-            {actives.includes(key) && <div className="w-[20em]">{MENUS[key].component}</div>}
+            {MENUS[key].component}
           </Popup>
         ))}
       </div>

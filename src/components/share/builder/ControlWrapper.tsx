@@ -2,8 +2,9 @@ import React, { useEffect, useMemo } from "react";
 import { UI } from "@/constants/control";
 import { ControlProps } from "./types";
 import clsx from "clsx";
-import { useAllowEditing, useControlSelected, useDeleteControl } from "./hooks";
+import { useAllowEditing, useDeleteControl } from "./hooks";
 import { useHotkeys } from "react-hotkeys-hook";
+import { useControlSelected } from "./state/control";
 
 export default function ControlWrapper(props: ControlProps) {
   const Components = UI[props.control.type];
@@ -24,7 +25,7 @@ export default function ControlWrapper(props: ControlProps) {
       ])}
       onMouseDown={() => isEdit && setSelected(props.control)}
     >
-      <div className={clsx(["fluid", isEdit && "pointer-events-none select-none"])}>
+      <div className={clsx(["w-full h-full", isEdit && "pointer-events-none select-none"])}>
         <Components {...props} />
       </div>
     </div>

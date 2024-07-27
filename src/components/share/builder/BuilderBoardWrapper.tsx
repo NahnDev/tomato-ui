@@ -16,9 +16,9 @@ export default function BuilderBoardWrapper(props: Readonly<PropsWithChildren<{}
   };
   return (
     <div className={clsx(["flex flex-row h-full overflow-auto"])}>
-      <Backdrop onDbClick={() => handleBackdropClick(Align.left)} shown={align !== Align.left} />
-      <div className="h-full">{props.children}</div>
-      <Backdrop onDbClick={() => handleBackdropClick(Align.right)} shown={align !== Align.right} />
+      {/* <Backdrop onDbClick={() => handleBackdropClick(Align.left)} shown={align !== Align.left} /> */}
+      <div className="h-full w-full">{props.children}</div>
+      {/* <Backdrop onDbClick={() => handleBackdropClick(Align.right)} shown={align !== Align.right} /> */}
     </div>
   );
 }

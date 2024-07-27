@@ -7,12 +7,13 @@ import IconButton from "../../button/IconButton";
 import { faAlignCenter, faAlignLeft, faAlignRight, faBold, faN } from "@fortawesome/free-solid-svg-icons";
 import { TControlSetting } from "@/types/control";
 import ColorPicker from "../../ColorPicker";
+import Heading from "./Heading";
 
 export const TextStyleDefaultSetting = {
   fontSize: 12,
   color: "#000000",
   fontWeight: 400,
-  textAlign: "left",
+  textAlign: "center",
 } as TControlSetting["textStyles"];
 
 export default function TextStyleSetting(props: TControlSettingProps) {
@@ -24,6 +25,7 @@ export default function TextStyleSetting(props: TControlSettingProps) {
   };
   return (
     <div className="p-2">
+      <Heading label="Text" />
       <div className="p-2 pb-6">
         <div className="preview h-20 rounded-lg flex items-center justify-center bg-slate-200">
           <span className="w-full px-2" style={textStyles}>

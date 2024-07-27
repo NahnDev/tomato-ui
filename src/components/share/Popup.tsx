@@ -30,6 +30,7 @@ import { v4 as uuidv4 } from "uuid";
 export type PopupProps = Readonly<
   PropsWithChildren<{
     name: string;
+    shown: boolean;
     onAbsolute?: () => any;
     onRelative?: () => any;
     onClose?: () => any;
@@ -80,38 +81,40 @@ export default function Popup(props: PopupProps) {
     }
   };
 
-  if (!props.children) return <></>;
+  if (!props.shown) return <div className="w-0"></div>;
   return (
     <div
       ref={containerRef}
-      className={clsx(absolute && "fixed z-50 ", "border-2 border-gray-200 bg-white rounded-md")}
+      className={clsx(
+        absolute ? "fixed z-50 max-h-[90vh] border-2 rounded-lg" : "h-full",
+        "bg-white overflow-hidden w-80",
+        "flex flex-col"
+      )}
       style={{ ...coord }}
     >
-      <div>
-        <div className="flex flex-row items-center p-2 gap-2">
-          <div className="relative flex-1">
-            <span className="select-none font-semibold text-red-500 px-2">{props.name}</span>
-            <div
-              className={clsx("cursor-pointer overlay", isDragging && "opacity-0")}
-              onDragStart={handleDragStart}
-              ref={dragRef}
-              {...(collected as any)}
-            />
-          </div>
-
-          <IconButton variant="text" className="!size-4 text-black" onClick={() => setCoord({ top: 5, left: 5 })}>
-            <FontAwesomeIcon icon={faBorderTopLeft} />
-          </IconButton>
-
-          <IconButton variant="text" className="!size-4 text-black" onClick={() => toggle()}>
-            <FontAwesomeIcon icon={absolute ? faCompress : faExpand} />
-          </IconButton>
-          <IconButton variant="text" className="!size-4 text-black" onClick={props.onClose}>
-            <FontAwesomeIcon icon={faXmarkCircle} />
-          </IconButton>
+      <div className="flex flex-row items-center p-2 gap-2">
+        <div className="relative flex-1">
+          <span className="select-none font-semibold text-red-500 px-2">{props.name}</span>
+          <div
+            className={clsx("cursor-pointer overlay", isDragging && "opacity-0")}
+            onDragStart={handleDragStart}
+            ref={dragRef}
+            {...(collected as any)}
+          />
         </div>
-        <div className="max-h-[90vh] overflow-x-hidden overflow-y-auto">{props.children}</div>
+
+        <IconButton variant="text" className="!size-4 text-black" onClick={() => setCoord({ top: 5, left: 5 })}>
+          <FontAwesomeIcon icon={faBorderTopLeft} />
+        </IconButton>
+
+        <IconButton variant="text" className="!size-4 text-black" onClick={() => toggle()}>
+          <FontAwesomeIcon icon={absolute ? faCompress : faExpand} />
+        </IconButton>
+        <IconButton variant="text" className="!size-4 text-black" onClick={props.onClose}>
+          <FontAwesomeIcon icon={faXmarkCircle} />
+        </IconButton>
       </div>
+      <div className="overflow-x-hidden overflow-y-auto flex-1">{props.children}</div>
     </div>
   );
 }

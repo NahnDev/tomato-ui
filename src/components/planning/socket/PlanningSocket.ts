@@ -21,9 +21,7 @@ export default function PlanningSocket(props: PropsWithChildren<{ planning: TPla
       query: { planning: props.planning._id },
     });
     socket.current.on("connect", () => {
-      console.log("connected");
       socket.current?.on(PlanningEvents.VOTING_CHANGED, (story) => {
-        console.log("current story changed", story);
         setCurrentStory(story);
       });
       socket.current?.on(PlanningEvents.PLANNING_CHANGED, (planning) => {

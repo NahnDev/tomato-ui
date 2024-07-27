@@ -11,20 +11,13 @@ export default function MeetingScene(props: { member: TMember }) {
   useEffect(() => {
     peerRef.current = new Peer();
     peerRef.current.on("open", (id) => {
-      console.log("peer open", id);
       peerRef.current!.connect(props.member._id).on("open", function () {
-        console.log("connected");
         const call = peerRef.current!.call(props.member._id, streamRef.current);
-        call.on("stream", function (stream) {
-          console.log("// `stream` is the MediaStream of the remote peer.");
-          console.log(stream);
-        });
+        call.on("stream", function (stream) {});
       });
       peerRef.current!.on("call", (call) => {
-        console.log("call received ------------------- 2");
         call.answer(streamRef.current);
         call.on("stream", (remoteStream) => {
-          console.log("Received remote stream");
           if (ref.current) {
             ref.current.srcObject = remoteStream;
           }

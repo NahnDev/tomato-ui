@@ -4,7 +4,7 @@ import { ControlProps } from "../types";
 
 export default function Button(props: ControlProps) {
   return (
-    <MTButton className="w-full h-full p-0" style={{ backgroundColor: props.control.config.background }}>
+    <MTButton className="w-full h-full p-0" style={{ backgroundColor: props.control.config.bg }}>
       {props.control.config.label}
     </MTButton>
   );

@@ -10,13 +10,11 @@ export default function UploaderImage(props: ControlProps) {
   const onDrop: DropzoneOptions["onDrop"] = useCallback((acceptedFiles: any[]) => {}, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
-    <div className="w-full h-full grid grid-rows-[1fr_auto]">
-      <div className="border-2 border-slate-200 rounded-md">
-        <div {...getRootProps()} className="flex justify-center items-center w-full h-full">
-          <input {...getInputProps()} />
-          <FontAwesomeIcon className="text-[3em] opacity-25" icon={faImage} />
-          {/* {isDragActive ? <p>Drop the files here ...</p> : <p>Drag drop some files here, or click to select files</p>} */}
-        </div>
+    <div className="w-full h-full grid grid-rows-[1fr_auto] border-2 border-slate-200 rounded-md">
+      <div {...getRootProps()} className="flex justify-center items-center w-full h-full">
+        <input {...getInputProps()} />
+        <FontAwesomeIcon className="text-[3em] opacity-25" icon={faImage} />
+        {/* {isDragActive ? <p>Drop the files here ...</p> : <p>Drag drop some files here, or click to select files</p>} */}
       </div>
       <div className="flex flex-row">
         <div className="flex-1"></div>

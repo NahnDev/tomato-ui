@@ -55,19 +55,15 @@ export default function MeetingProvider(props: PropsWithChildren) {
   useEffect(() => {
     if (!user) return;
     if (user._id === "6693a1f9d19ee2a708b26836") {
-      console.log("user is host");
       return;
     }
     peerRef.current = new Peer(user._id);
     peerRef.current.on("open", (id) => {
-      console.log("peer open", id);
       peerRef.current?.on("call", (call) => {
-        console.log("call received", stream);
         call.answer(stream);
         // call.answer(stream);
 
         call.on("stream", (remoteStream) => {
-          console.log("Stream received:", remoteStream);
           // Handle the remote stream here
         });
 
@@ -99,7 +95,6 @@ export function useAudioStreamActions() {
   };
 
   const mute = () => {
-    console.log("mute");
     if (!stream) return;
     stream.getAudioTracks().forEach((track) => {
       track.stop();
@@ -109,7 +104,6 @@ export function useAudioStreamActions() {
   };
 
   const unmute = () => {
-    console.log("unmute");
     if (!stream) return;
     navigator.mediaDevices
       .getUserMedia({ audio: true })

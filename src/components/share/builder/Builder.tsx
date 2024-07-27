@@ -12,8 +12,10 @@ import { Card, CardBody } from "@material-tailwind/react";
 export default function Builder() {
   return (
     <DndProvider backend={HTML5Backend}>
-      <div className="grid grid-cols-[1fr_auto] h-full">
-        <BuilderBoard />
+      <div className="fluid grid grid-cols-1fr-auto gap-2 overflow-hidden">
+        <div className="p-2 h-full overflow-auto">
+          <BuilderBoard />
+        </div>
         <BuilderToolbar />
       </div>
     </DndProvider>

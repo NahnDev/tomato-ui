@@ -9,7 +9,7 @@ export default function ColorPicker(
       <div
         onClick={() => inputRef.current?.click()}
         className="m-2 h-6 w-6 ring-2 ring-offset-2 rounded-full"
-        style={{ backgroundColor: props.value, "--tw-ring-color": props.value } as any}
+        style={{ backgroundColor: props.value, "--tw-ring-color": "gray" } as any}
       ></div>
       <input
         ref={inputRef}

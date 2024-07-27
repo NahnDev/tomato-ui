@@ -1,49 +1,61 @@
-import { faFont, faCalendar, faPaste, faPlusCircle, fa1, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  IconButton,
-  Breadcrumbs,
-  Step,
-  Stepper,
-  Timeline,
-  TimelineBody,
-  TimelineConnector,
-  TimelineHeader,
-  TimelineIcon,
-  TimelineItem,
-} from "@material-tailwind/react";
-import React, { useMemo, useState } from "react";
+  faPaste,
+  faPlusCircle,
+  faLayerGroup,
+  faLeftLong,
+  faChevronLeft,
+  faChevronCircleLeft,
+  faPlayCircle,
+  faClose,
+  faFileCircleXmark,
+  faXmarkCircle,
+  faAnglesRight,
+  faArrowCircleLeft,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, List } from "@material-tailwind/react";
+import React, { useState } from "react";
 import TemplateThumbnail from "./TemplateThumbnail";
 import { faNode } from "@fortawesome/free-brands-svg-icons";
 import TemplateCreator from "./TemplateCreator";
 import { useBoolean } from "usehooks-ts";
-import { useParams } from "next/navigation";
 import clsx from "clsx";
-import TemplateStepper from "./TemplateStepper";
+import SidebarButton from "../share/button/SidebarButton";
+import IconButton from "../share/button/IconButton";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 export default function TemplateSidebar() {
   const { value: shown, setFalse: handleClose, setTrue: handleOpen } = useBoolean();
+  const [expand, setExpand] = useLocalStorage("templateSidebarExpand", true, false);
 
   return (
-    <div className="p-1 h-full w-80">
-      <Card className="h-full">
-        <div className="p-4 py-2 flex flex-row justify-between items-center">
-          <div className="flex-1 flex flex-row text-red-500 gap-2">
-            <FontAwesomeIcon icon={faLayerGroup} />
-            <h4 className="font-bold text-sm">Templates</h4>
-          </div>
-          <IconButton variant="text" className="text-base rounded-full" onClick={handleOpen}>
-            <FontAwesomeIcon icon={faPlusCircle}></FontAwesomeIcon>
-          </IconButton>
+    <div className={clsx(["fluid", "grid grid-cols-1fr-auto duration-500"])}>
+      {expand ? (
+        <div className={clsx(["h-full w-72 duration-500 p-1"])}>
+          <Card className="h-full">
+            <div className="py-2 px-4 flex flex-row justify-between items-center group">
+              <div className="flex-1 flex flex-row text-slate-700 gap-2 items-center">
+                <FontAwesomeIcon icon={faPlayCircle}></FontAwesomeIcon>
+                <h4 className="font-bold text-sm">Templates</h4>
+              </div>
+              <IconButton className="text-base" icon={faPlusCircle} onClick={handleOpen}></IconButton>
+              <IconButton className="text-base " icon={faArrowCircleLeft} onClick={() => setExpand(false)}></IconButton>
+            </div>
+            <TemplateList />
+          </Card>
+          <TemplateCreator open={shown} onClose={handleClose} />
         </div>
-        <TemplateList />
-      </Card>
-      <TemplateCreator open={shown} onClose={handleClose} />
+      ) : (
+        <div
+          className={clsx(["flex items-center justify-center duration-500 bg-white border-r-2 w-8 cursor-pointer"])}
+          onClick={() => setExpand(true)}
+        >
+          <div className="rotate-90 w-8 flex flex-row items-center gap-2 text-sm font-bold">
+            <FontAwesomeIcon icon={faLayerGroup} />
+            <span> Templates</span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -43,7 +43,7 @@ body {
     @apply h-full w-full overflow-hidden;
   }
   .fluid {
-    @apply h-full w-full overflow-hidden;
+    @apply h-full w-full overflow-hidden relative;
   }
 
   .scroll-none {

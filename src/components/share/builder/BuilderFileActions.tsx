@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Input } from "@material-tailwind/react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { builderControlsState } from "./store";
+import { document, documentControls } from "./state/store";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import Archive from "@/utils/Archive";
@@ -9,18 +9,16 @@ import { read } from "fs";
 
 const BuilderFileActions = () => {
   const [filename, setFilename] = useState("");
-  const [controls, setControls] = useRecoilState(builderControlsState);
+  const [doc, setDoc] = useRecoilState(document);
 
   const handleDownload = () => {
-    Archive.download(controls, filename + ".template");
+    Archive.download(doc, filename + ".template");
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      Archive.readJsonFile(file).then((controls) => {
-        setControls([...controls]);
-      });
+      Archive.readJsonFile(file).then((doc) => setDoc(doc));
     }
   };
 

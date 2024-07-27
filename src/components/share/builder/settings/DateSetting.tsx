@@ -6,6 +6,7 @@ import { Input, Tooltip } from "@material-tailwind/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle, faXmark, faXmarkCircle } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
+import Heading from "./Heading";
 
 export const DefaultDateSetting: TControlSetting["date"] = {
   format: "DD/MM/YYYY",
@@ -21,6 +22,7 @@ export default function DateSetting(props: TControlSettingProps) {
 
   return (
     <div className="p-2 flex flex-col gap-2">
+      <Heading label="Date" />
       <Input
         icon={<FormatPreview format={dateSettings?.format} />}
         label="Date format"

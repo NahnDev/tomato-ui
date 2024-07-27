@@ -4,22 +4,42 @@ import { Layout } from "react-grid-layout";
 export type Coord = { x: number; y: number };
 export type Size = { width: number; height: number };
 
+export interface Step {
+  id: string;
+  name: string;
+  desc: string;
+  meta: string;
+}
+
 export interface ControlInterface {
   id: string;
   type: ControlType;
   coord: Coord;
   config: TControlSetting;
+  step: Step["id"];
 }
 
 export type TControlSetting = {
   label?: string;
-  background?: string;
+  bg?: string;
   size?: Size;
   layout?: Partial<Layout>;
   textStyles?: TTextStyle;
   date?: TDateSetting;
   options?: TOption[];
   heading?: THeadingSetting;
+  background?: TBackground;
+  border?: TBorder;
+};
+
+export type TBackground = {
+  backgroundColor: string;
+};
+
+export type TBorder = {
+  borderWidth: number;
+  borderColor: string;
+  borderRadius: number;
 };
 
 export type TOption = {

@@ -1,11 +1,12 @@
 import { ControlInterface } from "@/types/control";
 import React, { useEffect } from "react";
-import { useControlSelected, useDeleteControl, useSetControl, useSetSettingControl } from "./hooks";
+import { useDeleteControl, useSetControl, useSetSettingControl } from "./hooks";
 import { IconButton, Input, List, ListItem } from "@material-tailwind/react";
 import { faChevronCircleRight, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ColorPicker from "../ColorPicker";
 import { SETTINGS } from "@/constants/control";
+import { useControlSelected } from "./state/control";
 
 export type TControlSettingProps = Readonly<{ id: ControlInterface["id"]; data: ControlInterface["config"] }>;
 export default function ControlSetting() {
@@ -39,11 +40,7 @@ function BackgroundSetting(props: TControlSettingProps) {
   const updateControlSetting = useSetSettingControl(props.id);
   return (
     <div className="p-2">
-      <ColorPicker
-        label="Background"
-        value={props.data.background}
-        onChange={(color) => updateControlSetting({ background: color })}
-      />
+      <ColorPicker label="Background" value={props.data.bg} onChange={(color) => updateControlSetting({ bg: color })} />
     </div>
   );
 }

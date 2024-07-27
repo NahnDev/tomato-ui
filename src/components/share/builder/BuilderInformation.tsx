@@ -1,12 +1,12 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { CompactType, Mode, builderSettingsState } from "./store";
+import { CompactType, Mode, documentSettings } from "./state/store";
 import { Checkbox, Input } from "@material-tailwind/react";
 import IconButton from "../button/IconButton";
 import { faArrowUpWideShort, faEdit, faGrip } from "@fortawesome/free-solid-svg-icons";
 
 export default function BuilderInformation() {
-  const [setting, setSetting] = useRecoilState(builderSettingsState);
+  const [setting, setSetting] = useRecoilState(documentSettings);
 
   return (
     <div className="w-full h-full">

@@ -6,7 +6,7 @@ import ControlThumbnail from "./ControlThumbnail";
 
 export default function BuilderUI() {
   return (
-    <Card className="">
+    <Card className=" rounded-none">
       <CardBody className="p-0">
         {GROUPS.map((group, index) => {
           return (
