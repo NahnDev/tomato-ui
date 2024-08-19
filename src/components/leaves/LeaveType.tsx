@@ -1,4 +1,4 @@
-import { APP_ICONS } from "@/constants";
+import { APP_ICONS } from "@/constants/icon";
 import { LeaveTypeInterface } from "@/types/leave";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "@material-tailwind/react";

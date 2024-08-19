@@ -1,4 +1,4 @@
-import { APP_ICONS, TIconKey } from "@/constants";
+import { APP_ICONS, IconKeys } from "@/constants/icon";
 import { nil } from "@/types";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,13 +9,13 @@ import { useBoolean } from "usehooks-ts";
 import { useForm } from "./FormProvider";
 
 export type TTemplateIconProps = Readonly<{
-  value: nil<TIconKey>;
-  onChange: (value: nil<TIconKey>) => any;
+  value: nil<IconKeys>;
+  onChange: (value: nil<IconKeys>) => any;
 }>;
 
 export default function IconInput(props: TTemplateIconProps) {
   const { value: shownAll, setFalse: close, setTrue: open } = useBoolean();
-  const icons = useMemo(() => Object.keys(APP_ICONS) as TIconKey[], []);
+  const icons = useMemo(() => Object.keys(APP_ICONS) as IconKeys[], []);
 
   const { disabled } = useForm();
 
@@ -52,7 +52,7 @@ export default function IconInput(props: TTemplateIconProps) {
   );
 }
 
-function Icon(props: Readonly<{ icon: TIconKey; onClick?: () => any; className?: string }>) {
+function Icon(props: Readonly<{ icon: IconKeys; onClick?: () => any; className?: string }>) {
   return (
     <IconButton onClick={props.onClick} variant="text" className={clsx(["text-base", props.className])}>
       <FontAwesomeIcon icon={APP_ICONS[props.icon]}></FontAwesomeIcon>

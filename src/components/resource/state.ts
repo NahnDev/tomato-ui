@@ -123,6 +123,20 @@ export function useResourceRemoveHandler(callback: () => void) {
   );
 }
 
+export function useRootUploadHandler(onProgress: (progressEvent: AxiosProgressEvent) => any) {
+  const { wrapper } = useTaskWrapper("resource", "Uploading");
+  return useRecoilCallback(({ set }) =>
+    wrapper(async (file: File) => {
+      const resource = await ResourceApi.uploadFile(file, undefined, onProgress);
+      set(resourceState(ROOT_DIRECTORY), (s) => {
+        const newState = [...s, resource];
+        return newState;
+      });
+      set(resourceSelectedState, (prevState) => ({ ...prevState, item: resource, editing: false }));
+    })
+  );
+}
+
 export function useResourceUploadHandler(onProgress: (progressEvent: AxiosProgressEvent) => any) {
   const { wrapper } = useTaskWrapper("resource", "Uploading");
   return useRecoilCallback(({ set, snapshot }) =>

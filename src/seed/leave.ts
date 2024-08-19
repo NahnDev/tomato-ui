@@ -1,7 +1,7 @@
 import { LeaveTypeInterface, LeaveInterface } from "@/types/leave";
 import { MemberInterface } from "@/types/member";
 import { member1, member2, member3 } from "./member";
-import { APP_ICONS } from "@/constants";
+import { APP_ICONS } from "@/constants/icon";
 
 // Seed data for LeaveTypeInterface
 const leaveTypes: LeaveTypeInterface[] = [

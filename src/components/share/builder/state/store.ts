@@ -106,5 +106,6 @@ export const documentSettings = selector({
   set({ get, set }, newValue) {
     if (newValue instanceof DefaultValue) return;
     set(document, { ...get(document), setting: newValue });
+    set(state, { ...get(state), selected: undefined });
   },
 });

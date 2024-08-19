@@ -2,21 +2,22 @@ import { Checkbox as MTCheckbox, Typography } from "@material-tailwind/react";
 import React, { useMemo, useState } from "react";
 import { ControlProps } from "../types";
 import { TextStyleDefaultSetting } from "../settings/TextStyleSetting";
+import Checkbox from "../../Checkbox";
+import { PrefixDefaultSetting } from "../settings/PrefixSetting";
 
-export default function Checkbox(props: ControlProps) {
+export default function SingleCheckbox(props: ControlProps) {
   const [checked, setChecked] = useState<any>();
   const label = useMemo(() => props.control.config.label ?? "", [props]);
   const textStyleSetting = useMemo(() => ({ ...TextStyleDefaultSetting, ...props.control.config.textStyles }), [props]);
+  const prefixSetting = useMemo(() => ({ ...PrefixDefaultSetting, ...props.control.config.prefix }), [props]);
   return (
-    <div>
-      <MTCheckbox
-        containerProps={{ className: "flex-1" }}
-        style={{ backgroundColor: props.control.config.bg }}
+    <div className="">
+      <Checkbox
+        style={textStyleSetting}
         label={label}
-        labelProps={{ style: textStyleSetting }}
         checked={checked}
         onChange={(e) => setChecked(!checked)}
-      ></MTCheckbox>
+      ></Checkbox>
     </div>
   );
 }

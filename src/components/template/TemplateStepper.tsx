@@ -34,7 +34,7 @@ export default function TemplateStepper() {
   const reorder = useStepReorder();
 
   return (
-    <div className="px-2  w-80">
+    <div className="px-2  w-72">
       <div className="flex flex-col items-center p-4">
         <div className="flex flex-row gap-4 font-bold text-slate-700 text-2xl">
           <FontAwesomeIcon icon={faNodeJs}></FontAwesomeIcon>

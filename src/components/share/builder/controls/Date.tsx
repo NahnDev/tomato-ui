@@ -8,6 +8,7 @@ export default function Date(props: ControlProps) {
   const label = useMemo(() => props.control.config.label, [props]);
   return (
     <Input
+      variant="standard"
       type="date"
       label={label ?? ""}
       className={clsx([!label && "!border-t-blue-gray-200 !focus:border-t-gray-900"])}

@@ -23,4 +23,30 @@ export default class Archive {
       reader.readAsText(file);
     });
   }
+
+  static async print() {
+    const divHtml = document.getElementById("builder")?.innerHTML;
+    if (!divHtml) {
+      return;
+    }
+    const printWindow = window.open("", "", "width=600,height=600");
+    printWindow?.document.open();
+    printWindow?.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+            }
+          </style>
+        </head>
+        <body>
+          ${divHtml}
+        </body>
+      </html>
+    `);
+    printWindow?.document.close();
+    printWindow?.print();
+  }
 }

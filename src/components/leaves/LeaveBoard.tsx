@@ -1,4 +1,4 @@
-import { APP_ICONS } from "@/constants";
+import { APP_ICONS } from "@/constants/icon";
 import { leaves } from "@/seed/leave";
 import { LeaveInterface, LeaveTypeInterface } from "@/types/leave";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

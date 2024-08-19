@@ -1,5 +1,7 @@
 import { ControlType } from "@/constants/control";
+import { IconKeys } from "@/constants/icon";
 import { Layout } from "react-grid-layout";
+import { FileBase64 } from "./file";
 
 export type Coord = { x: number; y: number };
 export type Size = { width: number; height: number };
@@ -26,10 +28,24 @@ export type TControlSetting = {
   layout?: Partial<Layout>;
   textStyles?: TTextStyle;
   date?: TDateSetting;
-  options?: TOption[];
+  options?: TOptionSetting;
+  prefix?: TPrefixSetting;
   heading?: THeadingSetting;
   background?: TBackground;
   border?: TBorder;
+  icons?: TIcon;
+  mockup?: TMockupSetting;
+};
+
+export type TMockupSetting = {
+  image?: FileBase64;
+};
+
+export type TIcon = {
+  left?: IconKeys;
+  leftColor?: string;
+  right?: IconKeys;
+  rightColor?: string;
 };
 
 export type TBackground = {
@@ -42,11 +58,16 @@ export type TBorder = {
   borderRadius: number;
 };
 
-export type TOption = {
-  label: string;
-  value: any;
-  icon?: string;
-  color?: string;
+export type TPrefixSetting = {
+  iconChecked: IconKeys;
+  iconUnChecked: IconKeys;
+  iconCheckedColor?: string;
+  iconUnCheckedColor?: string;
+};
+
+export type TOptionSetting = {
+  choices?: { label: string; value: string }[];
+  multiple?: boolean;
 };
 
 export type TTextStyle = {

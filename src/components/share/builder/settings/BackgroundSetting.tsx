@@ -26,7 +26,7 @@ export default function BackgroundSetting(props: TControlSettingProps) {
   return (
     <div className="p-2">
       <Heading label="Background" />
-      <div className="p-2 flex flex-row gap-2 items-center justify-between h-10">
+      <div className="p-2 flex flex-row gap-2 items-center justify-between">
         <div className="flex flex-row gap-2">
           <ColorPicker
             value={boxStyles.backgroundColor}

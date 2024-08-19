@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactGridLayout, { WidthProvider } from "react-grid-layout";
 import "@/styles/react-grid-layout.scss";
 import Control from "@/classes/Control";
 import { useDragLayer } from "react-dnd";
 import ControlWrapper from "./ControlWrapper";
 import { DndTypes } from "@/constants/dnd";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { documentControls, documentLayouts, documentSettings } from "./state/store";
 import BuilderBoardWrapper from "./BuilderBoardWrapper";
 import { useHotkeys } from "react-hotkeys-hook";
@@ -60,8 +60,9 @@ export default function BuilderBoard() {
   return (
     <BuilderBoardWrapper>
       <div
+        id="builder"
         ref={ref}
-        className={clsx(["relative mx-auto bg-white bg-red max-w-[60em] w-full min-h-full rounded-md overflow-hidden"])}
+        className={clsx(["relative mx-auto bg-white bg-red w-[56em] min-h-full rounded-md overflow-hidden", "p-4"])}
       >
         <GridLayout
           layout={layouts}

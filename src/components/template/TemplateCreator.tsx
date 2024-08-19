@@ -1,7 +1,7 @@
 import { Dialog, DialogHeader, DialogBody, DialogFooter, Button, Typography } from "@material-tailwind/react";
 import React, { Suspense, useMemo, useState } from "react";
 import IconInput from "../share/IconInput";
-import { TIconKey } from "@/constants";
+import { IconKeys } from "@/constants/icon";
 import { nil } from "@/types";
 import InlineInput from "../share/InlineInput";
 import { useBoolean } from "usehooks-ts";
@@ -20,7 +20,7 @@ export type TemplateCreatorProps = Readonly<{
 
 export default function TemplateCreator(props: TemplateCreatorProps) {
   const { value: processing, setTrue: start, setFalse: stop } = useBoolean();
-  const [icon, setIcon] = useState<nil<TIconKey>>(null);
+  const [icon, setIcon] = useState<nil<IconKeys>>(null);
   const [name, setName] = useState("");
   const isValid = useMemo(() => icon && name, [icon, name]);
 

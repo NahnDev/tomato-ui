@@ -1,3 +1,5 @@
+import { FileBase64 } from "@/types/file";
+
 type Size = { width: number; height: number };
 
 export default class ImageUtil {
@@ -8,6 +10,20 @@ export default class ImageUtil {
         resolve(img);
       };
       img.src = URL.createObjectURL(file);
+    });
+  }
+
+  static async toBase64(file: File): Promise<FileBase64> {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve({
+          id: file.name,
+          name: file.name,
+          base64: reader.result as string,
+        });
+      };
+      reader.readAsDataURL(file);
     });
   }
 }

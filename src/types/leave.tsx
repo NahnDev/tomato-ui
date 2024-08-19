@@ -1,10 +1,10 @@
-import { TIconKey } from "@/constants";
+import { IconKeys } from "@/constants/icon";
 import { MemberInterface } from "./member";
 
 export interface LeaveTypeInterface {
   id: string;
   name: string;
-  icon: TIconKey;
+  icon: IconKeys;
   quota: number;
   color: string;
 }

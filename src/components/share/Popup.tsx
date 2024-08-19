@@ -87,7 +87,7 @@ export default function Popup(props: PopupProps) {
       ref={containerRef}
       className={clsx(
         absolute ? "fixed z-50 max-h-[90vh] border-2 rounded-lg" : "h-full",
-        "bg-white overflow-hidden w-80",
+        "bg-white w-80",
         "flex flex-col"
       )}
       style={{ ...coord }}
@@ -114,7 +114,7 @@ export default function Popup(props: PopupProps) {
           <FontAwesomeIcon icon={faXmarkCircle} />
         </IconButton>
       </div>
-      <div className="overflow-x-hidden overflow-y-auto flex-1">{props.children}</div>
+      <div className="flex-1 overflow-y-auto overflow-x-hidden">{props.children}</div>
     </div>
   );
 }

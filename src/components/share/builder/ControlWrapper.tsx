@@ -14,6 +14,7 @@ export default function ControlWrapper(props: ControlProps) {
   const handleDelete = useDeleteControl();
 
   useHotkeys("delete", () => (isSelected ? handleDelete(props.control.id) : undefined));
+  useHotkeys("backspace", () => (isSelected ? handleDelete(props.control.id) : undefined));
 
   return (
     <div
